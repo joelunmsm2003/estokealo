@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="myCtrl">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<body>
+
+{% include "header.html" %}
+
+
+
+
+<script>
+var app = angular.module('myApp', []);
+
+app.config(function($interpolateProvider){
+    $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
+    });
+app.controller('myCtrl', function($scope,$http) {
+
+
+
+    $scope.firstName = "John";
+    $scope.lastName = "Doe";
+
+    $http.get("/productojson/{{producto.id}}")
+    .then(function(response) {
+
+    	console.log(response.data)
+
+    	$scope.photos = response.data
+
+        $scope.photoprincipal = response.data[0].detalle
+        
+    });
+
+    $scope.traeimagen=function(data){
+
+    	console.log(data)
+
+
+        $('#principal').addClass('animated fadeIn');
+
+        $('#principal').removeClass('animated fadeIn');
+
+    	$scope.photoprincipal = data.detalle
+    }
+
+
+});
+</script>
+
+
+<div class='container'>
+
+<br>
+
+
+
+
+<div class='row'>
+
+    <div class='col-md-8'>
+
+   <h3>{{producto.titulo}}</h3>
+
+    </div>
+
+    <div class='col-md-2 heart animated infinite pulse'>
+
+     <i class="fa fa-heart-o" aria-hidden="true"></i>
+
+    </div>
+
+</div>
+
+<div class='row'>
+
+    <div class='col-md-8'>
+
+   {{producto.titulo}}
+
+    </div>
+
+    <div class='col-md-2 precio '>
+
+   <h3> S/. {{producto.precio}}</h3>
+     
+
+    </div>
+
+</div>
+
+
+
+
+
+<div class='row'>
+    
+    <div class='col-md-10 col-xs-12 col-sm-12 animated fadeIn'>
+
+            <div class='row no-gutters'>
+
+
+                	<div class='col-md-6 col-xs-6 col-sm-6 '>
+                	
+                			
+                				<img id='principal' class="img-fluid " src="{{host}}{[{photoprincipal}]}" alt="Card image cap">
+
+                			
+
+                	</div>
+
+                    <div class='col-md-6 col-xs-6 col-sm-6'>
+
+
+
+                                <div class='row no-gutters'>
+
+                                <div class='col-md-6 col-xs-12 col-sm-12 ' ng-repeat="p in photos">
+
+
+
+                                <div ng-click='traeimagen(p)' class="card" >
+
+                                <img class="card-img-top img-fluid" src="{{host}}{[{p.photo__photo}]}" alt="Card image cap">
+
+                                </div>
+
+
+
+
+
+                                </div>
+                                </div>
+
+                	</div>
+
+
+            </div>
+
+    </div>
+
+
+    <div class='col-md-2 col-xs-12 col-sm-12'>
+    
+            <div class='panel'>
+
+            <div class='panel-body'>
+
+            <div class='row'>
+
+            <div class='col-md-12 col-xs-2'>
+
+            <center><h4>{{producto.user.first_name}}</h4></center>
+
+            <center><h5>{{producto.user.telefono}}</h5></center>
+
+            <img src="{{host}}{{producto.user.photo}}" class='img-fluid' style="border-radius:100%; padding:18px;">
+
+            </div>
+
+            </div>
+
+
+            <form method="post" action="/enviamensaje/" enctype="multipart/form-data">
+            {% csrf_token %}
+
+
+
+            <div class="form-group">
+
+            <input type="text" hidden="" name="producto" value="{{producto.id}}">
+
+            <textarea type="text" class="form-control" name='mensaje' rows='12' required id="pwd"  placeholder="Mensaje"></textarea>
+            </div>
+
+
+
+
+
+            <button type="submit" class="btn btn-primary btn-md enviarmensaje">Enviar mensaje</button>
+            </form>
+
+            </div>
+
+
+            </div>
+
+
+
+    </div>
+	
+</div>
+
+
+
+
+<h4>{{producto.descripcion}}</h4>
+
+<video width=500px class='img-fluid' controls>
+<source src="{{host}}/{{videos.video.video}}" type="video/mp4">
+<source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
+
+
+   
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+<style type="text/css">
+    
+    .detalleproducto{
+
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+
+    }
+
+   .heart {
+    text-align: right;
+    font-size: 31px;
+}
+
+.enviarmensaje{
+
+    width: 100%;
+}
+
+   .precio {
+    text-align: right;
+    font-size: 31px;
+}
+</style>
+
+
+
+
+
+<!-- {% for producto in productos %}
+
+
+{% for photo in producto.photo %}
+
+ <img class="card-img-top" src="http://localhost/{{photo.photo__photo}}" alt="Card image cap">
+
+{% endfor %}
+
+
+<div class='col-md-3'>
+
+<div class="card" >
+  <img class="card-img-top" src="http://localhost/{{producto.photo.photo__photo}}" alt="Card image cap">
+  <div class="card-block">
+    <h4 class="card-title">{{producto.title}}</h4>
+    <p class="card-text">{{producto.descripcion}}</p>
+    <a href="#" class="btn btn-primary">Detalle</a>
+  </div>
+</div>
+</div>
+
+
+{% endfor %}
+ -->
+

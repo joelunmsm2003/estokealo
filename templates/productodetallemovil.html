@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="myCtrl">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="/static/slick-carousel/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/slick-carousel/slick/slick-theme.css"/>
+<body>
+
+{% include "headermovil.html" %}
+
+
+
+
+<script>
+var app = angular.module('myApp', []);
+
+app.config(function($interpolateProvider){
+    $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
+    });
+app.controller('myCtrl', function($scope,$http) {
+
+
+
+    $scope.firstName = "John";
+    $scope.lastName = "Doe";
+
+    $http.get("/productojson/{{producto.id}}")
+    .then(function(response) {
+
+    	console.log(response.data)
+
+    	$scope.photos = response.data
+
+        $scope.photoprincipal = response.data[0].detalle
+        
+    });
+
+    $scope.traeimagen=function(data){
+
+    	console.log(data)
+
+    	$scope.photoprincipal = data.detalle
+    }
+
+
+});
+</script>
+
+
+<div class='container-fluid'>
+
+
+
+<br>
+<div class='row'>
+
+    <div class='col-6'>
+
+   <h3>{{producto.titulo}}</h3>
+   {{producto.descripcion}}
+
+    </div>
+
+    <div class='col-6 heart'>
+     <h3> S/. {{producto.precio}}</h3>
+     <i class="fa fa-heart-o" aria-hidden="true"></i>
+     
+
+    </div>
+
+</div>
+
+ 
+        <ul class="categorias-slider animated fadeIn" >
+
+          <li ng-repeat="p in photos">
+                    <img src="{{host}}{[{p.detalle}]}" class='img-fluid'>
+        </li>
+
+        </ul>
+
+
+<video width=500px class='img-fluid' controls>
+<source src="{{host}}/{{videos.video.video}}" type="video/mp4">
+<source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
+
+
+
+
+<div class='row'>
+
+
+
+    
+
+
+
+    <div class='col-12'>
+    
+            <div class='panel'>
+
+            <div class='panel-body'>
+
+            <div class='row'>
+
+            <div class='col-4'>
+
+            <div class="row">
+
+                    <div class='col-8'>
+
+                    <img src="{{host}}{{producto.user.photo}}" class='img-fluid rounded-circle' ">
+
+
+                 
+                    </div>
+
+                    <div class="col-4">
+
+                       <center><h4>{{producto.user.first_name}}</h4></center>
+
+                    <center><h5>{{producto.user.telefono}}</h5></center>
+                    
+                        
+
+                  
+
+                    </div>
+                
+
+            </div>
+
+        
+            </div>
+
+            </div>
+
+
+            <form method="post" action="/enviamensaje/" enctype="multipart/form-data">
+            {% csrf_token %}
+
+
+
+            <div class="form-group">
+
+            <input type="text" hidden="" name="producto" value="{{producto.id}}">
+
+            <textarea type="text" class="form-control" name='mensaje' rows='12' required id="pwd"  placeholder="Mensaje"></textarea>
+            </div>
+
+
+
+
+
+            <button type="submit" class="btn btn-primary btn-md enviarmensaje">Enviar mensaje</button>
+            </form>
+
+            </div>
+
+
+            </div>
+
+
+
+    </div>
+	
+</div>
+
+
+
+
+
+
+
+
+</div>
+
+    <script type="text/javascript" src="/static/slick-carousel/slick/slick.min.js"></script>
+    <script type="text/javascript" src="/static/js/carousel.js"></script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+<style type="text/css">
+    
+    .detalleproducto{
+
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+
+    }
+
+   .heart {
+    text-align: right;
+    font-size: 31px;
+}
+
+.enviarmensaje{
+
+    width: 100%;
+}
+
+   .precio {
+    text-align: right;
+    font-size: 31px;
+}
+
+.categorias-slider{
+
+      padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 400px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: row;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+
+.categorias-slider li {
+flex: 1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    font-size: 10px;
+
+    min-width: 400px;
+    list-style: none;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+
+
+</style>
+
+
+
+
+
