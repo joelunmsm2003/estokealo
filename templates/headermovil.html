@@ -35,41 +35,48 @@
 
 <div class="drawer">
 
-<div>
+<div class='perfilmovilprincipal'>
   
   {{usuario.first_name}}
 
 </div>
   
-<ul class='list-group'>
 
 {% if usuario.username %}
 
-<li class='list-group-item'>
+<div class='perfilmovil'>
   
 <a href="/productos/{{usuario.id}}">Mis Anuncios</a>
-</li>
+
+</div>
 
 
-<li class='list-group-item'>
+<div class='perfilmovil'>
+  
   
 <a href='/perfil'>Mi Perfil</a>
-</li>
 
-<li class='list-group-item'>
+</div>
+
+
+<div class='perfilmovil'>
   
 <a href='/chat'>Mis Mensajes</a>
-</li>
 
-<li class='list-group-item'>
+</div>
+
+
+<div class='perfilmovil'>
   
 <a href='/vender'>Vender</a>
-</li>
 
-<li class='list-group-item'>
+</div>
+
+<div class='perfilmovil'>
   
 <a href='/salir'>Salir</a>
-</li>
+
+</div>
 
 
 
@@ -86,7 +93,6 @@
 
 
 
-</ul>
 
 </div>
 <body>

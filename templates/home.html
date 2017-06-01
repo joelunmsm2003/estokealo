@@ -178,7 +178,7 @@ if(device === "xs"){
     <div class="col-md-8">
 
 
-           <ul class="list-group subcat" >
+           <ul class="list-group subcat" style='display:none;' >
 
            <li ng-repeat="c in subcategorias" ng-click='enviasuv(c.id)'  class="list-group-item "><a > {[{c.nombre}]} </a></li>
 
@@ -388,11 +388,7 @@ a{
 
 }
 */
-.list-group-item:hover{
 
-  background: rgb(2, 169, 188);
-  color:#fff;
-}
 
 .iconocat:hover{
 

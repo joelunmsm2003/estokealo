@@ -5,7 +5,7 @@ urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
     url(r'^$', 'app.views.home'),
-    url(r'^autentificacion/$', 'app.views.autentificacion'),
+    url(r'^autentificacion$', 'app.views.autentificacion'),
     url(r'^productos/$', 'app.views.productos'),
     url(r'^ingresar/$', 'app.views.ingresar'),
     url(r'^registra/$', 'app.views.registra'),
@@ -37,5 +37,6 @@ urlpatterns = [
     url(r'^verificalogin/$', 'app.views.verificalogin'),
     url(r'^productosjson$', 'app.views.productosjson'),
     url(r'^detallechat/(\w+)/(\w+)/$', 'app.views.detallechat'),
+    url(r'^prueba/$', 'app.views.prueba'),
 
 ]

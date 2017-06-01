@@ -90,7 +90,7 @@ def home(request):
 def autentificacion(request):
 
 
-	return render(request, 'login.html')
+	return render(request, 'loginmovil.html')
 
 
 
@@ -103,10 +103,7 @@ def salir(request):
 	return HttpResponseRedirect("/")
 
 
-def productos(request):
 
-
-	return render(request, 'productos.html')
 
 
 @login_required(login_url="/autentificacion")
@@ -312,7 +309,19 @@ def productos(request,id):
 
 	usuario= AuthUser.objects.get(id=user)
 
-	return render(request, 'productosuser.html',{'host':host,'productos':productos,'usuario':usuario,'mianuncio':'active'})
+	return render(request, 'productosusermovil.html',{'host':host,'productos':productos,'usuario':usuario,'mianuncio':'active'})
+
+
+
+def prueba(request):
+
+
+
+
+	return render(request, 'productos.html',{'host':host})
+
+
+
 
 
 # Prductos de un usuario
@@ -1038,7 +1047,23 @@ def ingresar(request):
 		
 		else:
 
-			return render(request, 'login.html',{'host':host})
+			
+
+			current_site = get_current_site(request)
+
+			m = str(current_site).split('.')[0]
+
+			if m=='m':
+
+				return render(request, 'loginmovil.html',{'host':host})
+
+			else:
+
+				return render(request, 'loginmovil.html',{'host':host})
+
+
+
+
 
 
 

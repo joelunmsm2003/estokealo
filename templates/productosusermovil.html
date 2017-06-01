@@ -1,0 +1,65 @@
+<html ng-app="myApp" ng-controller="myCtrl">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body>
+
+{% include "headermovil.html" %}
+
+<br>
+
+<div class='container'>
+
+{% include "headeruser.html" %}
+
+<br>
+
+<div class='row'>
+
+
+
+{% for producto in productos %}
+
+
+<div class='col-6 card1'>
+
+         <a class='item' href="/producto/{{producto.id}}">
+    
+      
+			<div class="card" >
+			  <img class="card-img-top img-fluid" src="{{host}}{{producto.detalle}}" alt="Card image cap">
+			  <div class="card-block">
+			    <h4 class="card-title">{{producto.title}}</h4>
+			    <p class="card-text">{{producto.descripcion}}</p>
+			    <a class='btn btn-primary btn-sm' href='/editarproducto/{{producto.id}}'><i class="fa fa-pencil" aria-hidden="true"> </i> Editar
+</a>
+
+			    
+			  </div>
+			</div>
+       </a>
+			</div>
+
+{% endfor %}
+
+
+</div>
+
+</div>
+
+<style type="text/css">
+  
+a{
+
+  text-decoration: none !important;
+
+}
+
+.card1{
+  margin-bottom: 12px;
+}
+
+</style>
+
+</body>
+</html>
+
+
