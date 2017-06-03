@@ -48,6 +48,7 @@ gulp.task('watch', function() {
 
 	// Watch .scss files
 	gulp.watch('./_variables.scss', ['styles']);
+	gulp.watch('./_styles.scss', ['styles']);
 
 
 }); 

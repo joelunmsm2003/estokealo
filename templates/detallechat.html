@@ -73,19 +73,19 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 	});
 
-	setInterval(function(){ 
+	// setInterval(function(){ 
 
-						$http.get("/listamensajes/"+'{{user}}'+'/'+'{{producto}}')
-						.then(function(response) {
+	// 					$http.get("/listamensajes/"+'{{user}}'+'/'+'{{producto}}')
+	// 					.then(function(response) {
 
 						
 
-						$scope.mensajes = response.data
+	// 					$scope.mensajes = response.data
 
 
-						});
+	// 					});
 
-			}, 1000);
+	// 		}, 1000);
 
 
     $scope.traemensajes=function(data){
@@ -215,7 +215,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 
 
-	<div class='row' style='background: #234;color:#fff;margin-top: -23px;'>
+	<div class='row' class='detallechatproducto'>
 
 
 
