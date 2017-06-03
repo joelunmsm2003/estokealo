@@ -1038,7 +1038,15 @@ def ingresar(request):
 		
 		else:
 
-			return render(request, 'login.html',{'host':host})
+			if m=='m':
+
+				return render(request, 'loginmovil.html',{'host':host})
+
+			else:
+
+				return render(request, 'login.html',{'host':host})
+
+
 
 
 
