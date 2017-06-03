@@ -12,7 +12,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
-
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   
   <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
@@ -32,78 +33,76 @@
 
 </head>
 
+<input type="checkbox" id="drawer-toggle" class="drawer-toggle" value="on">
+
+
 
 <div class="drawer">
 
-<div class='perfilmovilprincipal'>
+<div class="drawer-navigation">
   
-  erer{{usuario.first_name}}
+
+<div class="drawer-title">
+
+<div class="row no-gutters">
+  
+  <div class="col-4"><div style='padding: 8px;'><img src='{{host}}{{usuario.photo}}' class="img-fluid rounded-circle" ></img></div></div>
+
+  <div class="col-8"><div class="drawer-text"><a href="/myolx/myadslisting"><span class="user-name">Hola, {{usuario.first_name}}</span></a></div></div>
+</div>
+
+
+
+
+
 
 </div>
+
+
+
   
 
 {% if usuario.username %}
 
-<div class='perfilmovil'>
   
-<a href="/productos/{{usuario.id}}">Mis Anuncios</a>
+<a class='icons ' href="/productos/{{usuario.id}}"> <i class="material-icons">view_list</i><span class='detallemovil'>Mis Anuncios</span></a>
 
-</div>
+<a class='icons' href='/perfil'><i class="material-icons">account_circle</i><span class='detallemovil'>Mi Perfil</span></a>
 
+<a class='icons' href='/chat'><i class="material-icons">chat</i><span class='detallemovil'>Mis Mensajes</span></a>
 
-<div class='perfilmovil'>
-  
-  
-<a href='/perfil'>Mi Perfil</a>
-
-</div>
+<a class='icons' href='/vender'><i class="material-icons">voice_chat</i><span class='detallemovil'>Vender</span></a>
 
 
-<div class='perfilmovil'>
-  
-<a href='/chat'>Mis Mensajes</a>
+<a class='icons' href='/salir'>
+<i class="material-icons">close</i>
+<span class='detallemovil'>Salir</span></a>
 
-</div>
-
-
-<div class='perfilmovil'>
-  
-<a href='/vender'>Vender</a>
-
-</div>
-
-<div class='perfilmovil'>
-  
-<a href='/salir'>Salir</a>
-
-</div>
 
 
 
  {% else %}
 
 
-<li class='list-group-item'>
-  
-<a href='/ingresar'>Ingresar</a>
-</li>
+<a class='icons' href='/ingresar'>Ingresar</a>
 
  {% endif %}
 
 
-
+</div>
 
 
 </div>
-<body>
 
 
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
 
   <div class="row no-gutters">
     
-    <div class="col-2"><button class="navbar-toggler"  onclick="myFunction()" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+    <div class="col-2">
+
+    <label for="drawer-toggle" onclick="myFunction()"><i class="material-icons" style='font-size:35px;'>menu</i></label>
+   
   </button>
 </div>
     <div class="col-10"><img src="{{host}}/static/estokealo_logo_final.png" class='img-fluid'>
@@ -114,29 +113,8 @@
 </nav>
 
 
+<label class="drawer-overlay" for="drawer-toggle" onclick="cierranav()"></label>
 
-
-
-<style type="text/css">
-  
-    .drawer{
-
-    background-color: #fff;
-    position: fixed;
-    top: 0;
-    left: -230px;
-    z-index: 100;
-    height: 100%;
-    will-change: transform;
-    pointer-events: auto;
-    width: 230px;
-    transition-property: all;
-    transition-duration: .5s;
-    transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-
-}
-
-</style>
 
 
 <script>
@@ -160,7 +138,6 @@ function cierranav() {
 
 
 
-</body>
 
 </html>
 

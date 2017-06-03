@@ -78,8 +78,6 @@ def home(request):
 
 	if m=='m':	
 
-		print 'Entreeeeeeeeeee'
-
 		return render(request, 'homemovil.html',{'productos':productos,'usuario':usuario,'host':host,'categoria':categoria})
 
 	else:	
@@ -115,8 +113,22 @@ def perfil(request):
 
 	usuario= AuthUser.objects.get(id=user)
 
+	current_site = get_current_site(request)
 
-	return render(request, 'perfil.html',{'productos':productos,'usuario':usuario,'miperfil':'active','host':host})
+	p = str(current_site).split('.')[0]
+
+	if p=='m':	
+
+		return render(request, 'perfilmovil.html',{'productos':productos,'usuario':usuario,'miperfil':'active','host':host})
+
+	else:	
+
+		return render(request, 'perfil.html',{'productos':productos,'usuario':usuario,'miperfil':'active','host':host})
+
+
+
+
+
 
 
 @login_required(login_url="/autentificacion")
@@ -498,13 +510,7 @@ def producto(request,id):
 
 	user = request.user.id
 
-	current_site = get_current_site(request)
 
-	p = str(current_site).split('.')[0]
-
-
-
-	print p
 	
 	usuario = None
 
@@ -519,6 +525,10 @@ def producto(request,id):
 	if Videoproducto.objects.filter(producto_id=id):
 
 		videos = Videoproducto.objects.filter(producto_id=id)[0]
+
+	current_site = get_current_site(request)
+
+	p = str(current_site).split('.')[0]
 
 	if p=='m':	
 
