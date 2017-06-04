@@ -45,14 +45,21 @@
 <div class="drawer-title">
 
 <div class="row no-gutters">
+
+  {% if usuario.username %}
   
-  <div class="col-4"><div style='padding: 8px;'><img src='{{host}}{{usuario.photo}}' class="img-fluid rounded-circle" ></img></div></div>
+  <div class="col-4"><div style='padding: 8px;'><img src='{{host}}{{usuario.photo}}' class="img-fluid rounded-circle" style='max-height: 40px;'></img></div></div>
 
   <div class="col-8"><div class="drawer-text"><a href="/myolx/myadslisting"><span class="user-name">Hola, {{usuario.first_name}}</span></a></div></div>
+
+  
+ {% else %}
+
+<div style='padding: 8px;'><img src="{{host}}/static/estokealo_logo_final.png" class='img-fluid'></div>
+  
+  {% endif %}
+
 </div>
-
-
-
 
 
 
@@ -83,8 +90,10 @@
 
  {% else %}
 
+<a class='icons' href='/ingresar'><i class="material-icons">input</i><span class='detallemovil'>Ingresar</span></a>
+<a class='icons' href='/vender'><i class="material-icons">voice_chat</i><span class='detallemovil'>Vender</span></a>
 
-<a class='icons' href='/ingresar'>Ingresar</a>
+
 
  {% endif %}
 

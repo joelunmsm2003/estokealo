@@ -87,8 +87,21 @@ def home(request):
 
 def autentificacion(request):
 
+	current_site = get_current_site(request)
 
-	return render(request, 'loginmovil.html')
+	p = str(current_site).split('.')[0]
+
+	if p=='m':	
+
+		return render(request, 'loginmovil.html',{'host':host})
+
+	else:	
+
+		return render(request, 'login.html',{'host':host})
+
+
+
+
 
 
 
@@ -195,13 +208,13 @@ def actualizaperfil(request):
 
 				width, height = img.size
 
-				if height > 500:
+				
 
-					img = resizeimage.resize_cover(img, [500, 500])
+				img = resizeimage.resize_cover(img, [200, 200])
 
-					img.save(caption, img.format)
+				img.save(caption, img.format)
 
-					fd_img.close()
+				fd_img.close()
 
 
 		return HttpResponseRedirect("/perfil/")

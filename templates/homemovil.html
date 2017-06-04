@@ -13,144 +13,6 @@
   <title>Estokealo</title>
 </head>
 
-<script>
-var app = angular.module('myApp', []);
-
-app.config(function($interpolateProvider){
-    $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
-    });
-app.controller('myCtrl', function($scope,$http) {
-
-
-
-    $scope.traesubcategorias = function(data){
-
-          $scope.datacat = data
-
-          console.log(data)
-
-
-              $http.get("/traesubcategorias/"+data)
-              .then(function(response) {
-
-                console.log('traesubcategorias...',response.data)
-
-                $scope.subcategorias = response.data
-
-                  
-              });
-
-
-    }
-
-
-      $scope.datasub = 1000
-
-    $scope.enviasuv=function(data){
-
-      console.log('jjdjd',data)
-
-      $scope.datasub = data
-
-      location.href='/busquedacategoria/'+0+'/'+data
-    }
-
-    $scope.buscat=function(data){
-
-      console.log(data)
-
-      location.href='/busquedacategoria/'+data+'/0'
-
-    }
-
-
-
-
-
-});
-
-
-</script>
-
-<body>
-
-
-{% include "headermovil.html" %}
-
-    <div class='container-fluid' onclick="cierranav()">
-
-
-<div class="fixed44" ><a href="/vender" class="btn btn-primary" > <i class="fa fa-camera" aria-hidden="true"></i> Vender</a></div>
-    
-
-    <ul class="categorias-slider" >
-
-          {% for c in categoria %}
-
-
-
-          <li><a href='#' class='iconocat'><i class="material-icons" style='font-size: 38px;'>{{c.icon}}</i></a>  {{c.nombre}} </li>
-
-
-
-          {% endfor %}
-
-          </ul>
-
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-<div class='container-fluid' onclick="cierranav()">
-
-
-<div class='row' style='padding: 6px;'>
-    {% for producto in productos %}
-
-
- 
-      <div class='col-6  col-lg-2 col-lg-2 col-sm-4 card1'>
-
-         <a class='item' href="/producto/{{producto.id}}">
-    
-
-      
-      <div class="card" >
-        <img class="card-img-top img-fluid" src="{{host}}{{producto.photo.photo__photo}}" alt="Card image cap">
-        <div class="card-block">
-          <h5 class="card-title">{{producto.titulo}}</h5>
-          <p class="card-text">{{producto.descripcion}}</p>
-          
-        </div>
-      </div>
-
-
-
-       </a>
-      </div>
-     
-
-      {% endfor %}
-      
-      </div>
-
-
-    </div>
-
-
-  
-<script src="/static/js/jquery-2.1.1.js"></script>
-<script src="/static/js/main.js"></script> <!-- Resource jQuery -->
-</body>
-</html>
 
 <style type="text/css">
   
@@ -234,6 +96,145 @@ flex: 1;
 }
 
 </style>
+
+<script>
+var app = angular.module('myApp', []);
+
+app.config(function($interpolateProvider){
+    $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
+    });
+app.controller('myCtrl', function($scope,$http) {
+
+
+
+    $scope.traesubcategorias = function(data){
+
+          $scope.datacat = data
+
+          console.log(data)
+
+
+              $http.get("/traesubcategorias/"+data)
+              .then(function(response) {
+
+                console.log('traesubcategorias...',response.data)
+
+                $scope.subcategorias = response.data
+
+                  
+              });
+
+
+    }
+
+
+      $scope.datasub = 1000
+
+    $scope.enviasuv=function(data){
+
+      console.log('jjdjd',data)
+
+      $scope.datasub = data
+
+      location.href='/busquedacategoria/'+0+'/'+data
+    }
+
+    $scope.buscat=function(data){
+
+      console.log(data)
+
+      location.href='/busquedacategoria/'+data+'/0'
+
+    }
+
+
+
+
+
+});
+
+
+</script>
+
+<body>
+
+
+{% include "headermovil.html" %}
+
+    <div class='container-fluid' onclick="cierranav()">
+
+
+<div class="fixed44" ><a href="/vender" class="btn btn-primary" > <i class="fa fa-camera" aria-hidden="true"></i> Vender</a></div>
+    
+
+    <ul class="categorias-slider" >
+
+          {% for c in categoria %}
+
+
+          <li><a href='/busquedacategoria/{{c.id}}/0' class='iconocat'><i class="material-icons" style='font-size: 38px;'>{{c.icon}}</i></a>  {{c.nombre}} </li>
+
+
+
+          {% endfor %}
+
+          </ul>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+<div class='container-fluid' onclick="cierranav()">
+
+
+<div class='row' style='padding: 6px;'>
+    {% for producto in productos %}
+
+
+ 
+      <div class='col-6  col-lg-2 col-lg-2 col-sm-4 card1'>
+
+         <a class='item' href="/producto/{{producto.id}}">
+    
+
+      
+      <div class="card" >
+        <img class="card-img-top img-fluid" src="{{host}}{{producto.photo.photo__photo}}" alt="Card image cap">
+        <div class="card-block">
+          <h5 class="card-title">{{producto.titulo}}</h5>
+          <p class="card-text">{{producto.descripcion}}</p>
+          
+        </div>
+      </div>
+
+
+
+       </a>
+      </div>
+     
+
+      {% endfor %}
+      
+      </div>
+
+
+    </div>
+
+
+  
+<script src="/static/js/jquery-2.1.1.js"></script>
+<script src="/static/js/main.js"></script> <!-- Resource jQuery -->
+</body>
+</html>
+
 
 </body>
 
