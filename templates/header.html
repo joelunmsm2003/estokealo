@@ -36,44 +36,58 @@
 <body>
 
 
-
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+<div class='container'>
+<nav class="navbar navbar-toggleable-md navbar-light">
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
- <a class="navbar-brand" href="/"><img src="{{host}}/static/estokealo_logo_final.png" height="66px"></a>
+ <a class="navbar-brand" href="/" style='margin-top: -21px;'><img src="{{host}}/static/estoke.png" height="50px"></a>
+
+ <small style='position: absolute;
+    left: 90px;
+    top: 50px;
+    font-size: 11px;
+    color: #2aa59a;'>Compra & vendelo todo </small>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       
-      
 
 
-      <form class="form-inline my-2 my-sm-0" method="post" action="/busqueda/">
-      
-      {% csrf_token %}
+    <form class="form-inline my-2 my-sm-0" method="post" action="/busqueda/">
 
-      <input class="form-control mr-sm-2" type="text" name='dato' placeholder="¿Que estas buscando?">
+    {% csrf_token %}
+    
+    <input type="text" class="form-control" autofocus id="inlineFormInputGroup" name='dato' placeholder="¿Que estas buscando?" style='width: 87%; height: 42px;'>
+
+<!--     <div class="input-group-addon"><i class="material-icons">search</i></div>
+ -->
+
+      <button class='btn btn-primary' style='border-radius: 0 0.25rem 0.25rem 0;
+    margin-left: -7px;' type='submit'><i class="material-icons">search</i></button>
+
+    </form>
 
 
-      <button class='btn btn-primary' type='submit'  >Buscar</button>
 
 
-      </form>
          
-      <form class="form-inline my-2 my-sm-0">
 
       {% if usuario.username %}
 
     
 
-       <li class="nav-item my-2 my-sm-0">
+       <li class="nav-item" style="padding-top: 8px;
+    padding-left: 16px;
+    padding-right: 14px;" >
 
-
+          
        
-         <div class="dropdown" style='margin-left: 11px; width: 100%'>
-          <a class="nav-link btn btn-secondary dropdown-toggle" href="/productos/{{usuario.id}}" id="xxxx" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{usuario.first_name}}
+         <div class="dropdown">
+          <a class="nav-link  dropdown-toggle" href="/productos/{{usuario.id}}" id="xxxx" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            
+                    <img src="{{host}}{{usuario.photo}}" class='img-fluid rounded-circle' " style='width: 40px;''>
+                    <span style='padding-left:8px;'>{{usuario.first_name}}</span>
           </a>
 
           <div class="dropdown-menu" aria-labelledby="xxxx">
@@ -89,36 +103,40 @@
 
       </li>
 
-       <li class="nav-item my-2 my-sm-0" >
+       <li class="nav-item" style="padding-top: 25px;" >
       
 
-        <a class="btn btn-outline-success my-2 my-sm-0" href="/chat/" style='margin-left: 20px; width: 100%'> <i class="fa fa-comments" aria-hidden="true"></i> Mis mensajes</a>
+        <a  href="/chat/" > <i class="fa fa-comments" aria-hidden="true"></i> Mensajes</a>
       </li>
 
       {% else %}
 
-      <li class="nav-item my-2 my-sm-0">
 
-        <a class="btn btn-outline-success my-2 my-sm-0" href="/ingresar/" style='margin-left: 20px; width: 100%'> <i class="fa fa-sign-in" aria-hidden="true"></i> Ingresar</a>
 
-      </li>
+        <a  class='nav-item' style="padding-top: 19px; padding-left: 19px;" href="/ingresar/" >  Ingresar</a>
+
+        <a class='nav-item' style="padding-top: 19px; padding-left: 19px;" href="/ingresar/">  Registrarse</a>
+ 
 
 
 
       {% endif %}
 
-      </form>
+
 
   
 
     </ul>
 
-      <a class="nav-link" href="/vender"><button class="btn btn-outline-success my-2 my-sm-0" > <i class="fa fa-camera" aria-hidden="true"></i> Vender</button></a>
-    
+      <a class="nav-link" href="/vender" style='padding-top: 16px;'><button class="btn btn-outline-success my-2 my-sm-0" > <i class="fa fa-camera" aria-hidden="true"></i> Vender</button></a>
+
+      <a class="nav-link" href="#" style='padding-top: 16px;'><button class="btn btn-outline-success my-2 my-sm-0" > Clasificados</button></a>
+
+
 
   </div>
 </nav>
-
+</div>
 
 <style type="text/css">
   

@@ -48,23 +48,23 @@ app.controller('myCtrl', function($scope,$http) {
 </script>
 
 
-<div class='container-fluid'>
+<div class='container-fluid container-movil'>
 
 
 
 <br>
 <div class='row'>
 
-    <div class='col-6'>
+    <div class='col-8'>
 
    <h3>{{producto.titulo}}</h3>
-   {{producto.descripcion}}
+   
 
     </div>
 
-    <div class='col-6 heart'>
-     <h3> S/. {{producto.precio}}</h3>
-     <i class="fa fa-heart-o" aria-hidden="true"></i>
+    <div class='col-4 heart '>
+     <h5> S/. {{producto.precio}}</h5>
+     <i class="fa fa-heart-o animated infinite pulse" aria-hidden="true"></i>
      
 
     </div>
@@ -80,6 +80,9 @@ app.controller('myCtrl', function($scope,$http) {
 
         </ul>
 
+<div style='padding: 12px;'>{{producto.descripcion}}</div>
+
+{% if videos.video.video %}
 
 <video width=500px class='img-fluid' controls>
 <source src="{{host}}/{{videos.video.video}}" type="video/mp4">
@@ -87,8 +90,14 @@ app.controller('myCtrl', function($scope,$http) {
 Your browser does not support the video tag.
 </video>
 
+{% endif %}
 
 
+<div class='item-cta' ng-if="{{producto.user.id}}!='{{usuario.id}}'">
+
+<a class="phone tap" href="tel:{{producto.user.telefono}}" rel="nofollow"><span>LLAMAR</span></a>
+<a class="tap" rel="nofollow" href="/detallechat/{{producto.user.id}}/{{producto.id}}"><span>CHAT</span></a>
+</div>
 
 <div class='row'>
 
@@ -102,15 +111,13 @@ Your browser does not support the video tag.
     
             <div class='panel'>
 
-            <div class='panel-body'>
+            <div class='panel-body' style='padding: 20px 0 72px 36px;'>
 
-            <div class='row'>
-
-            <div class='col-4'>
+          
 
             <div class="row">
 
-                    <div class='col-8'>
+                    <div class='col-4'>
 
                     <img src="{{host}}{{producto.user.photo}}" class='img-fluid rounded-circle' ">
 
@@ -118,7 +125,7 @@ Your browser does not support the video tag.
                  
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-8">
 
                        <center><h4>{{producto.user.first_name}}</h4></center>
 
@@ -133,13 +140,8 @@ Your browser does not support the video tag.
 
             </div>
 
-        
-            </div>
-
-            </div>
-
-
-            <form method="post" action="/enviamensaje/" enctype="multipart/form-data">
+  
+     <!--        <form method="post" action="/enviamensaje/" enctype="multipart/form-data">
             {% csrf_token %}
 
 
@@ -148,7 +150,7 @@ Your browser does not support the video tag.
 
             <input type="text" hidden="" name="producto" value="{{producto.id}}">
 
-            <textarea type="text" class="form-control" name='mensaje' rows='12' required id="pwd"  placeholder="Mensaje"></textarea>
+            <textarea type="text" class="form-control" name='mensaje' rows='5' required id="pwd"  placeholder="Mensaje"></textarea>
             </div>
 
 
@@ -157,7 +159,7 @@ Your browser does not support the video tag.
 
             <button type="submit" class="btn btn-primary btn-md enviarmensaje">Enviar mensaje</button>
             </form>
-
+ -->
             </div>
 
 
@@ -201,7 +203,7 @@ Your browser does not support the video tag.
 
    .heart {
     text-align: right;
-    font-size: 31px;
+    font-size: 28px;
 }
 
 .enviarmensaje{

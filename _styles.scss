@@ -1,4 +1,212 @@
+
+[type='file'] {
+  -webkit-appearance: none;
+    color:#fff;
+   font-family: Open;
+}
+[type='file']::-webkit-file-upload-button {
+    border-radius: 4px;
+    border: 0;
+    background: #ffffff;
+    color: $green;
+    border: 1px solid $green;
+    padding: 8px;
+    font-family: Open Sans;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+
+[type='file']::-webkit-file-upload-button:active, [type='file']::-webkit-file-upload-button:focus {
+  outline: 0;
+}
+
+input[type="file"] {
+    display: block;
+    opacity: 1.4;
+    
+}
+
+
+.iconocat:hover{
+
+  color: #fff;
+}
+
+.activo{
+
+  background: #456;
+  color:#fff;
+}
+
+
+.desactivo{
+
+  background: #fff;
+  color:#000;
+}
+     
+
+
+.wrapper {
+    width: 95%;
+    margin: 3em auto;
+}
+
+.masonry {
+    margin: 1.5em 0;
+    padding: 0;
+    -moz-column-gap: 1.5em;
+    -webkit-column-gap: 1.5em;
+    column-gap: 1.5em;
+    font-size: .85em;
+}
+
+.item {
+    display: inline-block;
+    background: #fff;
+
+    margin: 0 0 11px;
+    width: 100%;
+
+}
+
+
+@media only screen and (min-width: 300px) {
+    .masonry {
+        -moz-column-count: 2;
+        -webkit-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media only screen and (min-width: 400px) {
+    .masonry {
+        -moz-column-count: 2;
+        -webkit-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media only screen and (min-width: 700px) {
+    .masonry {
+        -moz-column-count: 3;
+        -webkit-column-count: 3;
+        column-count: 3;
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    .masonry {
+        -moz-column-count: 4;
+        -webkit-column-count: 4;
+        column-count: 4;
+    }
+}
+
+@media only screen and (min-width: 1100px) {
+    .masonry {
+        -moz-column-count: 5;
+        -webkit-column-count: 5;
+        column-count: 5;
+    }
+}
+
+@media only screen and (min-width: 1280px) {
+    .wrapper {
+        width: 1260px;
+    }
+}
+
+
+
+
+.cabecerachat{
+
+  background: $green;
+  color:#fff;
+  padding: 4px;
+}
+
+.item-cta {
+    left: 0;
+    bottom: 0;
+    padding: 0;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    position: fixed;
+    z-index: 1;
+    justify-content: center;
+    background-color: rgba(255,255,255,0.7);
+}
+
+.item-cta a {
+    color: $green;
+    width: 100%;
+    margin: 5px;
+    height: 40px;
+    display: block;
+    line-height: 40px;
+    border-radius: 3px;
  
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
+
+    border: 1px solid $green;
+    background-color: #fff;
+}
+
+.tap:focus::before {
+    -webkit-animation: pulse 1s;
+    -webkit-animation-iteration-count: 1;
+    animation: pulse 1s;
+    animation-iteration-count: 1;
+}
+
+.tap::before {
+    content: '';
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, .2);
+    display: inline-block;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    opacity: 0;
+    position: absolute;
+    margin: -15px 0 0 -15px;
+    left: 50%;
+    top: 50%;
+}
+.search-input-wrap {
+    position: absolute;
+    left: 50px;
+    top: 19px;
+    right: 10px;
+}
+
+.search-form {
+    background-color: $white;
+    position: absolute;
+    z-index: 4;
+    top: 0px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+    -webkit-animation: slide-left .2s cubic-bezier(0, 0.5, 0, 1);
+    -webkit-animation-iteration-count: 1;
+    animation: slide-left .2s cubic-bezier(0, 0.5, 0, 1);
+    animation-iteration-count: 1;
+} 
+
+ .container-movil {
+   padding-top: 64px;
+}
+
  /*file*/
 
  [type='file'] {
@@ -31,7 +239,8 @@ input[type="file"] {
 }
      
 .drawer-text{
-      padding: 20px;
+      padding-top: 18px;
+
 }
      /*fin*/
 
@@ -52,8 +261,9 @@ input[type="file"] {
 
   .drawer-title {
     background: $white;
-    padding: 5px;
+    padding: 3px;
     box-sizing: border-box;
+    border: 1px solid $green;
     
 }
    .drawer-navigation > a {
@@ -72,7 +282,7 @@ input[type="file"] {
 
    speak: none;
     line-height: 1;
-    font-size: 24px;
+
     font-style: normal;
     font-weight: normal;
     font-variant: normal;
@@ -94,9 +304,10 @@ input[type="file"] {
 
     background-color: #fff;
     position: fixed;
+    z-index: 10000;
     top: 0;
     left: -230px;
-    z-index: 100;
+
     height: 100%;
     will-change: transform;
     pointer-events: auto;
@@ -159,6 +370,11 @@ input[type="file"] {
 
 }
 
+.sli{
+
+    background: rgba(109, 193, 186,.4);
+}
+
 .list-group-item:hover{
 
   background: $green;
@@ -177,9 +393,22 @@ a:focus, a:hover {
 	
     margin-bottom: 11px;
     
- 	
+ 	  
+    border-radius:$border-radius;
+    border: 1px solid $green;
+
+    transition:all .4s;
+}
+
+.chatperfil:hover{
+
+  
+    margin-bottom: 11px;
+    
+    background: $green;
     border-radius:5px;
     border: 1px solid $green;
+    background: $green;
 }
 
 /* Border Chat*/
@@ -204,10 +433,37 @@ a:focus, a:hover {
     position: relative;
    
     height: auto;
-    background-color: #256;
+    background-color: $blue;
     border-radius: 5px;
     color:#fff;
 }
+
+/*version web*/
+
+/* CSS talk bubble */
+.talk-bubble_w {
+
+    display: inline-block;
+    position: relative;
+ 
+    height: auto;
+    background-color: $green;
+    border-radius: 5px;
+    color:#fff;
+}
+
+.talk-bubble_1_w {
+
+    display: inline-block;
+    position: relative;
+   
+    height: auto;
+    background-color: $blue;
+    border-radius: 5px;
+    color:#fff;
+}
+
+
 .border{
   border: 0px solid #666;
 }
@@ -259,16 +515,16 @@ a:focus, a:hover {
 	border-color: #666 transparent transparent transparent;
 }
 .tri-right_1.left-top:after{
-	content: ' ';
-	position: absolute;
-	width: 0;
-	height: 0;
-  left: -15px;
-	right: auto;
-  top: 0px;
-	bottom: auto;
-	border: 22px solid;
-	border-color: #256 transparent transparent transparent;
+content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: -8px;
+    right: auto;
+    top: 0px;
+    bottom: auto;
+    border: 8px solid;
+	border-color: $blue transparent transparent transparent;
 }
 
 
@@ -506,14 +762,18 @@ a{color:inherit;text-decoration:none}
   //box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
 }
 .login-html{
-  width:100%;
-  height:100%;
-  position:absolute;
-  padding:90px 70px 50px 70px;
-  border:1px solid $green;
+
+      width: 100%;
+    /* height: 100%; */
+    position: absolute;
+    padding: 53px 43px 10px 43px;
+   border:1px solid $green;
   border-radius: $border-radius;
 
 }
+
+
+
 .login-html .sign-in-htm,
 .login-html .sign-up-htm{
   top:0;
@@ -539,12 +799,12 @@ a{color:inherit;text-decoration:none}
   text-transform:uppercase;
 }
 .login-html .tab{
-  font-size:22px;
-  margin-right:15px;
-  padding-bottom:5px;
-  margin:0 15px 10px 0;
-  display:inline-block;
-  border-bottom:2px solid transparent;
+font-size: 18px;
+    margin-right: 15px;
+    padding-bottom: 5px;
+    margin: 0 15px 10px 0;
+    display: inline-block;
+    border-bottom: 2px solid transparent;
 }
 .login-html .sign-in:checked + .tab,
 .login-html .sign-up:checked + .tab{

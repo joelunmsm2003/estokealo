@@ -101,9 +101,9 @@ $white:  #fff !default;
 $black:  #000 !default;
 $red:    #d9534f !default;
 $orange: #f0ad4e !default;
-$yellow: #ffd500 !default;
-$green:  #1ea095 !default;
-$blue:   #21587f !default;
+$yellow: rgb(252, 176, 64) !default;
+$green:  rgb(53, 170, 160) !default;
+$blue:   #37475a !default;
 $teal:   #5bc0de !default;
 $pink:   #ff5b77 !default;
 $purple: #613d7c !default;
@@ -116,7 +116,7 @@ $gray-lighter:              #eceeef !default;
 $gray-lightest:             #f7f7f9 !default;
 
 // Reassign color vars to semantic color scheme
-$brand-primary:             $blue !default;
+$brand-primary:             $green !default;
 $brand-success:             $green !default;
 $brand-info:                $teal !default;
 $brand-warning:             $orange !default;
@@ -187,7 +187,7 @@ $sizes: (
 // Settings for the `<body>` element.
 
 $body-bg:       $white !default;
-$body-color:    $gray-dark !default;
+$body-color:    $blue !default;
 $inverse-bg:    $gray-dark !default;
 $inverse-color: $gray-lighter !default;
 
@@ -421,7 +421,7 @@ $btn-transition:                 all .2s ease-in-out !default;
 
 $input-padding-x:                .75rem !default;
 $input-padding-y:                .5rem !default;
-$input-line-height:              1.8 !default;
+$input-line-height:              1.3 !default;
 
 $input-bg:                       $white !default;
 $input-bg-disabled:              $gray-lighter !default;
@@ -440,7 +440,7 @@ $input-border-focus:             lighten($brand-primary, 25%) !default;
 $input-box-shadow-focus:         $input-box-shadow, rgba($input-border-focus, .6) !default;
 $input-color-focus:              $input-color !default;
 
-$input-color-placeholder:        $gray-light !default;
+$input-color-placeholder:        $blue !default;
 
 $input-padding-x-sm:             .5rem !default;
 $input-padding-y-sm:             .25rem !default;
@@ -628,7 +628,7 @@ $navbar-inverse-disabled-color:        rgba($white,.25) !default;
 $navbar-inverse-toggler-bg: str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$navbar-inverse-color}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E"), "#", "%23") !default;
 $navbar-inverse-toggler-border:        rgba($white,.1) !default;
 
-$navbar-light-color:                rgba($black,.5) !default;
+$navbar-light-color:                $black !default;
 $navbar-light-hover-color:          rgba($black,.7) !default;
 $navbar-light-active-color:         rgba($black,.9) !default;
 $navbar-light-disabled-color:       rgba($black,.3) !default;
@@ -639,7 +639,7 @@ $navbar-light-toggler-border:       rgba($black,.1) !default;
 
 $nav-item-margin:               .2rem !default;
 $nav-item-inline-spacer:        1rem !default;
-$nav-link-padding:              .5em 1em !default;
+$nav-link-padding:              .5em .3em !default;
 $nav-link-hover-bg:             $gray-lighter !default;
 $nav-disabled-link-color:       $gray-light !default;
 
@@ -869,7 +869,7 @@ $progress-bar-animation-timing: 1s linear infinite !default;
 
 $list-group-color:               $body-color !default;
 $list-group-bg:                  $white !default;
-$list-group-border-color:        #6ac2cc !default;
+$list-group-border-color:        $green !default;
 $list-group-border-width:        $border-width !default;
 $list-group-border-radius:       $border-radius !default;
 
