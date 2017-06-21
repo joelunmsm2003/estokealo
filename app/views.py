@@ -685,7 +685,9 @@ def enviamensaje_perfil(request):
 
 		user = request.user.id
 
-		print user
+
+
+		print 'json.loads(request.body)',json.loads(request.body)
 
 		data = json.loads(request.body)['dato']
 
