@@ -54,21 +54,23 @@ def home(request):
 
 	usuario = None
 
-	productos= Producto.objects.all()
+	productos= Producto.objects.all().order_by('-id')
 
 	for p in productos:
 
 		p.imagen1 = 'true'
 
-		print p.id,Photoproducto.objects.filter(producto_id=p.id).values('id','photo__photo').count()
-
 		if Photoproducto.objects.filter(producto_id=p.id).values('id','photo__photo').count()>0:
 
 			p.photo = Photoproducto.objects.filter(producto_id=p.id).values('id','photo__photo').order_by('-id')[0]
 
+			p.photo_home = p.photo['photo__photo'].split('.')[0]+'_home.jpg'
+
 		if Photoproducto.objects.filter(producto_id=p.id).values('id','photo__photo').count()>1:
 
 			p.photo1 = Photoproducto.objects.filter(producto_id=p.id).values('id','photo__photo').order_by('-id')[1]
+
+			p.photo_home1 = p.photo1['photo__photo'].split('.')[0]+'_home.jpg'
 
 	if user:
 
@@ -406,6 +408,8 @@ def productosjson(request):
 	for p in range(len(productos_)):
 
 		productos_[p]['photo'] = ValuesQuerySetToDict(Photoproducto.objects.filter(producto_id=productos_[p]['id']).values('id','photo__photo'))
+
+		print 'productos_[p][photo]',productos_[p]['photo']
 
 	productos_ = ValuesQuerySetToDict(productos_)
 
@@ -822,53 +826,57 @@ def uploadphoto(request):
 
 		fd_img.close()
 
+		# Ruta para el home
+
+		caption_home = caption.split('.jpg')[0]+'_home.jpg'
+
+		fd_img = open(caption, 'r')
+
+		img = Image.open(fd_img)
+
+		img = resizeimage.resize_cover(img, [250, 250])
+
+		img.save(caption_home, img.format)
+
+		fd_img.close()
 
 
-		if int(height) > 500:
+		# Ruta para la galeria
 
-			img = resizeimage.resize_cover(img, [1000, 500])
-
-			img.save(caption, img.format)
-
-			fd_img.close()
-
-			# Ruta para la galeria
-
-			caption_galeria = caption.split('.jpg')[0]+'_thumbail.jpg'
+		caption_galeria = caption.split('.jpg')[0]+'_thumbail.jpg'
 
 
-			# Guarda galery
+		# Guarda galery
 
-			fd_img = open(caption, 'r')
+		fd_img = open(caption, 'r')
 
-			img = Image.open(fd_img)
+		img = Image.open(fd_img)
 
-			img = resizeimage.resize_cover(img, [500, 500])
+		img = resizeimage.resize_cover(img, [500, 500])
 
-			img.save(caption_galeria, img.format)
+		img.save(caption_galeria, img.format)
 
-			fd_img.close()
-
-			#Ruta para el home
-
-			fd_img = open(caption, 'r')
-
-			img = Image.open(fd_img)
-
-			img = resizeimage.resize_cover(img, [250, 250])
-
-			img.save(caption, img.format)
-
-			fd_img.close()
+		fd_img.close()
 
 		photo = ValuesQuerySetToDict(photo)
 
 		data_json = simplejson.dumps(photo)
 
-
-
 		return HttpResponse(data_json, content_type="application/json")
 
+
+		# else:
+
+		# 	photo =simplejson.dumps('Error')
+
+		# 	return HttpResponse(photo, content_type="application/json")
+
+
+
+
+
+
+		
 
 @csrf_exempt
 def uploadvideo(request):
