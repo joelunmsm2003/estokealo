@@ -50,12 +50,12 @@
   
   <div class="col-4"><div style='padding: 8px;'><img src='{{host}}{{usuario.photo}}' class="img-fluid rounded-circle" style='max-height: 40px;'></img></div></div>
 
-  <div class="col-8"><div class="drawer-text"><a href="/myolx/myadslisting"><span class="user-name">Hola, {{usuario.first_name}}</span></a></div></div>
+  <div class="col-8"><div class="drawer-text"><a href="/"><span class="user-name">Hola, {{usuario.first_name}}</span></a></div></div>
 
   
  {% else %}
 
-<div style='padding: 8px;'><img src="{{host}}/static/estokealo_logo_final.png" class='img-fluid'></div>
+<div style='padding: 8px;'><a class='icons ' href="/ingresar"> <i class="material-icons">input</i><span class='detallemovil'>Ingresar</span></a></div>
   
   {% endif %}
 
@@ -63,10 +63,12 @@
 
 
 
+
+
 </div>
 
 
-
+<a class='icons ' href="/"> <i class="material-icons">view_compact</i><span class='detallemovil'><img src="{{host}}/static/estoke.png" class='img-fluid' width="120" style='margin-top:-8px;'></span></a>
   
 
 {% if usuario.username %}
@@ -90,7 +92,7 @@
 
  {% else %}
 
-<a class='icons' href='/ingresar'><i class="material-icons">input</i><span class='detallemovil'>Ingresar</span></a>
+
 <a class='icons' href='/vender'><i class="material-icons">voice_chat</i><span class='detallemovil'>Vender</span></a>
 
 
@@ -104,19 +106,51 @@
 </div>
 
 
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+
+<nav class="navbar navbar-toggleable-md fixed-top navbar-light bg-faded" style='padding: .5em 1rem;'>
 
   <div class="row no-gutters">
     
     <div class="col-2">
 
-    <label for="drawer-toggle" onclick="myFunction()"><i class="material-icons" style='font-size:35px;'>menu</i></label>
+    <div style='
+    height: 100%;
+    margin-top: 10px;
+    '>
+
+    <label for="drawer-toggle" onclick="myFunction()"><i class="material-icons" style='font-size:36px;'>menu</i></label>
+
+    </div>
    
   </button>
 </div>
-    <div class="col-10"><img src="{{host}}/static/estokealo_logo_final.png" class='img-fluid'>
+    <div class="col-8"><center><a href='/'><img src="{{host}}/static/estoke.png" class='img-fluid' style='max-height: 44px;'></a></center>
 </div>
+
+<div class="col-2"><div id='search' style='
+    height: 100%;
+    margin-top: 10px;
+    text-align:right;'> <i class="material-icons" style='font-size:35px;''>search</i></div>
+</div>
+
+
   </div>
+
+  <div class="overlay"></div>
+
+<!--   <form class="search-form" novalidate="">
+
+<button type="button" class="btn-back icons icon-back"></button>
+
+<div class="search-input-wrap">
+
+<input type="search" class="search-input" placeholder="Buscar..." autocomplete="off" value="">
+
+<button type="submit" style="display: none;"></button></div>
+
+<div class="overlay"></div>
+
+</form> -->
   
   
 </nav>
@@ -131,6 +165,8 @@ function myFunction() {
 
 
     $(".drawer").css("left", "0px");
+
+    $("body").addClass("scroll-no");
 }
 
 
@@ -138,15 +174,36 @@ function cierranav() {
 
   $(".drawer").css("left", "-230px");
 
+  $("body").removeClass("scroll-no");
+
 
 }
+
+function back(){
+
+$('.search-form').remove()
+
+}
+
+  
+ $("#search").click(function(){
+  console.log('search..')
+
+        $(".overlay").after("<form class='search-form' method='post' action='/busqueda/' novalidate=''><i class='material-icons' onclick='back()' style='padding-top: 8px; font-size: 35px;'>backspace</i><div class='search-input-wrap'>{% csrf_token %}<input name='dato' type='search' class='form-control' placeholder='Buscar...' autocomplete='off' value=''><button type='submit' style='display: none;'></button></div><div class='overlay'></div></form>");
+    });
+
 
 
 
 </script>
 
 
-
+<style type="text/css">
+  
+  .scroll-no {
+    overflow: hidden;
+}
+</style>
 
 </html>
 

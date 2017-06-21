@@ -18,19 +18,40 @@ app.config(function($interpolateProvider){
 app.controller('myCtrl', function($scope,$http) {
 
 
+    $scope.host = 'http://192.168.1.40/'
+
+    $scope.firstName = "John";
+    $scope.lastName = "Doe";
+
+    $http.get("/productojson/{{producto.id}}")
+    .then(function(response) {
+
+    	console.log(response.data)
+
+    	$scope.photos = response.data
+        
+    });
+
+    $scope.traeimagen=function(data){
+
+    	console.log(data)
+
+    	$scope.photoprincipal = data.detalle
+    }
+
 
 });
 </script>
 
 	<body>
 
-	{% include "header.html" %}
+	{% include "headermovil.html" %}
 			
-<div class='container-fluid'>
+<div class='container-fluid container-movil'>
 
 <br>
 
-<h6>Se encontraron {{total}} resultados  en Perú </h6>
+<h6>Se encontraron {{total}} resultados para <strong>"{{dato}}"</strong> en Perú </h6>
 
 
 
@@ -39,23 +60,22 @@ app.controller('myCtrl', function($scope,$http) {
 
 <div class="col-md-4">
 
-	  
+
 			
 		<ul class="list-group">
 
+	  	{% for c in resultados %}
 
+	 
 	    
-  		<li class="list-group-item"><span class='iconocat' style='padding-right: 15px; '><i class="material-icons">{{categoria.icon}}</i></span> <div>{{categoria.nombre}} </div><span style='float:right;padding-left: 12px;'>({{total}})</span></li>
+  		<li class="list-group-item"><a href='/filtrarcategoria/{{dato}}/{{c.categoria}}/'><span class='iconocat' style='padding-right: 4px; '><i class="material-icons">{{categoria.icon}}</i></span> {{c.categoria__nombre}} </a><span style='float:right;padding-left: 12px;'>({{c.total}})</span></li>
 
 		
 
-	    
+	    {% endfor %}
 
 	    </ul>
 	  
-	  
-	
-
 
 
 
@@ -97,32 +117,32 @@ app.controller('myCtrl', function($scope,$http) {
 
 
 
+
 <div class='row'>
-		{% for p in productos %}
+		{% for producto in productos %}
+
+
+ 
+			<div class='col-6  col-lg-3  col-sm-4 card1'>
+
+         <a class='item' href="/producto/{{producto.id}}">
+    
+
+      
+			<div class="card" >
+			  <img class="card-img-top img-fluid" src="{{host}}{{producto.photo.photo__photo}}" alt="Card image cap">
+			  <div class="card-block">
+			    <h4 class="card-title">{{producto.titulo}}</h4>
+			    <p class="card-text">{{producto.descripcion}}</p>
+			    
+			  </div>
+			</div>
 
 
 
-  			<div class='col-6  col-lg-3  col-sm-4 card1'>
-  						
-  						         <a class='item' href="/producto/{{p.id}}">
-  						    
-  						
-  						      
-  									<div class="card" >
-  									  <img class="card-img-top img-fluid" src="{{host}}{{p.detalle}}" alt="Card image cap">
-  									  <div class="card-block">
-  									    <h5 class="card-title">{{p.titulo}}</h5>
-  									    <p class="card-text">{{p.descripcion}}</p>
-  									    <h6>{{p.precio}}</h6>
-  									    
-  									  </div>
-  									</div>
-  						
-  						
-  						
-  						       </a>
-  									</div>
-						    
+       </a>
+			</div>
+     
 
 			{% endfor %}
 			

@@ -1,45 +1,70 @@
 <html ng-app="myApp" ng-controller="myCtrl">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<<<<<<< HEAD
 <body>
+=======
+<body >
+>>>>>>> 1bf196e6204f94866ab06691c235182316f14aa6
 
 {% include "headermovil.html" %}
 
 <br>
 
-<div class='container'>
+<div class='container container-movil'>
 
 
 
-<div class='row'>
+<!-- 	<div class='row'>
 
+			{% for producto in productos %}
 
+			<div class='col-6 card1'>
 
-{% for producto in productos %}
-
-
-<div class='col-6 card1'>
-
-         <a class='item' href="/producto/{{producto.id}}">
-    
-      
-			<div class="card" >
-			  <img class="card-img-top img-fluid" src="{{host}}{{producto.detalle}}" alt="Card image cap">
-			  <div class="card-block">
-			    <h4 class="card-title">{{producto.title}}</h4>
-			    <p class="card-text">{{producto.descripcion}}</p>
-			    <a class='btn btn-primary btn-sm' href='/editarproducto/{{producto.id}}'><i class="fa fa-pencil" aria-hidden="true"> </i> Editar
-</a>
-
-			    
-			  </div>
-			</div>
-       </a>
+							<a class='item' href="/producto/{{producto.id}}">
+								<div class="card" >
+									<img class="card-img-top img-fluid" src="{{host}}{{producto.detalle}}" alt="Card image cap">
+										<div class="card-block">
+										{{producto.titulo}}<br>
+										<small class="card-text">{{producto.descripcion}}</small></br><br>
+										<a class='btn btn-primary btn-sm' href='/editarproducto/{{producto.id}}'>  Editar
+										</a>
+										</div>
+								</div>
+							</a>
 			</div>
 
-{% endfor %}
+			{% endfor %}
 
 
-</div>
+	</div> -->
+
+		<div class="masonry">
+
+		  {% for producto in productos %}
+		 <a class='item' href="/producto/{{producto.id}}">
+		    
+
+		      
+		      <div class="card" >
+		        <img class="card-img-top img-fluid" src="{{host}}{{producto.detalle}}" alt="Card image cap">
+		        <div class="card-block">
+		         {{producto.titulo}}<br>
+		          <small class="card-text">{{producto.descripcion|truncatechars:70}}</small>
+		          <a class='btn btn-primary btn-sm' href='/editarproducto/{{producto.id}}'>  Editar </a>
+		          
+		        </div>
+		      </div>
+
+
+
+		       </a>
+
+		  {% endfor %}
+		</div>
+
+
+	</div>
+
 
 </div>
 

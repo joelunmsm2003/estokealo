@@ -3,6 +3,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
+
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<!-- or -->
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
+
+
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -98,6 +105,15 @@ flex: 1;
 </style>
 
 <script>
+
+
+$('.grid').masonry({
+  // options
+  itemSelector: '.grid-item',
+  columnWidth: 200
+});
+
+
 var app = angular.module('myApp', []);
 
 app.config(function($interpolateProvider){
@@ -161,7 +177,7 @@ app.controller('myCtrl', function($scope,$http) {
 
 {% include "headermovil.html" %}
 
-    <div class='container-fluid' onclick="cierranav()">
+    <div class='container-fluid container-movil' >
 
 
 <div class="fixed44" ><a href="/vender" class="btn btn-primary" > <i class="fa fa-camera" aria-hidden="true"></i> Vender</a></div>
@@ -184,6 +200,11 @@ app.controller('myCtrl', function($scope,$http) {
 
 
 
+<style type="text/css">
+  
+
+
+</style>
 
 
 
@@ -191,26 +212,26 @@ app.controller('myCtrl', function($scope,$http) {
 
 
 
-
-<div class='container-fluid' onclick="cierranav()">
-
-
-<div class='row' style='padding: 6px;'>
-    {% for producto in productos %}
+<div class='container-fluid'>
 
 
- 
-      <div class='col-6  col-lg-2 col-lg-2 col-sm-4 card1'>
 
-         <a class='item' href="/producto/{{producto.id}}">
+
+
+
+
+<div class="masonry">
+
+  {% for producto in productos %}
+ <a class='item' href="/producto/{{producto.id}}">
     
 
       
       <div class="card" >
         <img class="card-img-top img-fluid" src="{{host}}{{producto.photo.photo__photo}}" alt="Card image cap">
         <div class="card-block">
-          <h5 class="card-title">{{producto.titulo}}</h5>
-          <p class="card-text">{{producto.descripcion}}</p>
+         {{producto.titulo}}<br>
+          <small class="card-text">{{producto.descripcion|truncatechars:70}}</small>
           
         </div>
       </div>
@@ -218,12 +239,9 @@ app.controller('myCtrl', function($scope,$http) {
 
 
        </a>
-      </div>
-     
 
-      {% endfor %}
-      
-      </div>
+  {% endfor %}
+</div>
 
 
     </div>

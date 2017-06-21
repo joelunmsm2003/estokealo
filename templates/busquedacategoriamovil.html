@@ -24,11 +24,11 @@ app.controller('myCtrl', function($scope,$http) {
 
 	<body>
 
-	{% include "header.html" %}
+	{% include "headermovil.html" %}
 			
-<div class='container-fluid'>
+<div class='container-fluid container-movil'>
 
-<br>
+
 
 <h6>Se encontraron {{total}} resultados  en Perú </h6>
 
@@ -56,8 +56,7 @@ app.controller('myCtrl', function($scope,$http) {
 	  
 	
 
-
-
+<br>
 
 
 <!-- 	<div class="card">
@@ -111,9 +110,8 @@ app.controller('myCtrl', function($scope,$http) {
   									<div class="card" >
   									  <img class="card-img-top img-fluid" src="{{host}}{{p.detalle}}" alt="Card image cap">
   									  <div class="card-block">
-  									    <h5 class="card-title">{{p.titulo}}</h5>
+  									    <h4 class="card-title">{{p.titulo}}</h4>
   									    <p class="card-text">{{p.descripcion}}</p>
-  									    <h6>{{p.precio}}</h6>
   									    
   									  </div>
   									</div>

@@ -54,21 +54,23 @@ def home(request):
 
 	usuario = None
 
-	productos= Producto.objects.all()
+	productos= Producto.objects.all().order_by('-id')
 
 	for p in productos:
 
 		p.imagen1 = 'true'
 
-		print p.id,Photoproducto.objects.filter(producto_id=p.id).values('id','photo__photo').count()
-
 		if Photoproducto.objects.filter(producto_id=p.id).values('id','photo__photo').count()>0:
 
-			p.photo = Photoproducto.objects.filter(producto_id=p.id).values('id','photo__photo')[0]
+			p.photo = Photoproducto.objects.filter(producto_id=p.id).values('id','photo__photo').order_by('-id')[0]
+
+			p.photo_home = p.photo['photo__photo'].split('.')[0]+'_home.jpg'
 
 		if Photoproducto.objects.filter(producto_id=p.id).values('id','photo__photo').count()>1:
 
-			p.photo1 = Photoproducto.objects.filter(producto_id=p.id).values('id','photo__photo')[1]
+			p.photo1 = Photoproducto.objects.filter(producto_id=p.id).values('id','photo__photo').order_by('-id')[1]
+
+			p.photo_home1 = p.photo1['photo__photo'].split('.')[0]+'_home.jpg'
 
 	if user:
 
@@ -299,12 +301,25 @@ def chat(request):
 	print productos
 
 
+	current_site = get_current_site(request)
+
+	p = str(current_site).split('.')[0]
 
 	usuario= AuthUser.objects.get(id=user)
 
 
-	return render(request, 'chatmovil.html',{'host':host,'productos':productos,'usuario':usuario,'mimensaje':'active'})
+	if p=='m':	
 
+		return render(request, 'chatmovil.html',{'host':host,'productos':productos,'usuario':usuario,'mimensaje':'active'})
+
+	else:
+
+		return render(request, 'chat.html',{'host':host,'productos':productos,'usuario':usuario,'mimensaje':'active'})
+
+
+
+
+	
 # Prductos de un usuario
 
 @login_required(login_url="/autentificacion/")
@@ -365,14 +380,21 @@ def prueba(request):
 
 # Prductos de un usuario
 
+@login_required(login_url="/autentificacion")
 def detallechat(request,user,producto):
 
-	usuario= AuthUser.objects.get(id=user)
+	usuario_receptor= AuthUser.objects.get(id=user)
+
+	user_id = request.user.id
+
+	if user_id:
+
+		usuario =AuthUser.objects.get(id=user_id)
 
 
+	print 'producto',producto
 
-
-	return render(request, 'detallechat.html',{'host':host,'user':user,'producto':producto,'usuario':usuario})
+	return render(request, 'detallechat.html',{'host':host,'user':user,'producto':producto,'usuario_receptor':usuario_receptor,'usuario':usuario})
 
 
 
@@ -386,6 +408,8 @@ def productosjson(request):
 	for p in range(len(productos_)):
 
 		productos_[p]['photo'] = ValuesQuerySetToDict(Photoproducto.objects.filter(producto_id=productos_[p]['id']).values('id','photo__photo'))
+
+		print 'productos_[p][photo]',productos_[p]['photo']
 
 	productos_ = ValuesQuerySetToDict(productos_)
 
@@ -424,9 +448,39 @@ def busquedacategoria(request,categoria,subcategoria):
 
 	total = producto.count()
 
-	
 
-	return render(request, 'busquedacategoria.html',{'host':host,'productos':producto,'total':total,'categoria':cat})
+	current_site = get_current_site(request)
+
+	p = str(current_site).split('.')[0]
+
+	if p=='m':	
+
+		return render(request, 'busquedacategoriamovil.html',{'host':host,'productos':producto,'total':total,'categoria':cat})
+
+	else:	
+
+		return render(request, 'busquedacategoria.html',{'host':host,'productos':producto,'total':total,'categoria':cat})
+
+
+
+
+def detalleproducto(request,id):
+
+	producto = Producto.objects.filter(id=id).values('id','titulo','descripcion','precio','user__first_name')
+
+	for p in range(len(producto)):
+
+		print str(Photoproducto.objects.filter(producto_id=producto[p]['id']).values('photo','photo__photo')[0]['photo__photo'])
+		producto[p]['photo_producto'] = str(Photoproducto.objects.filter(producto_id=producto[p]['id']).values('photo','photo__photo')[0]['photo__photo'])
+
+
+
+	producto = ValuesQuerySetToDict(producto)
+
+	producto = simplejson.dumps(producto)
+
+	return HttpResponse(producto, content_type="application/json")
+
 
 
 
@@ -460,9 +514,15 @@ def chatin(request,id):
 
 	compradores = Chat.objects.filter(destino_id=user).values('user','user__first_name','user__username','user__photo','producto','producto__titulo','producto__precio','producto__titulo').annotate(count=Count('id'))
 
-	compradores = ValuesQuerySetToDict(compradores)
+	propios = Chat.objects.filter(user_id=user).values('user','user__first_name','user__username','user__photo','producto','producto__titulo','producto__precio','producto__titulo').annotate(count=Count('producto'))
+
+	print 'propios',propios.count(),compradores.count()
+
+	compradores = ValuesQuerySetToDict(compradores)+ValuesQuerySetToDict(propios)
 
 	compradores = simplejson.dumps(compradores)
+
+	print 'Compradores-..............',compradores
 
 	return HttpResponse(compradores, content_type="application/json")
 
@@ -483,7 +543,7 @@ def listamensajes(request,user,producto):
 
 	# Mensajes que le llegan al dueno del producto
 
-	mensajes = Chat.objects.filter(destino_id=destino,user_id=user,producto_id=producto).values('user__first_name','id','producto','producto__precio','destino','user','destino__username','user__username','user__photo','mensaje','producto__titulo','producto__categoria')
+	mensajes = Chat.objects.filter(destino_id=destino,user_id=user,producto_id=producto).values('user__first_name','id','producto','producto__precio','destino','user','destino__username','user__username','user__photo','mensaje','producto__titulo','producto__categoria','producto__user__first_name')
 
 	fmt = '%Y-%m-%d %H:%M:%S'
 
@@ -497,7 +557,7 @@ def listamensajes(request,user,producto):
 		
 	# Mensajes que envia el dueno del producto al interesado
 
-	mensajes1 = Chat.objects.filter(destino_id=user,user_id=destino,producto_id=producto).values('user__first_name','id','producto','producto__precio','destino','user','destino__username','user__username','user__photo','mensaje','producto__titulo','producto__categoria')
+	mensajes1 = Chat.objects.filter(destino_id=user,user_id=destino,producto_id=producto).values('user__first_name','id','producto','producto__precio','destino','user','destino__username','user__username','user__photo','mensaje','producto__titulo','producto__categoria','producto__user__first_name')
 
 	fmt = '%Y-%m-%d %H:%M:%S'
 
@@ -588,9 +648,19 @@ def busqueda(request):
 
 		resultados= Producto.objects.filter(descripcion__contains=dato).values('categoria','categoria__nombre','categoria__icon').annotate(total=Count('categoria'))
 
+		current_site = get_current_site(request)
+
+		p = str(current_site).split('.')[0]
+
+		if p=='m':	
+
+			return render(request, 'busquedamovil.html',{'host':host,'categoria':categoria,'productos':productos,'total':total,'dato':dato,'resultados':resultados})
+
+		else:	
+
+			return render(request, 'busqueda.html',{'host':host,'categoria':categoria,'productos':productos,'total':total,'dato':dato,'resultados':resultados})
 
 			
-		return render(request, 'busqueda.html',{'host':host,'categoria':categoria,'productos':productos,'total':total,'dato':dato,'resultados':resultados})
 
 
 def productojson(request,id):
@@ -685,8 +755,6 @@ def enviamensaje_perfil(request):
 
 		user = request.user.id
 
-
-
 		print 'json.loads(request.body)',json.loads(request.body)
 
 		data = json.loads(request.body)['dato']
@@ -695,11 +763,14 @@ def enviamensaje_perfil(request):
 
 		# print 'Mesnaje.....',request.POST
 
+		data = json.loads(request.body)
+
+
 		fecha = datetime.today()-timedelta(hours=5)
 
 		producto = data['producto']
 
-		mensaje = data['mensaje1x']
+		mensaje = data['mensaje1']
 
 		receptor = data['user']
 
@@ -728,7 +799,7 @@ def uploadphoto(request):
 
 		caption = request.FILES['file']
 
-
+		#Guarda foto
 
 		Photo(photo=caption).save()
 
@@ -748,50 +819,73 @@ def uploadphoto(request):
 
 		photo = Photo.objects.filter(id=id_photo).values('id','photo')
 
-		if int(height) > 500:
+		# Ruta para la galeria
 
-			img = resizeimage.resize_cover(img, [1000, 500])
+		caption_galeria = caption.split('.jpg')[0]+'_thumbail.jpg'
 
-			img.save(caption, img.format)
+		# Guarda galery
 
-			fd_img.close()
+		fd_img = open(caption, 'r')
 
-			# Para la galeria
+		img = Image.open(fd_img)
 
-			caption_galeria = caption.split('.jpg')[0]+'_thumbail.jpg'
+		img = resizeimage.resize_cover(img, [height, height])
 
-			fd_img = open(caption, 'r')
+		img.save(caption_galeria, img.format)
 
-			img = Image.open(fd_img)
+		fd_img.close()
+
+		# Ruta para el home
+
+		caption_home = caption.split('.jpg')[0]+'_home.jpg'
+
+		fd_img = open(caption, 'r')
+
+		img = Image.open(fd_img)
+
+		img = resizeimage.resize_cover(img, [250, 250])
+
+		img.save(caption_home, img.format)
+
+		fd_img.close()
 
 
+		# Ruta para la galeria
 
-			img = resizeimage.resize_cover(img, [500, 500])
+		caption_galeria = caption.split('.jpg')[0]+'_thumbail.jpg'
 
-			img.save(caption_galeria, img.format)
 
-			fd_img.close()
+		# Guarda galery
 
-			#para el home
+		fd_img = open(caption, 'r')
 
-			fd_img = open(caption, 'r')
+		img = Image.open(fd_img)
 
-			img = Image.open(fd_img)
+		img = resizeimage.resize_cover(img, [500, 500])
 
-			img = resizeimage.resize_cover(img, [250, 250])
+		img.save(caption_galeria, img.format)
 
-			img.save(caption, img.format)
-
-			fd_img.close()
+		fd_img.close()
 
 		photo = ValuesQuerySetToDict(photo)
 
 		data_json = simplejson.dumps(photo)
 
-
-
 		return HttpResponse(data_json, content_type="application/json")
 
+
+		# else:
+
+		# 	photo =simplejson.dumps('Error')
+
+		# 	return HttpResponse(photo, content_type="application/json")
+
+
+
+
+
+
+		
 
 @csrf_exempt
 def uploadvideo(request):

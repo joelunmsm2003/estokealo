@@ -177,7 +177,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 </script>
 
 
-<div class='container'>
+<div class='container '>
 
 {% include "headeruser.html" %}
 
@@ -195,13 +195,13 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 				<div class='row chatperfil' ng-click='traemensajes(c)' ng-if='c.user__username!="{{usuario.username}}"'>
 
-					<div class="col-4">
+					<div class="col-2">
 
 					<img src="{{host}}{[{c.user__photo}]}" class='img-fluid    img-rounded'>
 					
 					</div>
 
-					<div class="col-8" >
+					<div class="col-10" >
 
 
 					<small>{[{c.user__first_name}]}</small><br>
@@ -235,7 +235,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 <div class='col-lg-8 col-md-8'>
 
 
-	<div class='row no-gutters' style='background: #234;color:#fff;padding: 4px;'>
+	<div class='row no-gutters cabecerachat'>
 
 
 
@@ -290,10 +290,10 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 							
 							<div class="col-10" style='text-align:right;' ng-if='key!=mensajes.length-1'>
 
-								<div class="talk-bubble tri-right round border right-top">
+								<div class="talk-bubble_w tri-right round border right-top">
 								  <div class="talktext ">
-								   <small>{[{m.fecha}]}</small>
-								    <p>{[{m.mensaje}]}</p>
+								 
+								    {[{m.mensaje}]}
 
 
 
@@ -307,10 +307,10 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 							<div class="col-10" style='text-align:right;' ng-if='key==mensajes.length-1'>
 
-								<div class="talk-bubble tri-right round border right-top ultimo">
+								<div class="talk-bubble_w tri-right round border right-top ultimo">
 								  <div class="talktext ">
-								   <small>{[{m.fecha}]}</small>
-								    <p>{[{m.mensaje}]}</p>
+								   
+								    {[{m.mensaje}]}
 
 								  </div>
 								  
@@ -388,10 +388,10 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 								<div class="col-10" ng-if='key!=mensajes.length-1'>
 
-									<div class="talk-bubble_1 tri-right_1 left-top">
+									<div class="talk-bubble_1_w tri-right_1 left-top">
 									<div class="talktext ">
-									<small>{[{m.fecha}]}</small>
-									<p>{[{m.mensaje}]}</p>
+									<!-- <small>{[{m.fecha}]}</small> -->
+									{[{m.mensaje}]}
 
 									</div>
 									</div>
@@ -399,10 +399,10 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 								<div class="col-10" ng-if='key==mensajes.length-1'>
 
-									<div class="talk-bubble_1 tri-right_1 left-top ultimo">
+									<div class="talk-bubble_1_w tri-right_1 left-top ultimo">
 									<div class="talktext ">
-									<small>{[{m.fecha}]}</small>
-									<p>{[{m.mensaje}]}</p>
+									
+									{[{m.mensaje}]}
 
 									</div>
 									</div>

@@ -9,6 +9,7 @@
   // No need to set list-style: none; since .list-group-item is block level
   padding-left: 0; // reset padding because ul and ol
   margin-bottom: 0;
+  //font-family: $medium;
 }
 
 
@@ -54,6 +55,7 @@
   margin-bottom: -$list-group-border-width;
   background-color: $list-group-bg;
   border: $list-group-border-width solid $list-group-border-color;
+  color:$white;
 
   &:first-child {
     @include border-top-radius($list-group-border-radius);
@@ -66,6 +68,7 @@
 
   @include hover-focus {
     text-decoration: none;
+    
   }
 
   &.disabled,

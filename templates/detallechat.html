@@ -12,12 +12,51 @@
 
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
+
+<style type="text/css">
+	
+	.chatin{
+
+    overflow-y: auto;
+    height: 20em;
+	}
+
+	.titulomensaje{
+
+		background: #234;
+    padding: 6px;
+    color: #fff;
+
+	}
+
+	.chatperfil{
+
+		padding: 12px;
+		border: 1px solid #0275d8;
+	}
+
+	.useractual{
+
+		padding: 2px;
+	}
+
+	.chatbody{
+
+		background: #c69f5d;
+    color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    padding-top: 8px;
+	}
+
+</style>
+
 <body>
 
 {% include "headermovil.html" %}
 
 
-<br>
+
 
 
 
@@ -42,14 +81,10 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
     $scope.firstName = "John";
     $scope.lastName = "Doe";
 
-    $http.get("/chatin/{{usuario.id}}")
-    .then(function(response) {
 
-    	console.log('chatin...',response)
+    $scope.id_producto ='{{producto}}'
 
-    	$scope.chatin = response.data
-        
-    });
+
 
 	function doStuff() {
 
@@ -60,16 +95,28 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 	}
 
+
+
+
 	$http.get("/listamensajes/"+'{{user}}'+'/'+'{{producto}}')
 
 	.then(function(response) {
 
-	console.log('chatin...',response)
+	
 
 	$scope.mensajes = response.data
 
-	$scope.mensajestitulo = response.data[0]
 
+
+	console.log('$scope.mensajestitulo...',$scope.mensajestitulo)
+
+	});
+
+	$http.get("/detalleproducto/"+'{{producto}}')
+
+	.then(function(response) {
+
+	$scope.mensajestitulo = response.data[0]
 
 	});
 
@@ -106,12 +153,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 		.then(function(response) {
 
-		console.log('chatin...',response)
-
-		$scope.mensajes = response.data
-
-		$scope.mensajestitulo = response.data[0]
-
+		$scope.mensajes = response.data	
 
 		});
 
@@ -158,11 +200,11 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
   
 
-    $scope.enviarchat = function (chat,userenvia,mensaje1) {
+    $scope.enviarchat = function (producto,userenvia,mensaje1) {
 
 
-    	chat.user= userenvia
-    	chat.mensaje1x = mensaje1
+ 
+
 
     	console.log('he',$(".scroll").height())
 
@@ -175,7 +217,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
   
 		$(".chatin").scrollTop(545)
 
-         var todo={dato: chat}
+         var todo={producto:producto,user:userenvia,mensaje1:mensaje1}
 
 
         $http({
@@ -206,7 +248,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 
 
-<div class='container-fluid' onclick="cierranav()" >
+<div class='container-fluid container-movil' >
 
 <!-- {% include "headeruser.html" %}
  -->
@@ -215,7 +257,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 
 
-	<div class='row' class='detallechatproducto'>
+	<div class='row' class='detallechatproducto' style='background: #1b9f94; color:#fff;'>
 
 
 
@@ -229,8 +271,8 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 		<div class='col-8'>
 	
 		<small>{[{mensajestitulo.user__first_name}]}</small><br>
-		<small>Producto {[{mensajestitulo.producto__titulo}]}</small><br>
-		{[{mensajestitulo.producto__descripcion}]}
+		{[{mensajestitulo.titulo}]}<br>
+		<small>S/.{[{mensajestitulo.precio}]}</small>
 		
 
 
@@ -248,7 +290,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 	
 			
-				<div class='useractual' ng-if='m.user__username!="{{usuario.username}}"'> 
+				<div class='useractual' ng-if='m.user__username!="{{usuario_receptor.username}}"'> 
 
 			
 
@@ -296,7 +338,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 				</div>		
 
 
-				<div class='useractual' ng-if='m.user__username=="{{usuario.username}}"'>
+				<div class='useractual' ng-if='m.user__username=="{{usuario_receptor.username}}"'>
 
 						<div class="row no-gutters">
 							
@@ -353,13 +395,13 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 			 	<form>
 
 			 	<div class="row no-gutters">
-			 		<div class="col-10"><input type="hidden" class="form-control" id="fono" ng-model = 'mensajestitulo.producto'  placeholder="producto" >
+			 		<div class="col-10"><input type="hidden" class="form-control" id="fono" ng-model = 'id_producto'  placeholder="producto" >
 					    <input type="hidden" class="form-control" id="fono" ng-model = 'userenvia'  placeholder="user" >
 					    <input type="text" class="form-control" id="fono" ng-model = 'mensaje1'  placeholder="Mensaje..." >
 					</div>
 
 			 		<div class="col-2">
-			 			<button ng-click='enviarchat(mensajestitulo,userenvia,mensaje1)' class="btn btn-primary"> <i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+			 			<button ng-click='enviarchat(id_producto,userenvia,mensaje1)' class="btn btn-primary"> <i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
 			 		</div>
 			 	</div>
 			 
@@ -381,43 +423,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 </div>
 
-<style type="text/css">
-	
-	.chatin{
 
-    overflow-y: auto;
-    height: 20em;
-	}
-
-	.titulomensaje{
-
-		background: #234;
-    padding: 6px;
-    color: #fff;
-
-	}
-
-	.chatperfil{
-
-		padding: 12px;
-		border: 1px solid #0275d8;
-	}
-
-	.useractual{
-
-		padding: 2px;
-	}
-
-	.chatbody{
-
-		background: #c69f5d;
-    color: #fff;
-    border-radius: 10px;
-    padding: 15px;
-    padding-top: 8px;
-	}
-
-</style>
 
 
 

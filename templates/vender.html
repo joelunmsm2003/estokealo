@@ -78,13 +78,21 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     .success(function(data){
 
 
-      console.log(data)
+      if (data=='Error'){
+
+        $scope.statusimagen ='Ups... tu foto es muy pequeña subir una foto de mayor tamaño'
+      }
+      else{
+
 
       $scope.image = data[0].photo
 
       $scope.enviaventa.image  = data[0].id
 
       $scope.statusimagen =''
+
+      }
+
 
 
     })
@@ -149,11 +157,21 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
       console.log(data)
 
-      $scope.image_1 = data[0].photo
+      if (data=='Error'){
 
-      $scope.enviaventa.image_1  = data[0].id
+        $scope.statusimagen1 ='Ups... tu foto es muy pequeña subir una foto de mayor tamaño'
+      }
+      else{
 
-      $scope.statusimagen1 =''
+          $scope.image_1 = data[0].photo
+
+          $scope.enviaventa.image_1  = data[0].id
+
+          $scope.statusimagen1 =''
+
+
+      }
+
 
 
     })
@@ -197,13 +215,22 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     .success(function(data){
 
 
-      console.log(data)
+      if (data=='Error'){
 
-      $scope.image_2 = data[0].photo
+        $scope.statusimagen2 ='Ups... tu foto es muy pequeña subir una foto de mayor tamaño'
+      }
+      else{
 
-      $scope.enviaventa.image_2  = data[0].id
+          $scope.image_2 = data[0].photo
 
-      $scope.statusimagen2 =''
+          $scope.enviaventa.image_2  = data[0].id
+
+          $scope.statusimagen2 =''
+
+
+      }
+
+
 
 
     })
@@ -217,7 +244,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     $scope.currentFile = element.files[0];
 
-    console.log('file...',$scope.currentFile)
+
 
     var reader = new FileReader();
 
@@ -244,14 +271,20 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     .success(function(data){
 
+      if (data=='Error'){
 
-      console.log(data)
+        $scope.statusimagen3 ='Ups... tu foto es muy pequeña subir una foto de mayor tamaño'
+      }
+      else{
 
-      $scope.image_3 = data[0].photo
+        $scope.image_3 = data[0].photo
 
-      $scope.enviaventa.image_3  = data[0].id
+        $scope.enviaventa.image_3  = data[0].id
 
-      $scope.statusimagen3 =''
+        $scope.statusimagen3 =''
+
+      }
+
 
 
     })
@@ -292,14 +325,21 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     .success(function(data){
 
+      if (data=='Error'){
 
-      console.log(data)
+        $scope.statusimagen4 ='Ups... tu foto es muy pequeña subir una foto de mayor tamaño'
+      }
+      else{
 
       $scope.image_4 = data[0].photo
 
       $scope.enviaventa.image_4  = data[0].id
 
       $scope.statusimagen4 =''
+
+      }
+
+
 
 
     })
@@ -341,13 +381,21 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     .success(function(data){
 
 
-      console.log(data)
+       if (data=='Error'){
 
-      $scope.image_5 = data[0].photo
+        $scope.statusimagen5 ='Ups... tu foto es muy pequeña subir una foto de mayor tamaño'
+      }
+      else{
 
-      $scope.enviaventa.image_5  = data[0].id
+        $scope.image_5 = data[0].photo
 
-      $scope.statusimagen5 =''
+        $scope.enviaventa.image_5  = data[0].id
+
+        $scope.statusimagen5 =''
+
+      }
+
+      
 
 
     })
@@ -389,13 +437,23 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     .success(function(data){
 
 
-      console.log(data)
+      if (data=='Error'){
 
-      $scope.image_6 = data[0].photo
+        $scope.statusimagen6 ='Ups... tu foto es muy pequeña subir una foto de mayor tamaño'
+      }
 
-      $scope.enviaventa.image_6  = data[0].id
+      else{
 
-      $scope.statusimagen5 =''
+              $scope.image_6 = data[0].photo
+
+          $scope.enviaventa.image_6  = data[0].id
+
+          $scope.statusimagen5 =''
+
+
+      }
+
+
 
 
     })
@@ -538,8 +596,9 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
 {% include "header.html" %}
 
-<div class="container">
 
+
+<div class="container">
 
 
 
@@ -550,51 +609,66 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
   <form ng-submit='vender(enviaventa)'>
   {% csrf_token %}
 
-    <div class="form-group">
       
-
-
       <div class="row no-gutters">
 
-      <div class="col-6" style='padding: 12px;'>
+              <div class="col-4" style='padding: 12px;'>
 
-      <label for="email">Categoria:</label>
-        
-          <ul class="list-group" >
+                  <label for="email">Categoria:</label>
+                
+                  <ul class="list-group" >
 
-          {% for c in categoria %}
+                  {% for c in categoria %}
 
-          <li  class="list-group-item" ng-class="{'activo': datacat==={{c.id}}}" href="/hotel/{{rows.id}}" ng-click='traesubcategorias({{c.id}})'><span class='iconocat' style='padding-right: 12px; '><i class="material-icons">{{c.icon}}</i></span>  {{c.nombre}} </a></li>
+    
+
+                  <li  class="list-group-item" ng-class="{'activo': datacat==={{c.id}}}" href="/hotel/{{rows.id}}" ng-click='traesubcategorias({{c.id}})'><span class='iconocat' style='padding-right: 12px; '><i class="material-icons">{{c.icon}}</i></span>  {{c.nombre}} </a></li>
 
 
-          {% endfor %}
+                  {% endfor %}
 
-          </ul>
+                  </ul>
 
-      </div>
+              </div>
 
-      <div class="col-6" style='padding: 12px;'>
+              <div class="col-4" style='padding: 12px;'>
 
-      <label for="email">Subcategoria:</label>
-        
-              <ul class="list-group" >
+                      <label for="email">Subcategoria:</label>
+            
+                      <ul class="list-group" >
 
-              
-              
-              <li ng-repeat="c in subcategorias" ng-click='enviaventa.subcategoria=c.id;enviasuv(c.id)' ng-class="{'activo': datasub===c.id}" class="list-group-item"><a > {[{c.nombre}]} </a></li>
+                      <li ng-repeat="c in subcategorias" ng-click='enviaventa.subcategoria=c.id;enviasuv(c.id)' ng-class="{'activo': datasub===c.id}" class="list-group-item"><a > {[{c.nombre}]} </a></li>
 
-              
+                      </ul>
 
-              </ul>
+                   
 
-           
+              </div>
 
-      </div>
+              <div class="col-4" style='padding: 12px;'>
+
+                <div class="form-group" >
+                <label for="pwd">Titulo</label>
+                <input type="text" class="form-control" ng-model='enviaventa.titulo' name = 'titulo' required id="pwd"  placeholder="Ingrese titulo">
+              </div>
+
+              <div class="form-group">
+                <label for="pwd">Descripcion</label>
+                <textarea type="text" class="form-control" ng-model='enviaventa.descripcion'  name='descripcion' rows='5' required id="pwd"  placeholder="Agregar descripcion"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="pwd">Precio</label>
+                S/.<input type="number" class="form-control" ng-model='enviaventa.precio' name = 'precio' required id="pwd"  placeholder="Ingrese precio">
+              </div>
+
+
+
+              </div>
 
 
       
 
-      </div>
 
       
 
@@ -603,21 +677,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     </div>
 
 
-    <div class="form-group" >
-      <label for="pwd">Titulo</label>
-      <input type="text" class="form-control" ng-model='enviaventa.titulo' name = 'titulo' required id="pwd"  placeholder="Ingrese titulo">
-    </div>
-
-    <div class="form-group">
-      <label for="pwd">Descripcion</label>
-      <textarea type="text" class="form-control" ng-model='enviaventa.descripcion'  name='descripcion' rows='5' required id="pwd"  placeholder="Agregar descripcion"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label for="pwd">Precio</label>
-      S/.<input type="number" class="form-control" ng-model='enviaventa.precio' name = 'precio' required id="pwd"  placeholder="Ingrese precio">
-    </div>
-
+  
 
 
     <div class='form-group'>
@@ -630,7 +690,9 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
 
 
-    <img height='200px'  src="{{host}}{[{image}]}" class='img-fluid'>
+
+    <div ng-f='image'></div>
+    <img  height='200px'  src="{{host}}{[{image}]}" class='img-fluid'>
 
     
     <small>{[{statusimagen}]}</small>
@@ -650,7 +712,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
             <div class="col-md-4">
 
 
-            <img height='200px'  src="{{host}}{[{image_1}]}" class='img-fluid'>
+            <img  height='200px'  src="{{host}}{[{image_1}]}" class='img-fluid'>
 
             <small>{[{statusimagen1}]}</small>
 
@@ -770,46 +832,9 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
 <style type="text/css">
   
+  .activo{
 
-
-[type='file'] {
-  -webkit-appearance: none;
-    color:#fff;
-   font-family: Open;
-}
-[type='file']::-webkit-file-upload-button {
-    border-radius: 4px;
-    border: 0;
-    background: #ffffff;
-    color: #00a1e1;
-    border: 1px solid #00a1e1;
-    padding: 8px;
-    font-family: Open Sans;
-    font-size: 15px;
-    cursor: pointer;
-
-
-
-}
-[type='file']::-webkit-file-upload-button:active, [type='file']::-webkit-file-upload-button:focus {
-  outline: 0;
-}
-
-input[type="file"] {
-    display: block;
-    opacity: 1.4;
-    
-}
-
-
-.iconocat:hover{
-
-  color: #fff;
-}
-
-.activo{
-
-  background: #21587f;
+  background: #1ea095;
   color:#fff;
 }
 
@@ -819,9 +844,8 @@ input[type="file"] {
   background: #fff;
   color:#000;
 }
-     
-
 </style>
+
 
 <script type="text/javascript">
     
@@ -835,3 +859,33 @@ $('html,body').animate({scrollTop: $(strAncla).offset().top-100}, 2000);
 
     
 </script>
+
+<li class="image-cont trackMe first-img" data-tracking="Posting-ClickUploadPicture" data-input="file0">
+    <div class="image icons-material icon-material-addpicture"></div>
+    <div class="overlay-image"></div>
+    <span class="remove icons-material icon-material-close"></span>
+</li>
+
+
+
+<style type="text/css">
+    
+    .image-cont {
+    border: 1px dashed #607d8b;
+    display: inline-block;
+    height: 74px;
+    line-height: 75px;
+    margin: 0 0 10px 10px;
+    opacity: .6;
+    position: relative;
+    text-align: center;
+    vertical-align: top;
+    width: 76px;
+    -webkit-transition: opacity 1s ease-out;
+    -moz-transition: opacity 1s ease-out;
+    -ms-transition: opacity 1s ease-out;
+    -o-transition: opacity 1s ease-out;
+    transition: opacity 1s ease-out;
+}
+
+</style>
