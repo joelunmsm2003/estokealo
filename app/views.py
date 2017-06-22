@@ -782,6 +782,19 @@ def enviamensaje_perfil(request):
 
 
 @csrf_exempt
+def noti(request):
+
+	if request.method == 'POST':
+
+
+
+		print 'json.loads(request.body)',json.loads(request.body)
+
+		data = simplejson.dumps('subcategorias')
+
+	return HttpResponse(data, content_type="application/json")
+
+@csrf_exempt
 def traesubcategorias(request,categoria):
 
 	subcategorias = Subcategoria.objects.filter(categoria_id=categoria).values('id','nombre')
