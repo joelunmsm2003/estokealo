@@ -158,4 +158,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-host = 'http://estokealo.com:8080/'
+host = 'http://localhost/'

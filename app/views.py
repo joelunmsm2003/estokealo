@@ -842,7 +842,7 @@ def uploadphoto(request):
 
 		img = Image.open(fd_img)
 
-		img = resizeimage.resize_cover(img, [height, height])
+		img = resizeimage.resize_cover(img, [width, width])
 
 		img.save(caption_galeria, img.format)
 
@@ -867,6 +867,8 @@ def uploadphoto(request):
 
 		caption_galeria = caption.split('.jpg')[0]+'_thumbail.jpg'
 
+		print 'caption_galeria',caption_galeria.split('/var/www/html/')[1]
+
 
 		# Guarda galery
 
@@ -874,17 +876,39 @@ def uploadphoto(request):
 
 		img = Image.open(fd_img)
 
-		img = resizeimage.resize_cover(img, [500, 500])
+		if int(height) < 500 :
 
-		img.save(caption_galeria, img.format)
+			print 'Enano'
 
-		fd_img.close()
+			data_json = simplejson.dumps('Enano')
 
-		photo = ValuesQuerySetToDict(photo)
+			return HttpResponse(data_json, content_type="application/json")
 
-		data_json = simplejson.dumps(photo)
 
-		return HttpResponse(data_json, content_type="application/json")
+
+		else:
+
+			img = resizeimage.resize_cover(img, [500, 500])
+
+
+
+			img.save(caption_galeria, img.format)
+
+			fd_img.close()
+
+			
+
+			
+
+			photo = ValuesQuerySetToDict(photo)
+
+			photo[0]['photo'] = caption_galeria.split('/var/www/html/')[1]
+
+			print 'pppppppppppppppp',photo[0]
+
+			data_json = simplejson.dumps(photo)
+
+			return HttpResponse(data_json, content_type="application/json")
 
 
 		# else:
