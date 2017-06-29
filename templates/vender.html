@@ -616,13 +616,16 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
 
 
-<div class="container">
+<div class="container" style='margin-top:6em;'>
 
 
 
 <div class='panel'>
 
-<div class='panel-body'>
+<div class='panel-body' style='background: #fff;
+    padding: 58px;
+    padding-top: 33px;
+    border: 1px solid #d9d9d9;'>
 
   <form ng-submit='vender(enviaventa)'>
   {% csrf_token %}
