@@ -759,12 +759,7 @@ def enviamensaje_perfil(request):
 
 		data = json.loads(request.body)['dato']
 
-		#{u'user__username': u'carla', u'destino__username': u'ander', u'producto': 55, u'mensaje': u'Hola Ander me interesa tu producto', u'producto__titulo': u'Iphone 7', u'photo_producto': u'static/iphone-8-hajek-2.jpg', u'destino': 3, u'user': 1, u'mensaje1': u'545', u'producto__precio': 121, u'producto__categoria': 4, u'user__photo': u'static/notachica_TZMPAOL.jpg'}
-
-		# print 'Mesnaje.....',request.POST
-
 		data = json.loads(request.body)
-
 
 		fecha = datetime.today()-timedelta(hours=5)
 
@@ -780,6 +775,31 @@ def enviamensaje_perfil(request):
 
 	return HttpResponse(data, content_type="application/json")
 
+@csrf_exempt
+def enviamensaje_perfil_web(request):
+
+	if request.method == 'POST':
+
+		user = request.user.id
+
+
+		data = json.loads(request.body)['dato']
+
+
+
+		fecha = datetime.today()-timedelta(hours=5)
+
+		producto = data['producto']
+
+		mensaje = data['mensaje1x']
+
+		receptor = data['user']
+
+		Chat(user_id=user,destino_id=receptor,mensaje=mensaje,producto_id=producto,fecha=fecha).save()
+
+		data = simplejson.dumps(data)
+
+	return HttpResponse(data, content_type="application/json")
 
 @csrf_exempt
 def noti(request):

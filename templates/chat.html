@@ -31,37 +31,25 @@ app.config(function($interpolateProvider){
 app.controller('myCtrl', function($scope,$http,$cookies) {
 
 
-    $scope.host = 'http://192.168.1.40/'
 
-    $scope.firstName = "John";
-    $scope.lastName = "Doe";
 
-    $http.get("/chatin/{{usuario.id}}")
-    .then(function(response) {
 
-    	console.log('chatin...',response)
-
-    	$scope.chatin = response.data
-        
-    });
-
-        function doStuff() {
+    function doStuff() {
 
     $("#chatin").scrollTop(100000)
 
     $('.ultimo').addClass('animated zoomIn');
-
-
-}
+     }
 
 
     $scope.traemensajes=function(data){
+
+    	console.log(data)
 
 
 
     $("#chatin").scrollTop(100000)
 
-    	console.log(data)
 
     	$scope.receptor = data.id
 
@@ -74,7 +62,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 			$http.get("/listamensajes/"+data.user+'/'+data.producto)
 			.then(function(response) {
 
-			console.log('chatin...',response)
+			
 
 			$scope.mensajes = response.data
 
@@ -123,6 +111,21 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
     }
 
 
+     $http.get("/chatin/{{usuario.id}}")
+
+    .then(function(response) {
+
+    	console.log('chatin...',response)
+
+    	$scope.chatin = response.data
+
+    	$scope.chatin_1 =$scope.chatin[0] 
+
+
+    	$scope.traemensajes($scope.chatin_1)
+        
+    });
+
 
 
 
@@ -151,7 +154,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 
         $http({
-        url: "/enviamensaje_perfil/",
+        url: "/enviamensaje_perfil_web/",
         data: todo,
         method: 'POST',
         headers: {
@@ -184,52 +187,43 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 <br>
 
 
+	
+
 <div class='row'>
 
 <div class="col-lg-4 col-md-4 ">
-	
-	<div class="row">
-			
-			<div class="col-md-12" ng-repeat="c in chatin">
-				
-
-				<div class='row chatperfil' ng-click='traemensajes(c)' ng-if='c.user__username!="{{usuario.username}}"'>
-
-					<div class="col-2">
-
-					<img src="{{host}}{[{c.user__photo}]}" class='img-fluid    img-rounded'>
-					
-					</div>
-
-					<div class="col-10" >
 
 
-					<small>{[{c.user__first_name}]}</small><br>
+		<div class='chatperfil' ng-repeat="c in chatin" ng-if='c.user__username!="{{usuario.username}}"'>
+
+				<div class="card" ng-click='traemensajes(c)' >
+				      <div class="row ">
+				        <div class="col-md-3">
+				            <img src="{{host}}{[{c.user__photo}]}" class='img-fluid    img-rounded'>
+				          </div>
+				          <div class="col-md-9 px-3">
+				            <div class="px-3">
+				            
+				              				<small>{[{c.user__first_name}]}</small><br>
 
 					<small>{[{c.producto__titulo}]}</small><br>
 
 					<small>S/. {[{c.producto__precio}]}</small><br>
+				           
+				            </div>
+				          </div>
 
-				
-
-
-					</div>
-
-
+				        </div>
 				</div>
 
-			
-				
-			
+		</div>
+    
 
 
-			</div>
-			
-
-	</div>
+    </div>
 
 
-</div>
+
 
 
 <div class='col-lg-8 col-md-8'>
@@ -267,7 +261,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 		</div>
 
-<div class='row chatin' id='chatin'>
+<div class='row no-gutters chatin' id='chatin'>
 
 
 
@@ -433,41 +427,31 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 
 
+			 	<div class="row no-gutters">
+			 	
+			 		
+					<div class="col-11">  
+					<form>
+					<input type="hidden" class="form-control" id="fono" ng-model = 'mensajestitulo.producto'  placeholder="producto" >
+					<input type="hidden" class="form-control" id="fono" ng-model = 'userenvia'  placeholder="user" >
+					<input type="text" required class="form-control" id="fono" ng-model = 'mensaje1'  placeholder="Mensaje..." >
+					</div>
+			 		<div class="col-1">
+			 			<button ng-click='enviarchat(mensajestitulo,userenvia,mensaje1)' class="btn btn-primary"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
 
+			 		</form>
+			  
+			 		</div>
 
-	<div class='row'>
-
-	<div class="col-md-12">
-		<!-- 
-			<form action='/enviamensaje_perfil/' method='POST'>
-
-			  {% csrf_token %}
-
-
-			<input type="hidden" class='form-control' name='producto' value="{[{mensajestitulo.producto}]}" >
-			<input type="hidden" class='form-control' name='receptor' value="{[{mensajestitulo.user}]}" >
-			<input type="text" class='form-control' name='mensaje'>
-
-			<button type="submit" class="btn btn-primary btn-md ">Enviar mensaje</button>
-
-			 -->
-
-			 	<form>
+			 	
+			 	</div>
 			 
-			    <input type="hidden" class="form-control" id="fono" ng-model = 'mensajestitulo.producto'  placeholder="producto" >
-			    <input type="hidden" class="form-control" id="fono" ng-model = 'userenvia'  placeholder="user" >
-			    <input type="text" class="form-control" id="fono" ng-model = 'mensaje1'  placeholder="Mensaje..." >
-			
 			  
-			<button ng-click='enviarchat(mensajestitulo,userenvia,mensaje1)' class="btn btn-default">Enviar mensaje</button>
 			  
-			</form>
 
 
-	</div>
 
 
-	</div>
 
 
 
@@ -481,40 +465,6 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 
 </div>
-
-<style type="text/css">
-	
-	.chatin{
-
-    overflow-y: auto;
-    height: 20em;
-	}
-
-	.titulomensaje{
-
-		background: #234;
-    padding: 6px;
-    color: #fff;
-
-	}
-
-
-	.useractual{
-
-		padding: 2px;
-	}
-
-	.chatbody{
-
-		background: #c69f5d;
-    color: #fff;
-    border-radius: 10px;
-    padding: 15px;
-    padding-top: 8px;
-	}
-
-</style>
-
 
 
 

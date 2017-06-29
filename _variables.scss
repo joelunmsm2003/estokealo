@@ -110,7 +110,7 @@ $purple: #613d7c !default;
 
 // Create grayscale
 $gray-dark:                 $green !default;
-$gray:                      #464a4c !default;
+$gray:                      #eceff1 !default;
 $gray-light:                #636c72 !default;
 $gray-lighter:              #eceeef !default;
 $gray-lightest:             #f7f7f9 !default;
@@ -143,7 +143,7 @@ $enable-print-styles:       true !default;
 // variables. Mostly focused on spacing.
 // You can add more entries to the $spacers map, should you need more variation.
 
-$spacer:   1rem !default;
+$spacer:   .1rem !default;
 $spacer-x: $spacer !default;
 $spacer-y: $spacer !default;
 $spacers: (
@@ -186,8 +186,8 @@ $sizes: (
 //
 // Settings for the `<body>` element.
 
-$body-bg:       $white !default;
-$body-color:    $blue !default;
+$body-bg:       $gray !default;
+$body-color:    $black !default;
 $inverse-bg:    $gray-dark !default;
 $inverse-color: $gray-lighter !default;
 
@@ -496,7 +496,7 @@ $input-line-height:              1.3 !default;
 $input-bg:                       $white !default;
 $input-bg-disabled:              $gray-lighter !default;
 
-$input-color:                    $gray !default;
+$input-color:                    $black !default;
 $input-border-color:             rgba($black,.15) !default;
 $input-btn-border-width:         $border-width !default; // For form controls and buttons
 $input-box-shadow:               inset 0 1px 1px rgba($black,.075) !default;
