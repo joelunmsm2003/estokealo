@@ -47,6 +47,8 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     $scope.photo_3 =true
     $scope.photo_4 =true
 
+    $scope.muestrasubca = false
+
     $scope.setFile = function(element) {
 
     $scope.photo_1 = false
@@ -586,6 +588,8 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
                 $scope.subcategorias = response.data
 
+                $scope.muestrasubca = true
+
 
 
                   
@@ -656,7 +660,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
                       <label for="email">Subcategoria:</label>
             
-                      <ul class="list-group" >
+                      <ul class="list-group" ng-show='muestrasubca' >
 
                       <li ng-repeat="c in subcategorias" ng-click='enviaventa.subcategoria=c.id;enviasuv(c.id)' ng-class="{'activo': datasub===c.id}" class="list-group-item listventa"  ><a > {[{c.nombre}]} </a></li>
 
