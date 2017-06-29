@@ -42,8 +42,14 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     //Primarea Imagen
 
+    $scope.photo_1 =true
+    $scope.photo_2 =true
+    $scope.photo_3 =true
+    $scope.photo_4 =true
+
     $scope.setFile = function(element) {
 
+    $scope.photo_1 = false
 
     $scope.statusimagen = 'Cargando imagen...'
 
@@ -77,10 +83,14 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     .success(function(data){
 
+      console.log('yape....',data)
 
-      if (data=='Error'){
 
-        $scope.statusimagen ='Ups... tu foto es muy pequeña subir una foto de mayor tamaño'
+      if (data=='Enano'){
+
+        $scope.photo_1 = true
+
+        $scope.statusimagen ='Ups... tu foto es muy pequeña '
       }
       else{
 
@@ -127,7 +137,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     $scope.currentFile = element.files[0];
 
-    console.log('file...',$scope.currentFile)
+    $scope.photo_2 =false
 
     var reader = new FileReader();
 
@@ -157,9 +167,11 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
       console.log(data)
 
-      if (data=='Error'){
+      if (data=='Enano'){
 
-        $scope.statusimagen1 ='Ups... tu foto es muy pequeña subir una foto de mayor tamaño'
+         $scope.photo_2 = true
+
+        $scope.statusimagen1 ='Ups... tu foto es muy pequeña '
       }
       else{
 
@@ -187,7 +199,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     $scope.currentFile = element.files[0];
 
-    console.log('file...',$scope.currentFile)
+    $scope.photo_3 =false
 
     var reader = new FileReader();
 
@@ -217,7 +229,9 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
       if (data=='Error'){
 
-        $scope.statusimagen2 ='Ups... tu foto es muy pequeña subir una foto de mayor tamaño'
+         $scope.photo_3 = true
+
+        $scope.statusimagen2 ='Ups... tu foto es muy pequeña '
       }
       else{
 
@@ -243,6 +257,8 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     $scope.statusimagen3 = 'Cargando imagen...'
 
     $scope.currentFile = element.files[0];
+
+    $scope.photo_4 =false
 
 
 
@@ -273,7 +289,9 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
       if (data=='Error'){
 
-        $scope.statusimagen3 ='Ups... tu foto es muy pequeña subir una foto de mayor tamaño'
+         $scope.photo_4 = true
+
+        $scope.statusimagen3 ='Ups... tu foto es muy pequeña '
       }
       else{
 
@@ -298,7 +316,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     $scope.currentFile = element.files[0];
 
-    console.log('file...',$scope.currentFile)
+    $scope.photo_4 =false
 
     var reader = new FileReader();
 
@@ -327,7 +345,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
       if (data=='Error'){
 
-        $scope.statusimagen4 ='Ups... tu foto es muy pequeña subir una foto de mayor tamaño'
+        $scope.statusimagen4 ='Ups... tu foto es muy pequeña '
       }
       else{
 
@@ -383,7 +401,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
        if (data=='Error'){
 
-        $scope.statusimagen5 ='Ups... tu foto es muy pequeña subir una foto de mayor tamaño'
+        $scope.statusimagen5 ='Ups... tu foto es muy pequeña '
       }
       else{
 
@@ -439,7 +457,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
       if (data=='Error'){
 
-        $scope.statusimagen6 ='Ups... tu foto es muy pequeña subir una foto de mayor tamaño'
+        $scope.statusimagen6 ='Ups... tu foto es muy pequeña '
       }
 
       else{
@@ -622,7 +640,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     
 
-                  <li  class="list-group-item" ng-class="{'activo': datacat==={{c.id}}}" href="/hotel/{{rows.id}}" ng-click='traesubcategorias({{c.id}})'><span class='iconocat' style='padding-right: 12px; '><i class="material-icons">{{c.icon}}</i></span>  {{c.nombre}} </a></li>
+                  <li class="list-group-item listventa"  ng-class="{'activo': datacat==={{c.id}}}" href="/hotel/{{rows.id}}" ng-click='traesubcategorias({{c.id}})'><span class='iconocat' style='padding-right:12px; '><i class="material-icons">{{c.icon}}</i></span>  {{c.nombre}} </a></li>
 
 
                   {% endfor %}
@@ -637,7 +655,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
             
                       <ul class="list-group" >
 
-                      <li ng-repeat="c in subcategorias" ng-click='enviaventa.subcategoria=c.id;enviasuv(c.id)' ng-class="{'activo': datasub===c.id}" class="list-group-item"><a > {[{c.nombre}]} </a></li>
+                      <li ng-repeat="c in subcategorias" ng-click='enviaventa.subcategoria=c.id;enviasuv(c.id)' ng-class="{'activo': datasub===c.id}" class="list-group-item listventa"  ><a > {[{c.nombre}]} </a></li>
 
                       </ul>
 
@@ -645,36 +663,25 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
               </div>
 
-              <div class="col-4" style='padding: 12px;'>
-
-                <div class="form-group" >
-                <label for="pwd">Titulo</label>
-                <input type="text" class="form-control" ng-model='enviaventa.titulo' name = 'titulo' required id="pwd"  placeholder="Ingrese titulo">
-              </div>
-
-              <div class="form-group">
-                <label for="pwd">Descripcion</label>
-                <textarea type="text" class="form-control" ng-model='enviaventa.descripcion'  name='descripcion' rows='5' required id="pwd"  placeholder="Agregar descripcion"></textarea>
-              </div>
-
-              <div class="form-group">
-                <label for="pwd">Precio</label>
-                S/.<input type="number" class="form-control" ng-model='enviaventa.precio' name = 'precio' required id="pwd"  placeholder="Ingrese precio">
-              </div>
-
-
-
-              </div>
-
-
-      
-
-
-      
-
-
 
     </div>
+    <style type="text/css">
+      
+      .listventa{
+
+        background:#fff; 
+        color: #37475a;
+      }
+
+      .listventa:hover{
+
+        background:#1ea095; 
+        color: #fff;
+
+
+      }
+
+    </style>
 
 
   
@@ -684,23 +691,55 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     <label for="pwd">Fotos</label>
     
-    <div class='row no-gutters col-md-10'>
+    <div class='row '>
+
+
+  
+
+    <style type="text/css">
+      div.upload {
+        width: 100px;
+        height: 100px;
+        background: url(/static/photo.png);
+        overflow: hidden;
+        border: 1px dashed #607d8b;
+    }
+
+    div.upload input {
+        display: block !important;
+        width: 100px !important;
+        height: 100px !important;
+        opacity: 0 !important;
+        overflow: hidden !important;
+    }
+
+        div.uploadvideo {
+        width: 100px;
+        height: 100px;
+        background: url(/static/youtube.png);
+        overflow: hidden;
+        border: 1px dashed #607d8b;
+    }
+
+    div.uploadvideo input {
+        display: block !important;
+        width: 100px !important;
+        height: 100px !important;
+        opacity: 0 !important;
+        overflow: hidden !important;
+    }
+    </style>
     
-    <div class="col-md-6">
+    <div class="col-md-3">
 
 
+      <img ng-hide='photo_1'  height='200px'  src="{{host}}{[{image}]}" class='img-fluid'>
+      <small>{[{statusimagen}]}</small>
+      <div ng-show='photo_1' class="upload">
+      <input  onchange="angular.element(this).scope().setFile(this)" accept="image/*" type = "file" file-model = "myFile"/>
+      </div>
 
 
-    <div ng-f='image'></div>
-    <img  height='200px'  src="{{host}}{[{image}]}" class='img-fluid'>
-
-    
-    <small>{[{statusimagen}]}</small>
-
-
-    <input onchange="angular.element(this).scope().setFile(this)" accept="image/*" type = "file" file-model = "myFile"/>
-
-    
 
     </div>
 
@@ -711,37 +750,41 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
  
             <div class="col-md-4">
 
-
-            <img  height='200px'  src="{{host}}{[{image_1}]}" class='img-fluid'>
-
-            <small>{[{statusimagen1}]}</small>
-
-            <input onchange="angular.element(this).scope().setFile1(this)" accept="image/*" type = "file" file-model = "myFile1"/>
+              <img ng-hide='photo_2'  height='100px'  src="{{host}}{[{image_1}]}" class='img-fluid'>
+              <small>{[{statusimagen1}]}</small>
+              <div ng-show='photo_2' class="upload">
+              <input  onchange="angular.element(this).scope().setFile1(this)" accept="image/*" type = "file" file-model = "myFile1"/>
+              </div>
 
             </div>
             
 
             <div class="col-md-4">
 
-            <img height='200px'  src="{{host}}{[{image_2}]}" class='img-fluid'>
-
-            <small>{[{statusimagen2}]}</small>
-
-            <input onchange="angular.element(this).scope().setFile2(this)" accept="image/*" type = "file" file-model = "myFile2"/>
+              <img ng-hide='photo_3'  height='100px'  src="{{host}}{[{image_2}]}" class='img-fluid'>
+              <small>{[{statusimagen2}]}</small>
+              <div ng-show='photo_3' class="upload">
+              <input  onchange="angular.element(this).scope().setFile2(this)" accept="image/*" type = "file" file-model = "myFile2"/>
+              </div>
 
             </div>
 
 
             <div class="col-md-4">
 
-            <img height='200px'  src="{{host}}{[{image_3}]}" class='img-fluid'>
 
-            <small>{[{statusimagen3}]}</small>
+              <img ng-hide='photo_4'  height='100px'  src="{{host}}{[{image_3}]}" class='img-fluid'>
+              <small>{[{statusimagen3}]}</small>
+              <div ng-show='photo_4' class="upload">
+              <input  onchange="angular.element(this).scope().setFile3(this)" accept="image/*" type = "file" file-model = "myFile3"/>
+              </div>
 
-            <input onchange="angular.element(this).scope().setFile3(this)" accept="image/*" type = "file" file-model = "myFile3"/>
 
 
             </div>
+
+
+
 <!-- 
             <div class="col-md-4">
 
@@ -790,6 +833,39 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     </div>
 
 
+      <div class="col-6" id='subcateg'>
+
+      <label for="pwd">Video</label>
+
+      <small>{[{statusvideo}]}</small>
+      <div  class="uploadvideo">
+      <input onchange="angular.element(this).scope().setFile7(this)" accept="video/*" type = "file" file-model = "myFile7"/>
+      </div>
+
+      </div>
+
+         <div class="col-8" style='padding: 12px;'>
+
+                <div class="form-group" >
+                <label for="pwd">Titulo</label>
+                <input type="text" class="form-control" ng-model='enviaventa.titulo' name = 'titulo' required id="pwd"  placeholder="Ingrese titulo">
+              </div>
+
+              <div class="form-group">
+                <label for="pwd">Descripcion</label>
+                <textarea type="text" class="form-control" ng-model='enviaventa.descripcion'  name='descripcion' rows='5' required id="pwd"  placeholder="Agregar descripcion"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="pwd">Precio</label>
+                S/.<input type="number" class="form-control" ng-model='enviaventa.precio' name = 'precio' required id="pwd"  placeholder="Ingrese precio">
+              </div>
+
+
+
+              </div>
+
+
 
     </div>
 
@@ -797,21 +873,11 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     </div>
 
-    <div class='form-group' id='subcateg'>
-
-    <label for="pwd">Video</label>
-    <br>
-    <small>{[{statusvideo}]}</small>
-
- 
-    <input onchange="angular.element(this).scope().setFile7(this)" accept="video/*" type = "file" file-model = "myFile7"/>
 
 
-    </div>
-
-<div ng-if='alerta' class="alert alert-danger">
-  {[{alerta}]}
-</div>
+      <div ng-if='alerta' class="alert alert-danger">
+        {[{alerta}]}
+      </div>
     
     <button type="submit" class="btn btn-primary btn-lg">Publicar</button>
 
@@ -860,32 +926,4 @@ $('html,body').animate({scrollTop: $(strAncla).offset().top-100}, 2000);
     
 </script>
 
-<li class="image-cont trackMe first-img" data-tracking="Posting-ClickUploadPicture" data-input="file0">
-    <div class="image icons-material icon-material-addpicture"></div>
-    <div class="overlay-image"></div>
-    <span class="remove icons-material icon-material-close"></span>
-</li>
 
-
-
-<style type="text/css">
-    
-    .image-cont {
-    border: 1px dashed #607d8b;
-    display: inline-block;
-    height: 74px;
-    line-height: 75px;
-    margin: 0 0 10px 10px;
-    opacity: .6;
-    position: relative;
-    text-align: center;
-    vertical-align: top;
-    width: 76px;
-    -webkit-transition: opacity 1s ease-out;
-    -moz-transition: opacity 1s ease-out;
-    -ms-transition: opacity 1s ease-out;
-    -o-transition: opacity 1s ease-out;
-    transition: opacity 1s ease-out;
-}
-
-</style>
