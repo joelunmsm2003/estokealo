@@ -1,3 +1,36 @@
+//  Chat Web
+
+  .chatin{
+
+    overflow-y: auto;
+    height: 45em;
+    background: $white;
+  }
+
+  .titulomensaje{
+
+    background: #234;
+    padding: 6px;
+    color: #fff;
+
+  }
+
+
+  .useractual{
+
+    padding: 2px;
+  }
+
+  .chatbody{
+
+    background: #c69f5d;
+    color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    padding-top: 8px;
+  }
+
+  /// Upload Files Imagenes
 
 [type='file'] {
   -webkit-appearance: none;
@@ -392,9 +425,9 @@ a:focus, a:hover {
 
 	
     margin-bottom: 11px;
+    background: $white;
     
- 	  
-    border-radius:$border-radius;
+ 	   border-radius:2px;
     border: 1px solid $green;
 
     transition:all .4s;
@@ -406,7 +439,7 @@ a:focus, a:hover {
     margin-bottom: 11px;
     
     background: $green;
-    border-radius:5px;
+  
     border: 1px solid $green;
     background: $green;
 }

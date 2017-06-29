@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="myApp" ng-controller="myCtrl">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,6 +14,17 @@
 
 
 <script>
+
+$.fn.extend({
+    animateCss: function (animationName) {
+        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+        this.addClass('animated ' + animationName).one(animationEnd, function() {
+            $(this).removeClass('animated ' + animationName);
+        });
+    }
+});
+
+
 var app = angular.module('myApp', []);
 
 app.config(function($interpolateProvider){
@@ -23,13 +34,10 @@ app.controller('myCtrl', function($scope,$http) {
 
 
 
-    $scope.firstName = "John";
-    $scope.lastName = "Doe";
 
     $http.get("/productojson/{{producto.id}}")
     .then(function(response) {
 
-    	console.log(response.data)
 
     	$scope.photos = response.data
 
@@ -39,12 +47,7 @@ app.controller('myCtrl', function($scope,$http) {
 
     $scope.traeimagen=function(data){
 
-    	console.log(data)
-
-
-        $('#principal').addClass('animated fadeIn');
-
-        $('#principal').removeClass('animated fadeIn');
+        $('#principal').animateCss('fadeIn');
 
     	$scope.photoprincipal = data.detalle
     }
@@ -54,7 +57,7 @@ app.controller('myCtrl', function($scope,$http) {
 </script>
 
 
-<div class='container'>
+<div class='container' style='margin-top:6em;'>
 
 <br>
 
