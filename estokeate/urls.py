@@ -42,5 +42,6 @@ urlpatterns = [
     url(r'^prueba/$', 'app.views.prueba'),
     url(r'^noti/$', 'app.views.noti'),
     url(r'^detalleproducto/(\d+)', 'app.views.detalleproducto'),
+    url(r'^eliminarphoto/(\d+)', 'app.views.eliminarphoto'),
 
 ]

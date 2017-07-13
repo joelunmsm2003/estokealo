@@ -802,6 +802,19 @@ def enviamensaje_perfil_web(request):
 	return HttpResponse(data, content_type="application/json")
 
 @csrf_exempt
+def eliminarphoto(request,id):
+
+	producto = Photoproducto.objects.get(photo_id=id).producto.id
+
+	Photoproducto.objects.get(photo_id=id).delete()
+
+	Photo.objects.get(id=id).delete()
+
+	return HttpResponseRedirect("/editarproducto/"+str(producto))
+
+
+
+@csrf_exempt
 def noti(request):
 
 	if request.method == 'POST':
@@ -1058,7 +1071,11 @@ def editarproducto(request,id):
 
 		producto = Producto.objects.filter(id=id)
 
-		return render(request, 'editarproducto.html',{'producto':producto[0]})
+		print producto.values('id','descripcion')
+
+		photo = Photoproducto.objects.filter(producto_id=id)
+
+		return render(request, 'editarproducto.html',{'photo':photo,'producto':producto[0],'host':host})
 
 	if request.method == 'POST':
 
@@ -1077,6 +1094,8 @@ def editarproducto(request,id):
 
 
 		return render(request, 'editarproducto.html',{'producto':p,'host':host})
+
+
 
 
 
