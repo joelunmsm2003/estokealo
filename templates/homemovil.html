@@ -9,10 +9,11 @@
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
 
 
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="manifest" href="/static/manifest.json">
 
 
 
@@ -250,8 +251,17 @@ app.controller('myCtrl', function($scope,$http) {
   
 <script src="/static/js/jquery-2.1.1.js"></script>
 <script src="/static/js/main.js"></script> <!-- Resource jQuery -->
-</body>
-</html>
+
+<script type="text/javascript">
+  
+  // TODO add service worker code here
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+             .register('/static/js/service-worker.js')
+             .then(function() { console.log('Service Worker Registered'); });
+  }
+
+</script>
 
 
 </body>

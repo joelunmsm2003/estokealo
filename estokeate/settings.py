@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,14 +32,20 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+#Wrong!
+#sys.path.append("/home/user/mysite/mysite")
+
+#Correct
+
+
 
 PROJECT_PATH = os.path.dirname(os.path.realpath(__file__))
 
 
 
-MEDIA_ROOT = os.path.join(PROJECT_PATH, '/var/www/html/')
+MEDIA_ROOT = os.path.join(PROJECT_PATH, '/home/estokeate')
 
-MEDIA_URL = '/var/www/html/'
+#MEDIA_URL = '/var/www/html/'
 
 STATICFILES_DIRS = (
     
@@ -58,6 +65,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.auth.hashers',
+    'corsheaders',
     'app',
 ]
 
@@ -65,6 +73,8 @@ INSTALLED_APPS = [
 
 
 MIDDLEWARE_CLASSES = [
+
+    
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -73,10 +83,12 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+
 ]
 
 
-
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 
@@ -158,4 +170,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-host = 'http://estokealo.com:8080/'
+host = 'https://estokealo.com/'

@@ -202,7 +202,7 @@ def actualizaperfil(request):
 
 			if p == 'photo':
 
-				caption = '/var/www/html/'+str(u.photo)
+				caption = '/home/estokeate/'+str(u.photo)
 
 				fd_img = open(caption, 'r')
 
@@ -401,6 +401,8 @@ def detallechat(request,user,producto):
 # Prductos de un usuario
 
 def productosjson(request):
+
+	print 'tttttt'
 
 	productos_ = Producto.objects.all().values('id','categoria__nombre','precio','subcategoria__nombre','titulo','user','descripcion')
 
@@ -838,7 +840,7 @@ def uploadphoto(request):
 
 		id_photo = Photo.objects.all().values('id').order_by('-id')[0]['id']
 
-		caption = '/var/www/html/'+str(Photo.objects.get(id=id_photo).photo)
+		caption = '/home/estokeate/'+str(Photo.objects.get(id=id_photo).photo)
 
 		data_json =str(Photo.objects.get(id=id_photo).photo)
 
@@ -887,7 +889,7 @@ def uploadphoto(request):
 
 		caption_galeria = caption.split('.jpg')[0]+'_thumbail.jpg'
 
-		print 'caption_galeria',caption_galeria.split('/var/www/html/')[1]
+
 
 
 		# Guarda galery
@@ -922,7 +924,7 @@ def uploadphoto(request):
 
 			photo = ValuesQuerySetToDict(photo)
 
-			photo[0]['photo'] = caption_galeria.split('/var/www/html/')[1]
+			photo[0]['photo'] = caption_galeria.split('/home/estokeate/')[1]
 
 			print 'pppppppppppppppp',photo[0]
 

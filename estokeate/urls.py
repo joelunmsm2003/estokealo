@@ -38,9 +38,11 @@ urlpatterns = [
     url(r'^loginxfacebook/$', 'app.views.loginxfacebook'),
     url(r'^verificalogin/$', 'app.views.verificalogin'),
     url(r'^productosjson$', 'app.views.productosjson'),
+    url(r'^productosjson/$', 'app.views.productosjson'),
     url(r'^detallechat/(\w+)/(\w+)/$', 'app.views.detallechat'),
     url(r'^prueba/$', 'app.views.prueba'),
     url(r'^noti/$', 'app.views.noti'),
     url(r'^detalleproducto/(\d+)', 'app.views.detalleproducto'),
+
 
 ]
