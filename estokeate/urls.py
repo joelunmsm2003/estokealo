@@ -40,9 +40,11 @@ urlpatterns = [
     url(r'^productosjson$', 'app.views.productosjson'),
     url(r'^productosjson/$', 'app.views.productosjson'),
     url(r'^detallechat/(\w+)/(\w+)/$', 'app.views.detallechat'),
+    url(r'^detallechatpc/(\w+)/(\w+)/$', 'app.views.detallechatpc'),
     url(r'^prueba/$', 'app.views.prueba'),
     url(r'^noti/$', 'app.views.noti'),
     url(r'^detalleproducto/(\d+)', 'app.views.detalleproducto'),
+    url(r'^eliminarphoto/(\d+)', 'app.views.eliminarphoto'),
 
 
 ]

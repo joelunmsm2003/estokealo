@@ -64,38 +64,7 @@ app.controller('myCtrl', function($scope,$http) {
 
 
 
-<div class='row'>
 
-    <div class='col-md-8'>
-
-   <h3>{{producto.titulo}}</h3>
-
-    </div>
-
-    <div class='col-md-2 heart animated infinite pulse'>
-
-     <i class="fa fa-heart-o" aria-hidden="true"></i>
-
-    </div>
-
-</div>
-
-<div class='row'>
-
-    <div class='col-md-8'>
-
-   {{producto.titulo}}
-
-    </div>
-
-    <div class='col-md-2 precio '>
-
-   <h3> S/. {{producto.precio}}</h3>
-     
-
-    </div>
-
-</div>
 
 
 
@@ -103,12 +72,51 @@ app.controller('myCtrl', function($scope,$http) {
 
 <div class='row'>
     
-    <div class='col-md-10 col-xs-12 col-sm-12 animated fadeIn'>
+    <div class='col-md-8 col-xs-12 col-sm-12 animated fadeIn'>
 
             <div class='row no-gutters'>
 
 
-                	<div class='col-md-6 col-xs-6 col-sm-6 '>
+
+
+                	<div class='col-md-12 col-xs-12 col-sm-6 '>
+
+                                        <div class='row'>
+
+                        <div class='col-md-12'>
+
+                            
+                                
+                            <span>{{producto.titulo}}</span>
+                            <div class='heart animated'>
+
+
+                            <i class="fa fa-heart-o" aria-hidden="true"></i>
+
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+                    <div class='row'>
+
+                        <div class='col-md-12'>
+
+                        {{producto.titulo}}
+
+                        <div class='precio'>
+
+                        <h3> S/. {{producto.precio}}</h3>
+
+
+                        </div>
+
+                        </div>
+
+                    </div>
                 	
                 			
                 				<img id='principal' class="img-fluid " src="{{host}}{[{photoprincipal}]}" alt="Card image cap">
@@ -117,15 +125,11 @@ app.controller('myCtrl', function($scope,$http) {
 
                 	</div>
 
-                    <div class='col-md-6 col-xs-6 col-sm-6'>
-
-
+                    <div class='col-md-12 col-xs-12 col-sm-6'>
 
                                 <div class='row no-gutters'>
 
-                                <div class='col-md-6 col-xs-12 col-sm-12 ' ng-repeat="p in photos">
-
-
+                                <div class='col-md-2 col-xs-2 col-sm-2 ' ng-repeat="p in photos">
 
                                 <div ng-click='traeimagen(p)' class="card" >
 
@@ -133,11 +137,8 @@ app.controller('myCtrl', function($scope,$http) {
 
                                 </div>
 
-
-
-
-
                                 </div>
+                                
                                 </div>
 
                 	</div>
@@ -148,7 +149,7 @@ app.controller('myCtrl', function($scope,$http) {
     </div>
 
 
-    <div class='col-md-2 col-xs-12 col-sm-12'>
+    <div class='col-md-4 col-xs-12 col-sm-12'>
     
             <div class='panel'>
 
@@ -180,9 +181,6 @@ app.controller('myCtrl', function($scope,$http) {
 
             <textarea type="text" class="form-control" name='mensaje' rows='12' required id="pwd"  placeholder="Mensaje"></textarea>
             </div>
-
-
-
 
 
             <button type="submit" class="btn btn-primary btn-md enviarmensaje">Enviar mensaje</button>
