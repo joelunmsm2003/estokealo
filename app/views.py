@@ -78,13 +78,30 @@ def home(request):
 
 	categoria = Categoria.objects.all().values('id','nombre','icon')
 
+	favoritos = Favoritoproducto.objects.filter(user_id=user)
+
+	for f in favoritos:
+
+		f.photo = Photoproducto.objects.filter(producto_id=f.producto.id).values('photo__photo')[0]['photo__photo']
+
+	# Mensajes en el Header
+
+
+	compradores = Chat.objects.filter(destino_id=user).annotate(count=Count('id'))
+
+	propios = Chat.objects.filter(user_id=user).annotate(count=Count('producto'))
+
+	compradores = ValuesQuerySetToDict(compradores)+ValuesQuerySetToDict(propios)
+
+
+	print compradores
 	if m=='m':	
 
-		return render(request, 'homemovil.html',{'productos':productos,'usuario':usuario,'host':host,'categoria':categoria})
+		return render(request, 'homemovil.html',{'favoritos':favoritos,'productos':productos,'usuario':usuario,'host':host,'categoria':categoria})
 
 	else:	
 
-		return render(request, 'home.html',{'productos':productos,'usuario':usuario,'host':host,'categoria':categoria})
+		return render(request, 'home.html',{'favoritos':favoritos,'productos':productos,'usuario':usuario,'host':host,'categoria':categoria})
 
 
 def autentificacion(request):
@@ -292,13 +309,12 @@ def filtrarsubcategoria(request,dato,subcategoria):
 
 
 @login_required(login_url="/autentificacion")
-def chat(request):
+def chat(request,id_user,id_producto):
 
 	user = request.user.id
 
 	productos= Producto.objects.filter(user_id=user)
 
-	print productos
 
 
 	current_site = get_current_site(request)
@@ -307,6 +323,13 @@ def chat(request):
 
 	usuario= AuthUser.objects.get(id=user)
 
+	favoritos = Favoritoproducto.objects.filter(user_id=user)
+
+	for f in favoritos:
+
+		f.photo = Photoproducto.objects.filter(producto_id=f.producto.id).values('photo__photo')[0]['photo__photo']
+
+
 
 	if p=='m':	
 
@@ -314,7 +337,7 @@ def chat(request):
 
 	else:
 
-		return render(request, 'chat.html',{'host':host,'productos':productos,'usuario':usuario,'mimensaje':'active'})
+		return render(request, 'chat.html',{'id_user':id_user,'id_producto':id_producto,'favoritos':favoritos,'host':host,'productos':productos,'usuario':usuario,'mimensaje':'active'})
 
 
 
@@ -334,7 +357,7 @@ def productos(request,id):
 
 		usuario =AuthUser.objects.get(id=user)
 
-	productos= Producto.objects.filter(user_id=user)
+	productos= Producto.objects.filter(user_id=id)
 
 	for p in productos:
 
@@ -344,10 +367,11 @@ def productos(request,id):
 
 			p.detalle = p.photo.split('.jpg')[0]+'_thumbail.jpg'
 
-			print 'jdjdj',p.detalle
 
 
 	usuario= AuthUser.objects.get(id=user)
+
+	userproducto = AuthUser.objects.get(id=id)
 
 	current_site = get_current_site(request)
 
@@ -360,7 +384,7 @@ def productos(request,id):
 
 	else:	
 
-		return render(request, 'productosuser.html',{'host':host,'productos':productos,'usuario':usuario,'mianuncio':'active'})
+		return render(request, 'productosuser.html',{'host':host,'userproducto':userproducto,'productos':productos,'usuario':usuario,'mianuncio':'active'})
 
 
 
@@ -392,30 +416,114 @@ def detallechat(request,user,producto):
 		usuario =AuthUser.objects.get(id=user_id)
 
 
-	print 'producto',producto
+	favorito = Favoritoproducto.objects.get(user_id=user_id,producto_id=producto).estado
 
-	return render(request, 'detallechat.html',{'host':host,'user':user,'producto':producto,'usuario_receptor':usuario_receptor,'usuario':usuario})
+	return render(request, 'detallechat.html',{'favorito':favorito,'host':host,'user':user,'producto':producto,'usuario_receptor':usuario_receptor,'usuario':usuario})
 
 
 # Prductos de un usuario
+def detallechatpc_1(request,user):
 
-@login_required(login_url="/autentificacion")
-def detallechatpc(request,user,producto):
+	return HttpResponseRedirect("/")
 
-	usuario_receptor= AuthUser.objects.get(id=user)
+
+#@login_required(login_url="/autentificacion")
+def detallechatpc(request,user,id_producto):
+
+	# user=None
+
+	# if int(user)!=1:
+
+	# 	user= Producto.objects.get(id=producto).user.id
+
+	
+	if int(user)!=1:
+
+
+		usuario_receptor= AuthUser.objects.get(id=user)
+
+		usuario = None
+
+		producto= Producto.objects.get(id=id_producto)
+
+		videos = None
+
+		favorito = None
+
+		if Videoproducto.objects.filter(producto_id=id_producto):
+
+			videos = Videoproducto.objects.filter(producto_id=id_producto)[0]
+
+		user_id = request.user.id
+
+		favoritos = Favoritoproducto.objects.filter(user_id=user_id)
+
+		for f in favoritos:
+
+			f.photo = Photoproducto.objects.filter(producto_id=f.producto.id).values('photo__photo')[0]['photo__photo']
+
+
+		if user_id:
+
+			usuario =AuthUser.objects.get(id=user_id)
+
+			if Favoritoproducto.objects.filter(user_id=user_id,producto_id=id_producto).count()>0:
+
+				favorito = Favoritoproducto.objects.get(user_id=user_id,producto_id=id_producto).estado
+		
+			return render(request, 'detallechatpc.html',{'favoritos':favoritos,'videos':videos,'host':host,'user':user,'producto':producto,'usuario_receptor':usuario_receptor,'usuario':usuario})
+
+		else:
+
+			return render(request, 'detallechatpc.html',{'videos':videos,'host':host,'user':user,'producto':producto,'usuario_receptor':usuario_receptor,'usuario':usuario})
+
+
+
+
+	else:
+
+		return HttpResponseRedirect("/")
+
+
+def distritos(request):
+
+	distrito = Distrito.objects.all().values('id','name')
+
+	distrito = ValuesQuerySetToDict(distrito)
+
+	distrito = simplejson.dumps(distrito)
+
+	return HttpResponse(distrito, content_type="application/json")
+
+
+def misfavoritos(request):
 
 	user_id = request.user.id
 
-	if user_id:
+	f = Favoritoproducto.objects.filter(user_id=user_id).values('producto__titulo')
 
-		usuario =AuthUser.objects.get(id=user_id)
+	f = ValuesQuerySetToDict(f)
+
+	f = simplejson.dumps(f)
+
+	return HttpResponse(f, content_type="application/json")
 
 
-	print 'producto',producto
 
-	return render(request, 'detallechat.html',{'host':host,'user':user,'producto':producto,'usuario_receptor':usuario_receptor,'usuario':usuario})
+def estadofavorito(request,producto):
 
+	user_id = request.user.id
 
+	favorito = None
+
+	if user_id and Favoritoproducto.objects.filter(user_id=user_id,producto_id=producto):
+
+		favorito = Favoritoproducto.objects.get(user_id=user_id,producto_id=producto).estado
+
+	favorito = simplejson.dumps(favorito)
+	
+
+	return HttpResponse(favorito, content_type="application/json")
 
 # Prductos de un usuario
 
@@ -430,7 +538,6 @@ def productosjson(request):
 
 		productos_[p]['photo'] = ValuesQuerySetToDict(Photoproducto.objects.filter(producto_id=productos_[p]['id']).values('id','photo__photo'))
 
-		print 'productos_[p][photo]',productos_[p]['photo']
 
 	productos_ = ValuesQuerySetToDict(productos_)
 
@@ -487,7 +594,7 @@ def busquedacategoria(request,categoria,subcategoria):
 
 def detalleproducto(request,id):
 
-	producto = Producto.objects.filter(id=id).values('id','titulo','descripcion','precio','user__first_name')
+	producto = Producto.objects.filter(id=id).values('id','titulo','descripcion','precio','user__first_name','user__photo','user_id')
 
 	for p in range(len(producto)):
 
@@ -537,13 +644,9 @@ def chatin(request,id):
 
 	propios = Chat.objects.filter(user_id=user).values('user','user__first_name','user__username','user__photo','producto','producto__titulo','producto__precio','producto__titulo').annotate(count=Count('producto'))
 
-	print 'propios',propios.count(),compradores.count()
-
 	compradores = ValuesQuerySetToDict(compradores)+ValuesQuerySetToDict(propios)
 
 	compradores = simplejson.dumps(compradores)
-
-	print 'Compradores-..............',compradores
 
 	return HttpResponse(compradores, content_type="application/json")
 
@@ -778,7 +881,7 @@ def enviamensaje_perfil(request):
 
 		print 'json.loads(request.body)',json.loads(request.body)
 
-		data = json.loads(request.body)['dato']
+
 
 		data = json.loads(request.body)
 
@@ -930,7 +1033,7 @@ def uploadphoto(request):
 
 		img = Image.open(fd_img)
 
-		if int(height) < 500 :
+		if int(height) < 400 :
 
 			print 'Enano'
 
@@ -942,7 +1045,7 @@ def uploadphoto(request):
 
 		else:
 
-			img = resizeimage.resize_cover(img, [500, 500])
+			img = resizeimage.resize_cover(img, [600, 400])
 
 
 
@@ -1035,7 +1138,6 @@ def loginxfacebook(request):
 
 		if request.user.is_authenticated():
 
-			print 'Autentificado.... OK'
 
 			id_producto = simplejson.dumps('Ya esta logeado')
 
@@ -1078,7 +1180,29 @@ def loginxfacebook(request):
 
 
 
+@login_required(login_url="/autentificacion/")
 
+def addfavorito(request,id,estado):
+
+	if request.method == 'GET':
+
+		user = request.user.id
+
+		if Favoritoproducto.objects.filter(user_id=user,producto_id=id).count()==0:
+
+			Favoritoproducto(user_id=user,producto_id=id,estado=estado).save()
+
+		else:
+
+			f = Favoritoproducto.objects.get(user_id=user,producto_id=id)
+			
+			f.estado=estado
+			f.save()
+
+
+		id_producto = simplejson.dumps('nuevo user')
+
+		return HttpResponse(id_producto, content_type="application/json")
 
 
 
@@ -1092,11 +1216,20 @@ def editarproducto(request,id):
 
 		producto = Producto.objects.filter(id=id)
 
-		print producto.values('id','descripcion')
-
 		photo = Photoproducto.objects.filter(producto_id=id)
 
-		return render(request, 'editarproducto.html',{'photo':photo,'producto':producto[0],'host':host})
+		current_site = get_current_site(request)
+
+		m = str(current_site).split('.')[0]
+
+		if m=='m':
+
+			return render(request, 'editarproductomovil.html',{'photo':photo,'producto':producto[0],'host':host})
+
+
+		else:
+
+			return render(request, 'editarproducto.html',{'photo':photo,'producto':producto[0],'host':host})
 
 	if request.method == 'POST':
 
@@ -1118,9 +1251,7 @@ def editarproducto(request,id):
 
 
 
-
-
-
+@login_required(login_url="/autentificacion")
 
 @csrf_exempt
 def vender(request):
@@ -1221,7 +1352,11 @@ def vender(request):
 
 				Videoproducto(video_id=video,producto_id=id_producto).save()
 
-		id_producto = simplejson.dumps(id_producto)
+		res= {'user':id_user,'producto':id_producto}
+
+		id_producto = simplejson.dumps(res)
+
+		
 
 
 		return HttpResponse(id_producto, content_type="application/json")
@@ -1243,9 +1378,13 @@ def vender(request):
 		return render(request, 'vender.html',{'host':host,'usuario':usuario,'categoria':categoria})
 
 
+def ingresar(request,producto):
 
+	p=None
 
-def ingresar(request):
+	if int(producto) != 5 and Producto.objects.filter(id=producto).count()>0:
+
+		p=Producto.objects.get(id=producto)
 
 	if request.user.is_authenticated():
 
@@ -1255,7 +1394,67 @@ def ingresar(request):
 
 		if request.method == 'POST':
 
-			print request.POST
+			user = request.POST['username']
+			
+			psw = request.POST['password']
+
+			user = authenticate(username=user, password=psw)
+
+			if user is not None:
+
+				if user.is_active:
+
+					login(request, user)
+
+					current_site = get_current_site(request)
+
+					m = str(current_site).split('.')[0]
+
+					if p:
+
+						if m=='m':
+
+							return HttpResponseRedirect("/detallechat/"+str(p.user.id)+'/'+str(producto))
+						
+						else:
+
+							return HttpResponseRedirect("/detallechatpc/"+str(p.user.id)+'/'+str(producto))
+
+					else:
+
+							return HttpResponseRedirect("/")
+
+			else:
+
+				return HttpResponseRedirect("/ingresar")
+		
+		else:
+
+
+			current_site = get_current_site(request)
+
+			m = str(current_site).split('.')[0]
+
+			if m=='m':
+
+				return render(request, 'loginmovil.html',{'host':host,'producto':p})
+
+			else:
+
+				return render(request, 'login.html',{'host':host,'producto':p})
+
+
+def ingresarone(request):
+
+	p=None
+
+	if request.user.is_authenticated():
+
+		return HttpResponseRedirect("/vender")
+
+	else:
+
+		if request.method == 'POST':
 
 			user = request.POST['username']
 			
@@ -1263,16 +1462,32 @@ def ingresar(request):
 
 			user = authenticate(username=user, password=psw)
 
-		
 			if user is not None:
 
 				if user.is_active:
 
 					login(request, user)
 
-					return HttpResponseRedirect("/vender")
+					current_site = get_current_site(request)
+
+					m = str(current_site).split('.')[0]
+
+					if p:
+
+						if m=='m':
+
+							return HttpResponseRedirect("/detallechat/"+str(p.user.id)+'/'+str(producto))
+						
+						else:
+
+							return HttpResponseRedirect("/detallechatpc/"+str(p.user.id)+'/'+str(producto))
+
+					else:
+
+							return HttpResponseRedirect("/")
 
 			else:
+
 				return HttpResponseRedirect("/ingresar")
 		
 		else:
@@ -1287,7 +1502,6 @@ def ingresar(request):
 				return render(request, 'loginmovil.html',{'host':host})
 
 			else:
-
 
 				return render(request, 'login.html',{'host':host})
 

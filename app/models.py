@@ -205,3 +205,13 @@ class Chat(models.Model):
     class Meta:
         managed = False
         db_table = 'chat'
+
+
+class Favoritoproducto(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='user', blank=True, null=True)
+    producto = models.ForeignKey('Producto', models.DO_NOTHING, db_column='producto', blank=True, null=True)
+    estado = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'favoritoproducto'

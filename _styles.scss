@@ -1,10 +1,135 @@
+/// Detalle de producto
+
+     .card{
+        border-radius: 0.25rem;
+  
+        }
+
+.modal-dialog {
+    width: 100%;
+    height: 100%;
+
+}
+.modal-content {
+    height: 100%;
+  
+    height: auto;
+    border-radius: 0;
+}
+.modal-body{
+    padding: 2px !important;
+}
+
+.flex-container {
+    position: relative;
+    height: 56px;
+    width: 100%;
+    background: #fff;
+    
+    border-radius: 6px;
+
+    color: #4f5d6d;
+     margin-bottom: 15px;
+     box-shadow: 1px 1px 6px #888888;
+
+}
+
+.price {
+
+    position: absolute;
+    margin: 10px;
+    font-family: GeometryLight;
+ 
+    font-size: 26px;
+    right: 49px;
+}
+
+.flex-item {
+
+    position: absolute;
+    margin: 10px;
+    font-family: GeometryLight;
+    color:#37475a;
+    font-size: 26px;
+    left: 13px;
+    
+}
+
+.modal-body{
+
+    text-align: center;
+
+}
+
+.modal-header{
+
+    
+}
+
+#principal1{
+          position: absolute;
+    top: 45%;
+    max-width: 90px;
+    opacity: .9;
+    left: 17px;
+    border: 3px solid #fff;
+    transition:all .4s;
+}
+
+#principal2{
+          position: absolute;
+    top: 45%;
+    max-width: 90px;
+    opacity: .9;
+    right: 17px;
+    border: 3px solid #fff;
+    text-align: right;
+    transition:all .4s;
+}
+
+.pre{
+    position:absolute;
+}
+    
+    .detalleproducto{
+
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+
+    }
+
+   .heart {
+    text-align: right;
+    font-size: 31px;
+    width: 100px;
+    position: absolute;
+    right: 12px;
+    padding: 4px;
+ 
+
+}
+
+.enviarmensaje{
+
+    width: 100%;
+}
+
+   .precio {
+    text-align: right;
+    font-size: 31px;
+}
+
+
+
 //  Chat Web
 
   .chatin{
 
     overflow-y: auto;
-    height: 45em;
+    height: 330px;
     background: $white;
+    border: 1px solid #b6e0dd !important;
+    padding-top: 21px;
   }
 
   .titulomensaje{
@@ -16,10 +141,7 @@
   }
 
 
-  .useractual{
 
-    padding: 2px;
-  }
 
   .chatbody{
 
@@ -281,10 +403,7 @@ input[type="file"] {
   padding-left: 19px;
     line-height: 2em;
 }
- .material-icons,span{
 
-  vertical-align: middle;
- }
 
  a {
     background-color: transparent;
@@ -308,7 +427,7 @@ input[type="file"] {
 }
 
 .drawer-navigation > a:hover, .drawer-navigation > a:focus {
-    background-color: $green;
+    background-color: #e0e6e6;
 }
 
    .icons{
@@ -428,7 +547,8 @@ a:focus, a:hover {
     background: $white;
     
  	   border-radius:2px;
-    border: 1px solid $green;
+
+      box-shadow: 1px 1px 2px #888888;
 
     transition:all .4s;
 }
@@ -436,12 +556,8 @@ a:focus, a:hover {
 .chatperfil:hover{
 
   
-    margin-bottom: 11px;
-    
-    background: $green;
   
-    border: 1px solid $green;
-    background: $green;
+background: rgba(52, 175, 164,.1);
 }
 
 /* Border Chat*/
@@ -789,7 +905,7 @@ a{color:inherit;text-decoration:none}
   width:100%;
   margin:auto;
   max-width:525px;
-  min-height:670px;
+  min-height:479px;
   position:relative;
   // background:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg4WKR8pZ2uF8kBkUm7_USZfw8ga44mjmCVK2om6VZ91bbOIUa1w) no-repeat center;
   //box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);

@@ -48,6 +48,9 @@
     padding: 15px;
     padding-top: 8px;
 	}
+	body,html{
+  overflow:hidden
+}
 
 </style>
 
@@ -387,32 +390,46 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 </div>
 
 
+		<div class='fixed44'>
+
+		<form>
+
+			<div class="row no-gutters">
+				<div class="col-10"><input type="hidden" class="form-control" id="fono" ng-model = 'id_producto'  placeholder="producto" >
+			    <input type="hidden" class="form-control" id="fono" ng-model = 'userenvia'  placeholder="user" >
+			    <input type="text" class="form-control" id="fono" ng-model = 'mensaje1'  placeholder="Mensaje..." >
+			</div>
+
+				<div class="col-2">
+					<button ng-click='enviarchat(id_producto,userenvia,mensaje1)' class="btn btn-primary"> <i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+				</div>
+			</div>
+
+		</form>
 
 
-<br>
-
-
-			 	<form>
-
-			 	<div class="row no-gutters">
-			 		<div class="col-10"><input type="hidden" class="form-control" id="fono" ng-model = 'id_producto'  placeholder="producto" >
-					    <input type="hidden" class="form-control" id="fono" ng-model = 'userenvia'  placeholder="user" >
-					    <input type="text" class="form-control" id="fono" ng-model = 'mensaje1'  placeholder="Mensaje..." >
-					</div>
-
-			 		<div class="col-2">
-			 			<button ng-click='enviarchat(id_producto,userenvia,mensaje1)' class="btn btn-primary"> <i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
-			 		</div>
-			 	</div>
-			 
-			    
-			  
-			
-			</form>
+		</div>
 
 
 
+<style type="text/css">
+	
 
+.fixed44 {
+
+    bottom: 0px;
+    text-align: center;
+    position: fixed;
+    /* left: 50%; */
+    right: 0;
+    z-index: 50;
+    /* margin-left: -54px; */
+    width: 100%;
+    padding: 12px;
+    background: #fff;
+ 
+}
+</style>
 
 
 

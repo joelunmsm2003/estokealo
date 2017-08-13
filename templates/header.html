@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="myApp" ng-controller="myCtrl">
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-
-
+<html ng-app="HeaderApp" ng-controller="HeaderCtrl">
 
 
 
@@ -37,35 +34,18 @@
 
 
 </head>
+
+
+
+
+
+
 <body>
 
-<!-- <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a class="navbar-brand" href="#">Fixed navbar</a>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-          </li>
-        </ul>
-        <form class="form-inline mt-2 mt-md-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-      </div>
-    </nav> -->
 
 
 
-<nav class="navbar navbar-toggleable-md fixed-top" style='background: #fff;'>
+<nav class="navbar navbar-toggleable-md fixed-top" style='background: #fff; box-shadow: 1px 2px 2px #d6dde6;'>
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -73,10 +53,36 @@
   <div class="container">
 
 
+<!--   <div class='menucorto'>Menu</div> -->
+
+
+  <style type="text/css">
+    
+    .menucorto{
+      position: absolute;
+    height: auto;
+    background: #fff;
+    right: 299px;
+    top: 59px;
+    max-width: 5em;
+    padding: 11px;
+
+    border:  1px solid rgba(53, 170, 160, 0.4);
+    border-radius: 0 0 2px 2px;
+    }
+
+    .dropdown-toggle::after {
+    display: none;
+    width: 0;
+
+    }
+  </style>
+
+
  <a class="navbar-brand" href="/" style='margin-top: -16px;'><img src="{{host}}/static/estoke.png" height="45px"></a>
 
  <small style='position: absolute;
-    left: 65px;
+    left: 75px;
     top: 41px;
     font-size: 11px;
     color: #2aa59a;'>Compra & vendelo todo </small>
@@ -112,41 +118,191 @@
     padding-left: 16px;
     padding-right: 14px;" >
 
+    
+
+      <img src="{{host}}{{usuario.photo}}" class='img-fluid rounded-circle' " style='width: 48px;
+    margin-top: -9px;''>
+      <span style='position: absolute;
+    margin-left: 12px;
+    color: #37475a; font-size:12px;'>{{usuario.first_name}}</span>
+    
           
-       
-         <div class="dropdown">
+      
+      </li>
+
+      <!--Favoritos en el Header-->
+
+       <li class='nav-item' style='padding-top: 5px;
+    min-width: 60px;
+    padding-left: 19px;
+    font-size: 23px;
+    color: #37475a;'>
+        
+          <div class="dropdown">
+
+
+
           <a class="nav-link  dropdown-toggle" href="/productos/{{usuario.id}}" id="xxxx" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             
-                    <img src="{{host}}{{usuario.photo}}" class='img-fluid rounded-circle' " style='width: 40px;''>
-                    <span style='padding-left:8px;'>{{usuario.first_name}}</span>
+          <i style='font-size: 23px;
+           color: #37475a;' class="fa fa-heart" ng-click='mensajes' aria-hidden="true"></i> 
+          </a>
+
+
+
+          <div class="dropdown-menu animated fadeIn" aria-labelledby="xxxx" >
+
+                  <section class="headerflex">
+
+                  Favoritos
+
+                  </section>
+
+
+                {% for f in favoritos %}
+
+                <a href='/detallechatpc/{{f.producto.user.id}}/{{f.producto.id}}'>
+
+                <div class="containerflex elem">
+
+                  <section class="elem elem-green flex1">
+                    <img src='{{host}}{{f.photo}}' class='img-fluid' >
+                  </section>
+                  <section class="elem elem-green flex2">
+                   
+                        
+                {{f.producto.titulo}}<br>
+
+                    {{f.producto.precio}}
+                  </section>
+                </div>
+
+             
+                </a>
+
+ 
+ 
+
+      {% endfor %}
+
+       <section class="headerflex" style='text-align: center;'>
+
+                  <a href='#'>Ver Todos</a>
+
+                  </section>
+
+        
+          </div>
+      </div>
+
+
+      </li>
+
+        <!--Mensajes en el Header-->
+    
+       <li class='nav-item' style='padding-top: 0px;
+    min-width: 60px;
+    padding-left: 13px;
+    font-size: 26px;
+    color: #37475a;'>
+        
+              <!-- <a href="/chat/"> <i class="fa fa-comments" aria-hidden="true"></i> </a> -->
+
+
+      <div class="dropdown">
+          <a class="nav-link  dropdown-toggle" href="/productos/{{usuario.id}}" id="xxxx" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            
+          <i style='font-size: 23px;
+    color: #37475a;' class="fa fa-comments" ng-click='mensajes' aria-hidden="true"></i> 
+          </a>
+
+            <div class="dropdown-menu  animated fadeIn" aria-labelledby="xxxx">
+
+            <section class="headerflex">
+
+                  Mis Mensajes
+
+                  </section>
+
+
+
+                <a ng-repeat='m in listachat' href='/chat/{[{m.user}]}/{[{m.producto}]}'>
+
+                <div class="containerflex elem" ng-if='m.user__username!="{{usuario.username}}"'>
+
+                  <section class="elem elem-green flexuser">
+                    <img src='{{host}}{[{m.user__photo}]}' class='img-fluid' >
+                  </section>
+                  <section class="elem elem-green flex2">
+                   
+                        
+                {[{m.user__first_name}]}<br>
+
+                  </section>
+
+
+                  
+
+
+                </div>
+
+             
+                </a>
+
+                <a href='/chat/0/8'><section class="headerflex" style='text-align: center;'>
+
+                  Ver Todos
+
+                  </section></a>
+
+ 
+        
+
+            </div>
+
+
+
+          </div>
+      
+
+      </li>
+
+      <li class='nav-item' style='padding-top: 15px;'>
+        
+      <div class="dropdown">
+          <a class="nav-link  dropdown-toggle" href="/productos/{{usuario.id}}" id="xxxx" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            
+          <i style='font-size: 23px;
+    color: #37475a;' class="fa fa-globe" ng-click='mensajes' aria-hidden="true"></i> 
           </a>
 
           <div class="dropdown-menu" aria-labelledby="xxxx">
             <a class="dropdown-item" href="/productos/{{usuario.id}}">Mis Anuncios</a>
             <a class="dropdown-item" href="/perfil">Mi Perfil</a>
             <a class="dropdown-item"  href="/salir">Salir</a>
+
+           
           </div>
-        </div>
-
-
-
-
+      </div>
 
       </li>
 
-       <li class="nav-item" style="padding-top: 25px;" >
+       <!-- <li class="nav-item" style="padding-top: 15px;
+    padding-left: 15px;" >
       
 
-        <a  href="/chat/" > <i class="fa fa-comments" aria-hidden="true"></i> Mensajes</a>
-      </li>
+       
+
+        <a href="/chat/"> <i class="fa fa-comments" aria-hidden="true"></i> Mensajes</a>
+      </li> -->
 
       {% else %}
 
 
 
-        <a  class='nav-item' style="padding-top: 19px; padding-left: 19px;" href="/ingresar/" >  Ingresar</a>
+        <a  class='nav-item' style="padding-top: 19px; padding-left: 19px;" href="/ingresar/5" >  Ingresar</a>
 
-        <a class='nav-item' style="padding-top: 19px; padding-left: 19px;" href="/ingresar/">  Registrarse</a>
+        <a class='nav-item' style="padding-top: 19px; padding-left: 19px;" href="/ingresar/5">  Registrarse</a>
  
 
 
@@ -178,7 +334,57 @@
     text-decoration: none;
 }
 
+.containerflex {
+  display: flex;
+    border: 1px solid #cedded;
+    border-width: 0px 0px 1px 0px;
+}
+.containerflex:hover{
+  background-color: rgba(30, 160, 149,.2);
+}
+.headerflex{
+
+  width: 100%;
+padding: 7px;
+padding-left: 13px;
+border: 1px solid #cedded;
+border-width: 0px 0px 1px 0px;
+color: #37475a;
+font-size: 13px;
+}
+
+
+.flex1 {
+  flex: 3;
+}
+.flexuser{
+  flex:1;
+}
+
+.flex2 {
+    flex: 4;
+    font-size: 12px;
+    color: #37475a;
+}
+.elem {
+ position: relative;
+ padding: 4px;
+
+}
+
+.dropdown-menu{
+  min-width: 18rem;
+}
+.dropdown-item{
+
+  font-size: 13px;
+}
+
+
 </style>
+
+
+
 
 
 </body>

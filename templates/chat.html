@@ -32,6 +32,14 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 
 
+    $http.get("/chatin/2")
+              .then(function(response) {
+
+
+               $scope.listachat = response.data
+
+                  
+              });
 
 
     function doStuff() {
@@ -121,10 +129,34 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
     	$scope.chatin_1 =$scope.chatin[0] 
 
+    	if('{{id_user}}'==0){
 
-    	$scope.traemensajes($scope.chatin_1)
+    		$scope.traemensajes($scope.chatin_1)
+    	}
+    	else{
+
+    		 $http.get("/listamensajes/"+'{{id_user}}'+'/'+'{{id_producto}}')
+			.then(function(response) {
+
+		
+			$scope.mensajes = response.data
+
+			$scope.mensajestitulo = response.data[0]
+
+
+			});
+
+
+
+
+    	}
+
+
+    	
         
     });
+
+
 
 
 
@@ -184,7 +216,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 {% include "headeruser.html" %}
 
-<br>
+<br><br>
 
 
 	
@@ -196,12 +228,13 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 		<div class='chatperfil' ng-repeat="c in chatin" ng-if='c.user__username!="{{usuario.username}}"'>
 
-				<div class="card" ng-click='traemensajes(c)' >
+				<div ng-click='traemensajes(c)' >
 				      <div class="row ">
 				        <div class="col-md-3">
 				            <img src="{{host}}{[{c.user__photo}]}" class='img-fluid    img-rounded'>
 				          </div>
-				          <div class="col-md-9 px-3">
+				          <div class="col-md-9 px-3" style='padding-top: 7px;
+    color: #3a4a5d;'>
 				            <div class="px-3">
 				            
 				              				<small>{[{c.user__first_name}]}</small><br>
@@ -225,11 +258,10 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 
 
+<div class='col-lg-8 col-md-8 '>
 
-<div class='col-lg-8 col-md-8'>
 
-
-	<div class='row no-gutters cabecerachat'>
+	<div class='row no-gutters cabecerachat animated fadeIn'>
 
 
 
@@ -467,7 +499,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 </div>
 
 
-
+{% include "footer.html" %}
 </body>
 </html>
 

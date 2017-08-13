@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+   <script data-require="jquery" data-semver="2.0.3" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script data-require="bootstrap" data-semver="3.0.0" src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+   
 
 <body>
 
@@ -33,7 +36,7 @@ app.config(function($interpolateProvider){
 app.controller('myCtrl', function($scope,$http) {
 
 
-
+$scope.indice =0
 
     $http.get("/productojson/{{producto.id}}")
     .then(function(response) {
@@ -45,12 +48,30 @@ app.controller('myCtrl', function($scope,$http) {
         
     });
 
-    $scope.traeimagen=function(data){
+    $scope.traeimagen=function(data,indice){
+
+
+        console.log('indice',indice)
 
         $('#principal').animateCss('fadeIn');
 
     	$scope.photoprincipal = data.detalle
+
+        $scope.indice = indice
     }
+
+    $scope.traeimageng=function(data,index){
+
+
+        
+
+        $('#principal1').animateCss('fadeIn');
+
+        $scope.photoprincipal1 = data.photo__photo
+
+        $scope.indice = index
+    }
+
 
 
 });
@@ -81,64 +102,43 @@ app.controller('myCtrl', function($scope,$http) {
 
                 	<div class='col-md-12 col-xs-12 col-sm-6 '>
 
-                                        <div class='row'>
+                    <div class="flex-container">
+                  <div class="flex-item">{{producto.titulo}}</div>
+                  <div class="price">S/. {{producto.precio}}</div>
+                  <div class="heart animated  pulse"><i class="fa fa-heart-o" aria-hidden="true"></i></div>  
+                </div>
 
-                        <div class='col-md-12'>
+    
 
-                            
-                                
-                            <span>{{producto.titulo}}</span>
-                            <div class='heart animated'>
-
-
-                            <i class="fa fa-heart-o" aria-hidden="true"></i>
-
-                            </div>
-
-                        </div>
-
-
-
-                    </div>
-
-                    <div class='row'>
-
-                        <div class='col-md-12'>
-
-                        {{producto.titulo}}
-
-                        <div class='precio'>
-
-                        <h3> S/. {{producto.precio}}</h3>
-
-
-                        </div>
-
-                        </div>
-
-                    </div>
+                    <center>
                 	
                 			
-                				<img id='principal' class="img-fluid " src="{{host}}{[{photoprincipal}]}" alt="Card image cap">
+                				<img data-toggle="modal"  data-target="#myModal" id='principal' class="img-fluid " src="{{host}}{[{photoprincipal}]}" alt="Card image cap">
 
+
+                  </center>
                 			
 
                 	</div>
 
                     <div class='col-md-12 col-xs-12 col-sm-6'>
 
-                                <div class='row no-gutters'>
+                                <div style='padding: 14px;'>
 
-                                <div class='col-md-2 col-xs-2 col-sm-2 ' ng-repeat="p in photos">
+                                        <div class='row no-gutters'>
 
-                                <div ng-click='traeimagen(p)' class="card" >
+                                        <div class='col-md-2 col-xs-2 col-sm-2 ' ng-repeat="p in photos">
 
-                                <img class="card-img-top img-fluid" src="{{host}}{[{p.detalle}]}" alt="Card image cap">
+                                        <div ng-click='traeimagen(p,$index)' class="card" >
 
-                                </div>
+                                        <img class="card-img-top img-fluid" src="{{host}}{[{p.detalle}]}" alt="Card image cap">
 
-                                </div>
-                                
+                                        </div>
+
+                                        </div>
+                                        
+                                        </div>
+
                                 </div>
 
                 	</div>
@@ -148,32 +148,40 @@ app.controller('myCtrl', function($scope,$http) {
 
     </div>
 
-
-    <div class='col-md-4 col-xs-12 col-sm-12'>
+    <div  class='col-md-4 col-xs-12 col-sm-12'>
     
-            <div class='panel'>
+    
 
-            <div class='panel-body'>
+            <div class='row no-gutters' style='border: 1px solid #35aaa0;'>
 
-            <div class='row'>
+            <div class="col-md-2"><img  src="{{host}}{{producto.user.photo}}"  style=" width:65px;">
+            </div>
 
-            <div class='col-md-12 col-xs-2'>
-
-            <center><h4>{{producto.user.first_name}}</h4></center>
-
-            <center><h5>{{producto.user.telefono}}</h5></center>
-
-            <img src="{{host}}{{producto.user.photo}}" class='img-fluid' style="border-radius:100%; padding:18px;">
-
+            <div class="col-md-10" style='padding: 8px;'><h4>{{producto.user.first_name}}</h4>
+            <h5>{{producto.user.telefono}}</h5>
             </div>
 
             </div>
+            
+            
+            <br>
+            
 
+            <center><h4>{{producto.descripcion}}</h4>
 
-            <form method="post" action="/enviamensaje/" enctype="multipart/form-data">
+            <br>
+  
+
+    
+           
+
+            {% if producto.user.first_name %}
+
+            <form  method="post" action="/enviamensaje/" enctype="multipart/form-data">
             {% csrf_token %}
 
 
+            
 
             <div class="form-group">
 
@@ -186,10 +194,7 @@ app.controller('myCtrl', function($scope,$http) {
             <button type="submit" class="btn btn-primary btn-md enviarmensaje">Enviar mensaje</button>
             </form>
 
-            </div>
-
-
-            </div>
+            {% endif %}
 
 
 
@@ -209,10 +214,48 @@ Your browser does not support the video tag.
 </video>
 
 
+
+
    
 </div>
 
 
+
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  
+      </div> -->
+      <div class="modal-body" >
+
+        
+        <div   ng-click='indice =indice-1'><img ng-if='photos[indice-1].detalle' id='principal1' class="img-fluid " src="{{host}}{[{photos[indice-1].detalle}]}" alt="Card image cap"></div>
+
+        <img data-toggle="modal" class="img-fluid " src="{{host}}{[{photos[indice].photo__photo}]}" alt="Card image cap">
+
+        <div   ng-click='indice =indice+1'><img ng-if='photos[indice+1].detalle' id='principal2' class="img-fluid " src="{{host}}{[{photos[indice+1].detalle}]}" alt="Card image cap"></div>
+        <div class='row'>
+
+     <!--    <div class='col-md-1 col-xs-1 col-sm-1 ' ng-repeat="p in photos">
+
+
+        <img ng-click='traeimageng(p,$index)' class='img-fluid' src="{{host}}{[{p.detalle}]}" alt="{[{p.photo}]}">
+        </div> -->
+     
+
+        </div>
+
+      </div>
+     
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{% include "footer.html" %}
 
 
 </body>
@@ -220,33 +263,11 @@ Your browser does not support the video tag.
 
 
 
-
-
-
-<style type="text/css">
+<script type="text/javascript">
     
-    .detalleproducto{
 
-        padding-right: 0px !important;
-        padding-left: 0px !important;
+</script>
 
-    }
-
-   .heart {
-    text-align: right;
-    font-size: 31px;
-}
-
-.enviarmensaje{
-
-    width: 100%;
-}
-
-   .precio {
-    text-align: right;
-    font-size: 31px;
-}
-</style>
 
 
 

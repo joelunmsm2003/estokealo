@@ -25,6 +25,28 @@ app.config(function($interpolateProvider){
 app.controller('myCtrl', function($scope,$http) {
 
 
+  $http.get("/chatin/2")
+              .then(function(response) {
+
+               console.log('hshs',response.data)
+
+               $scope.listachat = response.data
+
+                  
+              });
+
+
+
+    $http.get("/distritos")
+    .then(function(response) {
+
+        $scope.distritos = response.data
+
+        
+    });
+
+
+
   var getBrowserWidth = function(){
     if(window.innerWidth < 768){
         // Extra Small Device
@@ -46,7 +68,7 @@ var device = getBrowserWidth();
 
 if(device === "xs"){
 
-  window.location='http://m.'+'{{host}}'.split('http://')[1].split('/')[0].split(':')[0]
+  window.location='https://m.estokealo.com'
 
 }
 
@@ -68,17 +90,12 @@ if(device === "xs"){
 
 
 
-          console.log('cat',data)
-
           $scope.datacat = data
 
-          console.log(data)
 
 
               $http.get("/traesubcategorias/"+data)
               .then(function(response) {
-
-                console.log('traesubcategorias...',response.data)
 
                 $scope.subcategorias = response.data
 
@@ -93,7 +110,6 @@ if(device === "xs"){
 
     $scope.enviasuv=function(data){
 
-      console.log('jjdjd',data)
 
       $scope.datasub = data
 
@@ -102,7 +118,7 @@ if(device === "xs"){
 
     $scope.buscat=function(data){
 
-      console.log(data)
+    
 
       location.href='/busquedacategoria/'+data+'/0'
 
@@ -111,7 +127,6 @@ if(device === "xs"){
   
    $scope.ocultasub=function(){
 
-      console.log('data')
 
       $('.subcat').hide()
 
@@ -146,7 +161,7 @@ if(device === "xs"){
 
 {% include "header.html" %}
 
-    <div class='container' style='margin-top:6em;'>
+    <div class='container' style='margin-top:7em;'>
 
     <div class="row no-gutters">
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
@@ -166,16 +181,16 @@ if(device === "xs"){
           </ul>
 
     </div>
-
-
-    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10 animated fadeIn" >
-
-
-           <ul class="list-group subcat" style='display:none;' >
+ <ul class="list-group subcat" style='display:none;' >
 
            <li ng-repeat="c in subcategorias" ng-click='enviasuv(c.id)'  class="list-group-item "><a > {[{c.nombre}]} </a></li>
 
            </ul>
+
+    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10 animated fadeIn" >
+
+
+          
 
            <div id="myCarousel" class="carousel slide" data-ride="carousel" ng-mouseover='ocultasub()'>
             <ol class="carousel-indicators">
@@ -248,23 +263,76 @@ if(device === "xs"){
 
 
 
+<style type="text/css">
+  .material-icons{
+      line-height: .6;
+  }
 
+  .modal-header{
+            padding-left: 63px;
+    padding-top: 24px;
+  }
 
+</style>
 
 
 <div class='container'>
 
 
+<p style='font-size: 27px;
+    color: #37475a;'>Anuncios publicados en <a style='color:#35aaa0' data-toggle="modal" data-target="#myModal">Lima <i class="fa fa-angle-down" aria-hidden="true"></i></a> </p> 
+
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <span style='font-size:24px;'>Selecciona tu ciudad o provincia</span>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+       
+      </div>
+      <div class="modal-body distritos">
+        
+
+        <div class='row'>
+          <div ng-repeat='n in distritos' class='col-md-3'>
+            <a href='https://www.{[{n.name}]}.estokealo.com'>{[{n.name}]}</a>
+          </div>
+        </div>
+
+
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+
+<br>
+
 <div class='row'>
 		{% for producto in productos %}
+
+
+  
 
 
  
 			<div class='col-lg-2 col-md-3 col-sm-4 col-xs-6 card1'>
 
-         <a class='item' href="/producto/{{producto.id}}">
+      
+
+     
+
+         <a class='item' href="/detallechatpc/{{producto.user.id}}/{{producto.id}}">
     
-       
+     
+
+
 
       
 			<div class="card" >
@@ -364,26 +432,41 @@ if(device === "xs"){
 </html>
 
 <style type="text/css">
+.close{
+  font-size: 26px;
+    padding-right: 13px;
+    color: #000;
+}
+
+.distritos{
+    text-align: left;
+    padding: 69px !important;
+    padding-top: 35px !important;
+    line-height: 1.9;
+    color: #1b232d;
+}
+
+.modal.fade .modal-dialog {
+    transition: transform 0.3s ease-out;
+    transform: translate(3%, 19%);
+    }
+  .modal.show .modal-dialog {
+    transform: translate(3%, 21%);
+    }
   
 a{
 
   text-decoration: none !important;
 
 }
+.card{
+  box-shadow: 0px 2px 11px #888888;
+}
 
 .card1{
   margin-bottom: 12px;
 }
 
-/*.card-img-top:hover{
-      
-
-    transform: rotateY(180deg);
-     transition: all .4s linear; 
-
-
-}
-*/
 
 
 .iconocat:hover{
@@ -406,8 +489,7 @@ a{
 
 .subcat{
 position: absolute;
-    /* top: -442px; */
-    /* left: 251px; */
+
     z-index: 100;
 }
 
@@ -452,19 +534,15 @@ position: absolute;
   .segunda{
 
     
-    background: url(https://s3.amazonaws.com/eb-blog-bloguk/wp-content/uploads/2016/05/03100406/sell-tickets-through-facebook.jpg) no-repeat center;
+    background: url(/static/home/Register.jpg) no-repeat center;
 
   }
 
-/*  .tercera{
+ .tercera{
 
-<<<<<<< HEAD
-    background: url(http://www.mystorexpress.com/images/demo-gratis-mystore-xpress.jpg) no-repeat center;
-  }*/
-=======
-    background: url(https://www.mystorexpress.com/images/demo-gratis-mystore-xpress.jpg) no-repeat center;
+
+    background: url(/static/home/crear-una-tienda-virtual.jpg) no-repeat center;
   }
->>>>>>> 3e6f387e6fa146866e1a4677ba6ae7072c5814da
 
   .cuarta{
 
@@ -474,6 +552,9 @@ position: absolute;
 
 
 </style>
+{% include "footer.html" %}
+
+
 
 </body>
 

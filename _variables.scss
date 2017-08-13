@@ -209,10 +209,10 @@ $link-hover-decoration: underline !default;
 
 $grid-breakpoints: (
   xs: 0,
-  sm: 576px,
-  md: 800px,
-  lg: 1300px,
-  xl: 1400px
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px
 ) !default;
 @include _assert-ascending($grid-breakpoints, "$grid-breakpoints");
 @include _assert-starts-at-zero($grid-breakpoints);
@@ -224,7 +224,7 @@ $grid-breakpoints: (
 
 $container-max-widths: (
   sm: 540px,
-  md:1000px,
+  md:800px,
   lg: 1210px,
   xl: 1310px
 ) !default;
@@ -347,7 +347,7 @@ $headings-margin-bottom: ($spacer / 2) !default;
 $headings-font-family:   inherit !default;
 $headings-font-weight:   500 !default;
 $headings-line-height:   1.1 !default;
-$headings-color:         inherit !default;
+$headings-color:         $blue !default;
 
 $display1-size: 6rem !default;
 $display2-size: 5.5rem !default;
@@ -363,7 +363,7 @@ $display-line-height: $headings-line-height !default;
 $lead-font-size:   1.25rem !default;
 $lead-font-weight: 300 !default;
 
-$small-font-size: 80% !default;
+$small-font-size: 90% !default;
 
 $text-muted: $gray-light !default;
 
@@ -640,7 +640,7 @@ $form-icon-danger: str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg xmlns
 // Dropdown menu container and contents.
 
 $dropdown-min-width:             10rem !default;
-$dropdown-padding-y:             .5rem !default;
+$dropdown-padding-y:             0rem !default;
 $dropdown-margin-top:            .125rem !default;
 $dropdown-bg:                    $white !default;
 $dropdown-border-color:          rgba($black,.15) !default;
@@ -648,7 +648,7 @@ $dropdown-border-width:          $border-width !default;
 $dropdown-divider-bg:            $gray-lighter !default;
 $dropdown-box-shadow:            0 .5rem 1rem rgba($black,.175) !default;
 
-$dropdown-link-color:            $gray-dark !default;
+$dropdown-link-color:            $black !default;
 $dropdown-link-hover-color:      darken($gray-dark, 5%) !default;
 $dropdown-link-hover-bg:         $gray-lightest !default;
 
@@ -658,7 +658,7 @@ $dropdown-link-active-bg:        $component-active-bg !default;
 $dropdown-link-disabled-color:   $gray-light !default;
 
 $dropdown-item-padding-x:        1.5rem !default;
-
+$dropdown-item-padding-y:        0.5rem !default;
 $dropdown-header-color:          $gray-light !default;
 
 
@@ -682,12 +682,12 @@ $zindex-tooltip:            1070 !default;
 
 $navbar-border-radius:              $border-radius !default;
 $navbar-padding-x:                  $spacer !default;
-$navbar-padding-y:                  ($spacer) !default;
+$navbar-padding-y:                  $spacer*8 !default;
 
-$navbar-brand-padding-y:            .25rem !default;
+$navbar-brand-padding-y:            .65rem !default;
 
 $navbar-toggler-padding-x:           .75rem !default;
-$navbar-toggler-padding-y:           .25rem !default;
+$navbar-toggler-padding-y:           .75rem !default;
 $navbar-toggler-font-size:           $font-size-lg !default;
 $navbar-toggler-border-radius:       $btn-border-radius !default;
 
@@ -709,7 +709,7 @@ $navbar-light-toggler-border:       rgba($black,.1) !default;
 
 $nav-item-margin:               .2rem !default;
 $nav-item-inline-spacer:        1rem !default;
-$nav-link-padding:              .5em .3em !default;
+$nav-link-padding:              .4em .3em !default;
 $nav-link-hover-bg:             $gray-lighter !default;
 $nav-disabled-link-color:       $gray-light !default;
 
@@ -868,16 +868,16 @@ $badge-pill-border-radius:    10rem !default;
 // Modals
 
 // Padding applied to the modal body
-$modal-inner-padding:         15px !default;
+$modal-inner-padding:         2px !default;
 
-$modal-dialog-margin:         10px !default;
-$modal-dialog-sm-up-margin-y: 30px !default;
+$modal-dialog-margin:         0px !default;
+$modal-dialog-sm-up-margin-y: 18px !default;
 
 $modal-title-line-height:     $line-height-base !default;
 
 $modal-content-bg:               $white !default;
 $modal-content-border-color:     rgba($black,.2) !default;
-$modal-content-border-width:     $border-width !default;
+$modal-content-border-width:     2px !default;
 $modal-content-xs-box-shadow:    0 3px 9px rgba($black,.5) !default;
 $modal-content-sm-up-box-shadow: 0 5px 15px rgba($black,.5) !default;
 
@@ -889,7 +889,7 @@ $modal-header-border-width:   $modal-content-border-width !default;
 $modal-footer-border-width:   $modal-header-border-width !default;
 $modal-header-padding:        15px !default;
 
-$modal-lg:                    800px !default;
+$modal-lg:                    1300px !default;
 $modal-md:                    500px !default;
 $modal-sm:                    300px !default;
 

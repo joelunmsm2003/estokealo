@@ -8,8 +8,8 @@
 
 <div class='container' style='margin-top:6em;'>
 
-<h2>Mis anuncios</h2>
-
+<h2>Anuncios de {{userproducto.first_name}}</h2>
+<br>
 
 <div class='row'>
 
@@ -20,7 +20,7 @@
 
 <div class='col-md-2 card1'>
 
-         <a class='item' href="/producto/{{producto.id}}">
+         <a class='item' href="/detallechatpc/{{producto.user.id}}/{{producto.id}}">
     
       
 			<div class="card" >
@@ -28,8 +28,8 @@
 			  <div class="card-block">
 			    <h4 class="card-title">{{producto.title}}</h4>
 			    <p class="card-text">{{producto.descripcion}}</p>
-			    <a class='btn btn-primary btn-sm' href='/editarproducto/{{producto.id}}'><i class="fa fa-pencil" aria-hidden="true"> </i> Editar
-</a>
+			<!--     <a class='btn btn-primary btn-sm' href='/editarproducto/{{producto.id}}'><i class="fa fa-pencil" aria-hidden="true"> </i> Editar
+</a> -->
 
 			    
 			  </div>
@@ -57,6 +57,8 @@ a{
 }
 
 </style>
+
+{% include "footer.html" %}
 
 </body>
 </html>

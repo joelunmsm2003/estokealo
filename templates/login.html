@@ -66,7 +66,7 @@
 
 
 			FB.login(function(response){
-			  console.log('me logeeeeee',response)
+			  
 
 
 			  			FB.api('/me', function(response) {
@@ -78,13 +78,13 @@
 
 					    estado = data.split('-')[0]
 					    user = data.split('-')[1]
-
-					    console.log(estado)
+					    producto=window.location.href.split('/')[4].split('#')[0]
 
 					    if(estado=='Bienvenido'){
 
-					    	window.location='/productos/'+user
+					    	window.location='/detallechatpc/1/'+producto
 					    }
+					    
 					  });
 
 
@@ -162,7 +162,7 @@
 
 </script>
 <br><br>
-<br><br>
+<br><br><br>
   <div class="login-wrap">
 	<div class="login-html">
 		<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Ingresar</label>
@@ -185,7 +185,17 @@
 			<center><div class="fb-login-button" data-width="1000" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true"></div></center> -->
 			<br><br>
 
-			<form method="post" action="/ingresar/">
+
+			 {% if producto.id %}
+
+			<form method="post" action="/ingresar/{{producto.id}}">
+
+			{% else %}
+
+
+			<form method="post" action="/ingresar/5/">
+
+      		{% endif %}
 
 				{% csrf_token %}
 				<div class="group">
@@ -239,9 +249,9 @@
 				</form>
 
 				<div class="hr"></div>
-				<div class="foot-lnk">
+				<!-- <div class="foot-lnk">
 					<label for="tab-1">Already Member?</a>
-				</div>
+				</div> -->
 			</div>
 		</div>
 
@@ -250,6 +260,7 @@
 </div>
 
   
+{% include "footer.html" %}
 </body>
 </html>
 

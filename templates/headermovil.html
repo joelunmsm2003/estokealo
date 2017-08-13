@@ -13,7 +13,7 @@
 
   <link rel="manifest" href="/static/manifest.json">
 
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -58,7 +58,7 @@
   
  {% else %}
 
-<div style='padding: 8px;'><a class='icons ' href="/ingresar"> <i class="material-icons">input</i><span class='detallemovil'>Ingresar</span></a></div>
+<div style='padding: 8px;'><a class='icons ' href="/ingresar/7"> <i class="material-icons">input</i><span class='detallemovil'>Ingresar</span></a></div>
   
   {% endif %}
 
@@ -71,7 +71,10 @@
 </div>
 
 
-<a class='icons ' href="/"> <i class="material-icons">view_compact</i><span class='detallemovil'><img src="{{host}}/static/estoke.png" class='img-fluid' width="120" style='margin-top:-8px;'></span></a>
+<a class='icons ' href="/"> <img src="https://estokealo.com/static/cajita.png"  class='img-fluid' style='margin-top: 1px;
+    margin-left: -4px;
+    width: 40px;'><span class='detallemovil'><img src="https://estokealo.com/static/logosincaja.png" class='img-fluid' width="120" style='margin-top: -8px;
+    margin-left: -4px;'></span></a>
   
 
 {% if usuario.username %}
@@ -83,7 +86,7 @@
 
 <a class='icons' href='/chat'><i class="material-icons">chat</i><span class='detallemovil'>Mis Mensajes</span></a>
 
-<a class='icons' href='/vender'><i class="material-icons">voice_chat</i><span class='detallemovil'>Vender</span></a>
+<a class='icons' href='/vender'><i class="material-icons">camera_alt</i><span class='detallemovil'>Vender</span></a>
 
 
 <a class='icons' href='/salir'>
@@ -96,7 +99,7 @@
  {% else %}
 
 
-<a class='icons' href='/vender'><i class="material-icons">voice_chat</i><span class='detallemovil'>Vender</span></a>
+<a class='icons' href='/vender'><i class="material-icons">camera_alt</i><span class='detallemovil'>Vender</span></a>
 
 
 

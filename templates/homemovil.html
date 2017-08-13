@@ -231,7 +231,7 @@ app.controller('myCtrl', function($scope,$http) {
       <div class="card" >
         <img class="card-img-top img-fluid" src="{{host}}{{producto.photo.photo__photo}}" alt="Card image cap">
         <div class="card-block">
-         {{producto.titulo}}<br>
+          <h6 class="card-title">{{producto.titulo}}</h6>
           <small class="card-text">{{producto.descripcion|truncatechars:70}}</small>
           
         </div>
@@ -252,19 +252,23 @@ app.controller('myCtrl', function($scope,$http) {
 <script src="/static/js/jquery-2.1.1.js"></script>
 <script src="/static/js/main.js"></script> <!-- Resource jQuery -->
 
-<script type="text/javascript">
-  
-  // TODO add service worker code here
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker
-             .register('/static/js/service-worker.js')
-             .then(function() { console.log('Service Worker Registered'); });
-  }
-
-</script>
 
 
 </body>
+
+<script type="text/javascript">
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/static/js/service-worker.js');
+}
+
+document.querySelector('#show').addEventListener('click', () => {
+  const iconUrl = document.querySelector('select').selectedOptions[0].value;
+  let imgElement = document.createElement('img');
+  imgElement.src = iconUrl;
+  document.querySelector('#container').appendChild(imgElement);
+});
+</script>
 
 
 </html>

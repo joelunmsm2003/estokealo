@@ -8,7 +8,8 @@
 // http://www.phpied.com/delay-loading-your-print-css/
 // ==========================================================================
 
-@if $enable-print-styles {
+
+//@if $enable-print-styles {
   @media print {
     *,
     *::before,
@@ -116,4 +117,4 @@
 
     // Bootstrap specific changes end
   }
-}
+//}

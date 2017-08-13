@@ -36,7 +36,18 @@ app.directive('fileModel', ['$parse', function ($parse) {
 app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
 
-    $scope.host = 'http://192.168.1.40/'
+
+    $http.get("/chatin/2")
+              .then(function(response) {
+
+               console.log('hshs',response.data)
+
+               $scope.listachat = response.data
+
+                  
+              });
+
+
 
     $scope.enviaventa ={}
 
@@ -46,6 +57,8 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     $scope.photo_2 =true
     $scope.photo_3 =true
     $scope.photo_4 =true
+
+    console.log('$scope.photo_1',$scope.photo_1)
 
     $scope.muestrasubca = false
 
@@ -57,7 +70,6 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     $scope.currentFile = element.files[0];
 
-    console.log('file...',$scope.currentFile)
 
     var reader = new FileReader();
 
@@ -85,8 +97,6 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     .success(function(data){
 
-      console.log('yape....',data)
-
 
       if (data=='Enano'){
 
@@ -109,11 +119,6 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     })
 
-    .error(function(data){
-
-
-      console.log('error',data)
-    })
 
 
 
@@ -165,9 +170,6 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     })
 
     .success(function(data){
-
-
-      console.log(data)
 
       if (data=='Enano'){
 
@@ -373,7 +375,6 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     $scope.currentFile = element.files[0];
 
-    console.log('file...',$scope.currentFile)
 
     var reader = new FileReader();
 
@@ -429,7 +430,6 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     $scope.currentFile = element.files[0];
 
-    console.log('file...',$scope.currentFile)
 
     var reader = new FileReader();
 
@@ -506,7 +506,6 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     .success(function(data){
 
 
-      console.log(data)
 
       $scope.video = data[0].video
 
@@ -525,8 +524,6 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
         $scope.vender = function(data){
 
-
-            console.log(data.categoria)
 
                if(!data.subcategoria){
 
@@ -556,9 +553,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
         }).
         success(function(data) {
 
-          console.log('data',data)
-
-         window.location.href = '../producto/'+data;
+         window.location.href = '../detallechatpc/'+data.user+'/'+data.producto;
         
        
 
@@ -577,14 +572,12 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     
           $scope.datacat = data
 
-          console.log('$scope.datacat',$scope.datacat)
 
           $scope.enviaventa.categoria = data
 
               $http.get("/traesubcategorias/"+data)
               .then(function(response) {
 
-                console.log('traesubcategorias...',response.data)
 
                 $scope.subcategorias = response.data
 
@@ -601,8 +594,6 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     $scope.datasub = 1000
 
     $scope.enviasuv=function(data){
-
-      console.log('jjdjd',data)
 
       $scope.datasub = data
     }
@@ -738,6 +729,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     </style>
     
     <div class="col-md-3">
+
 
 
       <img ng-hide='photo_1'  height='200px'  src="{{host}}{[{image}]}" class='img-fluid'>
@@ -897,6 +889,8 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
   </div>
 
   </div>
+
+{% include "footer.html" %}
 
 
 </body>

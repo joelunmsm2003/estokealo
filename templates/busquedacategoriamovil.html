@@ -29,9 +29,9 @@ app.controller('myCtrl', function($scope,$http) {
 <div class='container-fluid container-movil'>
 
 
-
+<br>
 <h6>Se encontraron {{total}} resultados  en Perú </h6>
-
+<br>
 
 
 <div class="row">
@@ -96,35 +96,29 @@ app.controller('myCtrl', function($scope,$http) {
 
 
 
-<div class='row'>
-		{% for p in productos %}
+<div class="masonry">
+
+  {% for producto in productos %}
+ <a class='item' href="/producto/{{producto.id}}">
+    
+
+      
+      <div class="card" >
+        <img class="card-img-top img-fluid" src="{{host}}{{producto.detalle}}" alt="Card image cap">
+        <div class="card-block">
+         <h6 class="card-title">{{producto.titulo}}</h6>
+          <small class="card-text">{{producto.descripcion|truncatechars:70}}</small>
+          
+        </div>
+      </div>
 
 
 
-  			<div class='col-6  col-lg-3  col-sm-4 card1'>
-  						
-  						         <a class='item' href="/producto/{{p.id}}">
-  						    
-  						
-  						      
-  									<div class="card" >
-  									  <img class="card-img-top img-fluid" src="{{host}}{{p.detalle}}" alt="Card image cap">
-  									  <div class="card-block">
-  									    <h4 class="card-title">{{p.titulo}}</h4>
-  									    <p class="card-text">{{p.descripcion}}</p>
-  									    
-  									  </div>
-  									</div>
-  						
-  						
-  						
-  						       </a>
-  									</div>
-						    
+       </a>
 
-			{% endfor %}
-			
-			</div>
+  {% endfor %}
+</div>
+
 
 	
 

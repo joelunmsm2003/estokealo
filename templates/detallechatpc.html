@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="myCtrl">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-cookies.js'></script>
+
+ <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/static/css/bordeschat.css">
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+   <script data-require="jquery" data-semver="2.0.3" src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script data-require="bootstrap" data-semver="3.0.0" src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+   
+
+
+<style type="text/css">
+	
+	.chatin{
+
+    overflow-y: auto;
+    height: 20em;
+	}
+
+	.titulomensaje{
+
+		background: #234;
+    padding: 6px;
+    color: #fff;
+
+	}
+
+	  .useractual{
+
+    padding: 9px;
+  }
+
+	.chatperfil{
+
+		padding: 12px;
+		border: 1px solid #0275d8;
+	}
+
+
+	.chatbody{
+
+		background: #c69f5d;
+    color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    padding-top: 8px;
+	}
+
+</style>
+
+<body>
+
+{% include "header.html" %}
+
+<script>
+
+$.fn.extend({
+    animateCss: function (animationName) {
+        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+        this.addClass('animated ' + animationName).one(animationEnd, function() {
+            $(this).removeClass('animated ' + animationName);
+        });
+    }
+});
+var app = angular.module('myApp', ['ngCookies']);
+
+app.config(function($interpolateProvider){
+    $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
+    })
+
+app.controller('myCtrl', function($scope,$http,$cookies) {
+
+$('#modal').hide()
+
+  $http.get("/chatin/2")
+              .then(function(response) {
+
+
+               $scope.listachat = response.data
+
+                  
+              });
+
+
+$scope.indice =0
+
+    $http.get("/productojson/{{producto.id}}")
+    .then(function(response) {
+
+    	$scope.photos = response.data
+
+        $scope.photoprincipal = response.data[0].detalle
+        
+    });
+
+    $scope.traeimagen=function(data,indice){
+
+        $('#principal').animateCss('fadeIn');
+
+    	$scope.photoprincipal = data.detalle
+
+        $scope.indice = indice
+    }
+
+    $scope.abre=function(){
+
+
+    	$('#modal').addClass('animated fadeIn');
+
+    	  $('#modal').show()
+    }
+
+    $scope.traeimageng=function(data,index){
+
+        $('#principal1').animateCss('fadeIn');
+
+        $scope.photoprincipal1 = data.photo__photo
+
+        $scope.indice = index
+    }
+
+
+   /////
+
+	$scope.userenvia = '{{user}}'
+
+    $scope.id_producto ='{{producto.id}}'
+
+    $scope.id_favorito='{{favorito}}'
+
+	function doStuff() {
+
+	$("#chatin").scrollTop(100000)
+
+	$('.ultimo').addClass('animated zoomIn');
+
+
+	}
+
+
+	$http.get("/listamensajes/"+'{{user}}'+'/'+'{{producto.id}}')
+
+	.then(function(response) {
+
+	$scope.mensajes = response.data
+
+
+	});
+
+	$http.get("/misfavoritos/")
+
+	.then(function(response) {
+
+	$scope.misfavoritos = response.data
+
+
+	});
+
+	$http.get("/detalleproducto/"+'{{producto.id}}')
+
+	.then(function(response) {
+
+	$scope.mensajestitulo = response.data[0]
+
+	});
+
+	// setInterval(function(){ 
+
+	// 					$http.get("/listamensajes/"+'{{user}}'+'/'+'{{producto}}')
+	// 					.then(function(response) {
+
+						
+
+	// 					$scope.mensajes = response.data
+
+
+	// 					});
+
+	// 		}, 1000);
+
+	$scope.cerrar=function(){
+
+		$('#modal').hide()
+
+	}
+
+
+
+
+    $scope.traemensajes=function(data){
+
+    	$("#chatin").scrollTop(100000)
+
+    	$scope.receptor = data.id
+
+    	$scope.userenvia = data.user
+    
+		$http.get("/listamensajes/"+'{{user}}'+'/'+'{{producto.id}}')
+
+		.then(function(response) {
+
+		$scope.mensajes = response.data	
+
+		});
+
+
+
+			// setInterval(function(){ 
+
+			// 			$http.get("/listamensajes/"+data.user+'/'+data.producto)
+			// 			.then(function(response) {
+
+						
+
+			// 			ult = response.data.length-1
+
+			// 			$scope.ultimoregistro = response.data[ult]
+
+			// 			console.log('ultimo...',$scope.ultimoregistro.user,'{{usuario.id}}')
+
+			// 			if($scope.ultimoregistro.user!='{{usuario.id}}'){
+
+			// 				var myTimer = setTimeout(doStuff, 2000);
+
+
+			// 				 $scope.mensajes = response.data
+
+			// 				$scope.mensajestitulo = response.data[0]
+
+			// 				$scope.mensajestitulo.user = data.user
+
+			// 			}
+
+
+			// 			});
+
+			// }, 10000);
+
+    }
+
+    $scope.favorito=function(producto,estado){
+
+    	$http.get("/addfavorito/"+producto+"/"+estado)
+
+		.then(function(response) {
+
+	    	$http.get("/estadofavorito/"+producto)
+
+			.then(function(response) {
+
+			console.log('JSJJJS',response)
+
+			$scope.id_favorito=response.data
+
+			
+			});			
+
+		});
+
+
+    }
+
+     	$http.get("/estadofavorito/"+$scope.id_producto)
+
+			.then(function(response) {
+
+				console.log('JSJJJS',response)
+
+				if(response.data){
+
+					$scope.id_favorito=response.data
+				}
+				else{
+
+					$scope.id_favorito='xxx'
+				}
+
+				
+
+			
+			});
+
+
+
+
+
+
+
+  
+
+    $scope.enviarchat = function (producto,userenvia,mensaje1) {
+
+
+ 
+
+
+
+    	
+
+    	var myTimer = setTimeout(doStuff, 1000);
+
+
+
+  
+		$(".chatin").scrollTop(545)
+
+         var todo={producto:producto,user:userenvia,mensaje1:mensaje1}
+
+
+        $http({
+        url: "/enviamensaje_perfil/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+				
+				$scope.traemensajes(data)
+
+				$scope.mensaje1=''
+
+
+        })
+
+
+
+    };
+
+
+});
+</script>
+
+<style type="text/css">
+	
+	.xxx:hover{
+		font-size: 35px;
+  
+    transition: all .5s;
+}
+	.xxx{
+		font-size: 32px;
+	 
+		transition: all .1s;
+}
+
+
+</style>
+
+
+
+
+
+
+<div class='container '  style='margin-top:6em;' >
+
+
+
+<div  id="modal">
+
+<article>
+  
+ 
+  
+  <div class="content">
+
+
+  		<span class='closemodal' ng-click='cerrar()'><i class="fa fa-times-circle" aria-hidden="true"></i>
+</span>
+
+    
+
+      <div ng-click='indice =indice-1;'><img ng-if='photos[indice-1].detalle' id='principal1' class="img-fluid " src="{{host}}{[{photos[indice-1].detalle}]}" alt="Card image cap"></div>
+
+        <img data-toggle="modal" class="img-fluid " style='height: 100%;' src="{{host}}{[{photos[indice].photo__photo}]}" alt="Card image cap">
+
+        <div   ng-click='indice =indice+1'><img ng-if='photos[indice+1].detalle' id='principal2' class="img-fluid " src="{{host}}{[{photos[indice+1].detalle}]}" alt="Card image cap"></div>
+        <div class='row'>
+
+
+    
+  </div>
+  
+
+  
+</article>
+  
+</div><!-- end #modal
+ -->
+
+
+    
+
+    
+
+<br>
+
+
+<div class='row'>
+
+       <div class='col-md-8 col-xs-12 col-sm-12 animated fadeIn'>
+
+            <div class='row no-gutters'>
+
+
+
+
+                	<div class='col-md-12 col-xs-12 col-sm-6 '>
+
+                    <div class="flex-container">
+                  <div class="flex-item">{{producto.titulo}}</div>
+                  <div class="price">S/. {{producto.precio}}</div>
+					
+
+
+                  <div  ng-click='favorito(id_producto,0)' class="heart animated  pulse"><i class="xxx fa fa-heart-o" aria-hidden="true"></i></div>  
+
+                  <!-- <div ng-if='id_favorito'  class="heart animated  pulse"><i class="xxx fa fa-heart" aria-hidden="true"></i></div>  -->
+
+             <!--      <div ng-if="id_favorito=='xxx'" ng-click='favorito(id_producto,0)' class="heart animated  pulse"><i class="xxx fa fa-heart-o" aria-hidden="true"></i></div> 
+ -->
+
+
+
+                </div>
+
+    				
+
+                    <center>
+                	
+
+                			
+                				<img ng-if='photoprincipal' ng-click='abre()' id='principal' class="img-fluid " src="{{host}}{[{photoprincipal}]}" alt="Card image cap">
+
+
+                  </center>
+                			
+
+                	</div>
+
+                    <div class='col-md-12 col-xs-12 col-sm-6'>
+
+                                <div style='padding: 14px;'>
+
+                                        <div class='row no-gutters'>
+
+                                        <div class='col-md-2 col-xs-2 col-sm-2 ' ng-repeat="p in photos">
+
+                                        <div ng-click='traeimagen(p,$index)' class="card" >
+
+                                        <img class="card-img-top img-fluid" src="{{host}}{[{p.detalle}]}" alt="Card image cap">
+
+                                        </div>
+
+                                        </div>
+                                        
+                                        </div>
+
+                                </div>
+
+                	</div>
+
+
+            </div>
+
+    </div>
+
+	<div  class='col-md-4 col-xs-12 col-sm-12'>
+
+	
+
+	<div class='row no-gutters' class='detallechatproducto' style='background: #1b9f94; color:#fff;'>
+
+
+
+		<div class='col-4'>
+
+		<img ng-if='mensajestitulo.user__photo' src="{{host}}{[{mensajestitulo.user__photo}]}" alt="" style="height: 65px;
+	    ">
+
+		</div>
+
+		<div class='col-4' st>
+	
+		<small>{[{mensajestitulo.user__first_name}]}</small><br>
+		{[{mensajestitulo.titulo}]}<br>
+		<small>S/.{[{mensajestitulo.precio}]}</small>
+		
+
+
+
+		</div>
+
+		<div class='col-4' style='margin-top: 0px;
+    font-size: 12px;
+    margin-left: -1px;
+    background: #ffffff;
+    padding-top: 13px;
+    color: #234;
+    padding-left: 19px;
+    transform: skew(-8deg);
+    border: 1px solid #1b9f94;
+
+'>
+
+			<a href='/productos/{[{mensajestitulo.user_id}]}'>Mas anuncios de {[{mensajestitulo.user__first_name}]} </a> 
+
+
+		</div>
+
+
+		</div>
+
+<div class='row no-gutters chatin' id='chatin'>
+
+
+
+	
+	<div class="col-md-12" ng-repeat="(key, m) in mensajes">
+
+	
+			
+				<div class='useractual' ng-if='m.user__username!="{{usuario_receptor.username}}"'> 
+
+			
+
+						<div class="row no-gutters">
+							
+							<div class="col-12" style='text-align:right;' ng-if='key!=mensajes.length-1'>
+
+								<div class="talk-bubble tri-right round border right-top">
+								  <div class="talktext ">
+								  <!-- <small>{[{m.user__first_name}]}</small><br> -->
+								   <!-- <small style='font-size:8px;'> {[{m.fecha}]}</small><br> -->
+								    <small>{[{m.mensaje}]}</small>
+
+
+
+								     
+								   
+								  </div>
+								  
+								</div>
+
+							</div>
+
+							<div class="col-12" style='text-align:right;' ng-if='key==mensajes.length-1'>
+
+								<div class="talk-bubble tri-right round border right-top ultimo">
+								  <div class="talktext ">
+							<!-- 	  <small>{[{m.user__first_name}]}</small><br> -->
+								 <!--   <small style='font-size:8px;'>{[{m.fecha}]}</small><br> -->
+								    <small>{[{m.mensaje}]}</small>
+
+								  </div>
+								  
+								</div>
+
+							</div>
+
+
+
+
+					
+
+						</div>
+
+				</div>		
+
+
+				<div class='useractual' ng-if='m.user__username=="{{usuario_receptor.username}}"'>
+
+						<div class="row no-gutters">
+							
+				
+
+								<div class="col-12" ng-if='key!=mensajes.length-1'>
+
+									<div class="talk-bubble_1 tri-right_1 left-top">
+									<div class="talktext ">
+						<!-- 			<small>{[{m.user__first_name}]}</small><br> -->
+								<!-- 	<small style='font-size:8px;'>{[{m.fecha}]}</small><br> -->
+									<small>{[{m.mensaje}]}</small>
+
+									</div>
+									</div>
+								</div>
+
+								<div class="col-12" ng-if='key==mensajes.length-1'>
+
+									<div class="talk-bubble_1 tri-right_1 left-top ultimo">
+									<div class="talktext ">
+									<!-- <small>{[{m.user__first_name}]}</small><br> -->
+									<!-- <small style='font-size:8px;'>{[{m.fecha}]}</small><br> -->
+									<small>{[{m.mensaje}]}</small>
+
+									</div>
+									</div>
+								</div>
+
+							
+
+						</div>
+
+				</div>	 			
+
+
+			
+
+
+
+
+			
+	</div>
+
+
+</div>
+
+
+
+
+
+			 	<form>
+
+			 	<div class="row no-gutters" style='background: #fff;padding: 9px;'>
+			 		<div class="col-10"><input type="hidden" class="form-control" id="fono" ng-model = 'id_producto'  placeholder="producto" >
+					    <input type="hidden" class="form-control" id="fono" ng-model = 'userenvia'  placeholder="user" >
+					    <input type="text" required class="form-control" id="fono" ng-model = 'mensaje1'  placeholder="Mensaje..." >
+					</div>
+
+			 		<div class="col-2">
+
+			 		{% if usuario.username  %}
+			 			<button ng-click='enviarchat(id_producto,userenvia,mensaje1)' class="btn btn-primary"> <i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+			 		 {% else %}
+
+			 		 	<a class='btn btn-primary' href='/ingresar/{[{id_producto}]}'> <i class="fa fa-paper-plane-o" aria-hidden="true"></i></a>
+
+			 		 {% endif %}
+			 		</div>
+			 	</div>
+			 
+			    
+			  
+			
+			</form>
+
+
+
+
+
+
+
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+
+.closemodal{
+	position: absolute;
+right: 15px;
+color: #fff;
+font-size: 35px;
+cursor: pointer;
+
+}
+
+
+	
+#modal {
+	position: fixed;
+	top: 20px;
+	bottom: 23px;
+	left: 45px;
+	right: 50px;
+	z-index: 10000000;
+	box-shadow: 0px 0px 11px 3px #123;
+	text-align: center;
+}
+
+article {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%; /* can use left: 0; right: 0; as well */
+  background: rgba(11, 19, 7, 0.8);
+}
+
+article header {
+  width: 100%; 
+  height: 3em;
+  background-color: #666;
+}
+
+article .content {
+  position: absolute;
+  top: 1em;
+  bottom: 1em;
+  width: 100%; /* can use left: 0; right: 0; as well */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; 
+}
+
+article footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%; /* can use left: 0; right: 0; as well */
+  height: 3em;
+  background: #666;
+}
+
+</style>
+
+
+
+{% include "footer.html" %}
+</body>
+</html>
+
+
+
+
+
+
+
+
