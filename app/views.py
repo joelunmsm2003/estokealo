@@ -76,6 +76,10 @@ def home(request):
 
 		usuario= AuthUser.objects.get(id=user)
 
+		if 'https://' in str(usuario.photo)==False:
+
+			usuario.photo = str(host)+str(usuario.photo)
+
 	categoria = Categoria.objects.all().values('id','nombre','icon')
 
 	favoritos = Favoritoproducto.objects.filter(user_id=user)
@@ -94,7 +98,6 @@ def home(request):
 	compradores = ValuesQuerySetToDict(compradores)+ValuesQuerySetToDict(propios)
 
 
-	print compradores
 	if m=='m':	
 
 		return render(request, 'homemovil.html',{'favoritos':favoritos,'productos':productos,'usuario':usuario,'host':host,'categoria':categoria})
@@ -467,6 +470,10 @@ def detallechatpc(request,user,id_producto):
 
 			usuario =AuthUser.objects.get(id=user_id)
 
+			if 'https://' in str(usuario.photo)==False:
+
+				usuario.photo = str(host)+str(usuario.photo)
+
 			if Favoritoproducto.objects.filter(user_id=user_id,producto_id=id_producto).count()>0:
 
 				favorito = Favoritoproducto.objects.get(user_id=user_id,producto_id=id_producto).estado
@@ -642,7 +649,21 @@ def chatin(request,id):
 
 	compradores = Chat.objects.filter(destino_id=user).values('user','user__first_name','user__username','user__photo','producto','producto__titulo','producto__precio','producto__titulo').annotate(count=Count('id'))
 
+	for p in range(len(compradores)):
+
+		if ('https://' in str(compradores[p]['user__photo']))==False:
+
+			compradores[p]['user__photo'] = str(host)+str(compradores[p]['user__photo'])
+
 	propios = Chat.objects.filter(user_id=user).values('user','user__first_name','user__username','user__photo','producto','producto__titulo','producto__precio','producto__titulo').annotate(count=Count('producto'))
+
+	for p in range(len(propios)):
+
+		if ('https://' in str(propios[p]['user__photo']))==False:
+
+			propios[p]['user__photo'] = str(host)+str(propios[p]['user__photo'])
+
+
 
 	compradores = ValuesQuerySetToDict(compradores)+ValuesQuerySetToDict(propios)
 
@@ -673,6 +694,12 @@ def listamensajes(request,user,producto):
 
 	for p in range(len(mensajes)):
 
+		if ('https://' in str(mensajes[p]['user__photo']))==False:
+
+			mensajes[p]['user__photo'] = str(host)+str(mensajes[p]['user__photo'])
+
+
+
 		if Chat.objects.filter(id=mensajes[p]['id']).values('fecha')[0]['fecha']:
 
 			mensajes[p]['fecha'] = Chat.objects.get(id=mensajes[p]['id']).fecha.strftime(fmt)
@@ -686,6 +713,10 @@ def listamensajes(request,user,producto):
 	fmt = '%Y-%m-%d %H:%M:%S'
 
 	for p in range(len(mensajes1)):
+
+		if ('https://' in str(mensajes1[p]['user__photo']))==False:
+
+			mensajes1[p]['user__photo'] = str(host)+str(mensajes1[p]['user__photo'])
 
 		if Chat.objects.filter(id=mensajes1[p]['id']).values('fecha')[0]['fecha']:
 
@@ -905,11 +936,8 @@ def enviamensaje_perfil_web(request):
 	if request.method == 'POST':
 
 		user = request.user.id
-
-
+		
 		data = json.loads(request.body)['dato']
-
-
 
 		fecha = datetime.today()-timedelta(hours=5)
 
@@ -1124,6 +1152,25 @@ def verificalogin(request):
 
 			return HttpResponse(data, content_type="application/json")
 
+
+
+@csrf_exempt
+def subirimgprofile(request):
+
+	if request.method == 'POST':
+
+		pf= request.POST['img']
+
+		user = request.user.id
+
+		u=AuthUser.objects.get(id=user)
+		u.photo = pf
+		u.save()
+
+		id_producto = simplejson.dumps('Bienvenido')
+
+
+		return HttpResponse(id_producto, content_type="application/json")
 
 
 

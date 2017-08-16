@@ -10,6 +10,8 @@
 
 <link rel="stylesheet" type="text/css" href="/static/css/bordeschat.css">
 
+
+
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
    <script data-require="jquery" data-semver="2.0.3" src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script data-require="bootstrap" data-semver="3.0.0" src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
@@ -22,7 +24,9 @@
 
     overflow-y: auto;
     height: 20em;
-	}
+    overflow-x: hidden;
+}
+	
 
 	.titulomensaje{
 
@@ -59,6 +63,9 @@
 
 {% include "header.html" %}
 
+
+
+
 <script>
 
 $.fn.extend({
@@ -69,7 +76,7 @@ $.fn.extend({
         });
     }
 });
-var app = angular.module('myApp', ['ngCookies']);
+var app = angular.module('myApp', ['ngCookies','ngSanitize']);
 
 app.config(function($interpolateProvider){
     $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
@@ -90,6 +97,26 @@ $('#modal').hide()
 
 
 $scope.indice =0
+
+
+
+$scope.haha="<div class='emoji  emoji--haha'><div class='emoji__face'><div class='emoji__eyes'></div><div class='emoji__mouth'><div class='emoji__tongue'></div></div></div></div>"
+
+$scope.yay="<div class='emoji  emoji--yay'><div class='emoji__face'><div class='emoji__eyebrows'></div><div class='emoji__mouth'></div></div></div>"
+
+$scope.wow ="<div class='emoji  emoji--wow' ng-click='enviarchat(id_producto,userenvia,wow)'><div class='emoji__face'><div class='emoji__eyebrows'></div><div class='emoji__eyes'></div><div class='emoji__mouth'></div></div></div>"
+
+
+
+$scope.sad="<div class='emoji  emoji--sad'><div class='emoji__face'><div class='emoji__eyebrows'></div><div class='emoji__eyes'></div><div class='emoji__mouth'></div></div></div>"
+
+$scope.angry = "<div class='emoji  emoji--angry'><div class='emoji__face'><div class='emoji__eyebrows'></div><div class='emoji__eyes'></div><div class='emoji__mouth'></div></div></div>"
+
+
+$scope.like="<div class='emoji  emoji--like'><div class='emoji__hand'><div class='emoji__thumb'></div></div></div>"
+
+$scope.love="<div class='emoji  emoji--love'><div class='emoji__heart'></div></div>"
+
 
     $http.get("/productojson/{{producto.id}}")
     .then(function(response) {
@@ -365,6 +392,7 @@ $scope.indice =0
 
 
 
+
 <div  id="modal">
 
 <article>
@@ -478,18 +506,18 @@ $scope.indice =0
 
 	
 
-	<div class='row no-gutters' class='detallechatproducto' style='background: #1b9f94; color:#fff;'>
+	<div class='row' class='detallechatproducto' style='background: #1b9f94; color:#fff;'>
 
 
 
-		<div class='col-4'>
+		<div class='col-2'>
 
-		<img ng-if='mensajestitulo.user__photo' src="{{host}}{[{mensajestitulo.user__photo}]}" alt="" style="height: 65px;
+		<img ng-if='mensajestitulo.user__photo' src="{[{mensajestitulo.user__photo}]}" alt="" style="height: 100%;
 	    ">
 
 		</div>
 
-		<div class='col-4' st>
+		<div class='col-6' st>
 	
 		<small>{[{mensajestitulo.user__first_name}]}</small><br>
 		{[{mensajestitulo.titulo}]}<br>
@@ -520,7 +548,7 @@ $scope.indice =0
 
 		</div>
 
-<div class='row no-gutters chatin' id='chatin'>
+<div class='row chatin' id='chatin'>
 
 
 
@@ -537,33 +565,36 @@ $scope.indice =0
 							
 							<div class="col-12" style='text-align:right;' ng-if='key!=mensajes.length-1'>
 
-								<div class="talk-bubble tri-right round border right-top">
+								<div class="talk-bubble tri-right round border right-top" ng-if="m.mensaje.length<60">
 								  <div class="talktext ">
-								  <!-- <small>{[{m.user__first_name}]}</small><br> -->
-								   <!-- <small style='font-size:8px;'> {[{m.fecha}]}</small><br> -->
-								    <small>{[{m.mensaje}]}</small>
+		
+								    <small ng-bind-html="m.mensaje"></small>
 
-
-
-								     
-								   
 								  </div>
 								  
 								</div>
+
+							   	<span ng-if="m.mensaje.length>60" ng-bind-html="m.mensaje"></span>
+
+						
 
 							</div>
 
 							<div class="col-12" style='text-align:right;' ng-if='key==mensajes.length-1'>
 
-								<div class="talk-bubble tri-right round border right-top ultimo">
+								<div class="talk-bubble tri-right round border right-top ultimo" ng-if="m.mensaje.length<60" >
 								  <div class="talktext ">
-							<!-- 	  <small>{[{m.user__first_name}]}</small><br> -->
-								 <!--   <small style='font-size:8px;'>{[{m.fecha}]}</small><br> -->
-								    <small>{[{m.mensaje}]}</small>
+		
+		
+								    <small ng-bind-html="m.mensaje"></small>
+
 
 								  </div>
 								  
 								</div>
+
+								<span ng-if="m.mensaje.length>60" ng-bind-html="m.mensaje"></span>
+
 
 							</div>
 
@@ -585,26 +616,36 @@ $scope.indice =0
 
 								<div class="col-12" ng-if='key!=mensajes.length-1'>
 
-									<div class="talk-bubble_1 tri-right_1 left-top">
+									<div class="talk-bubble_1 tri-right_1 left-top" ng-if="m.mensaje.length<60">
 									<div class="talktext ">
-						<!-- 			<small>{[{m.user__first_name}]}</small><br> -->
-								<!-- 	<small style='font-size:8px;'>{[{m.fecha}]}</small><br> -->
-									<small>{[{m.mensaje}]}</small>
+					
+									
+		
+								    <small ng-bind-html="m.mensaje"></small>
 
 									</div>
 									</div>
+
+									<span ng-if="m.mensaje.length>60" ng-bind-html="m.mensaje"></span>
+
+
+
 								</div>
 
 								<div class="col-12" ng-if='key==mensajes.length-1'>
 
-									<div class="talk-bubble_1 tri-right_1 left-top ultimo">
+									<div class="talk-bubble_1 tri-right_1 left-top ultimo" ng-if="m.mensaje.length<60">
 									<div class="talktext ">
-									<!-- <small>{[{m.user__first_name}]}</small><br> -->
-									<!-- <small style='font-size:8px;'>{[{m.fecha}]}</small><br> -->
-									<small>{[{m.mensaje}]}</small>
+								
+		
+								    <small ng-bind-html="m.mensaje"></small>
 
 									</div>
 									</div>
+
+									<span ng-if="m.mensaje.length>60" ng-bind-html="m.mensaje"></span>
+
+
 								</div>
 
 							
@@ -631,8 +672,74 @@ $scope.indice =0
 
 			 	<form>
 
-			 	<div class="row no-gutters" style='background: #fff;padding: 9px;'>
-			 		<div class="col-10"><input type="hidden" class="form-control" id="fono" ng-model = 'id_producto'  placeholder="producto" >
+			 	<div class="row " style='background: #fff;padding: 9px;'>
+
+					<div class='col-2'>
+						
+						{% if usuario.username  %}
+						
+
+						<div class="dropdown">
+						  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-smile-o" aria-hidden="true"></i>
+
+						  <span class="caret"></span></button>
+						  <ul class="dropdown-menu">
+						  <div class="emoji  emoji--like" ng-click='enviarchat(id_producto,userenvia,like)'>
+						  <div class="emoji__hand">
+						      <div class="emoji__thumb"></div>
+						  </div>
+						</div>
+						<div class="emoji  emoji--love" ng-click='enviarchat(id_producto,userenvia,love)'>
+						  <div class="emoji__heart"></div>
+						</div>
+						<div class="emoji  emoji--haha" ng-click='enviarchat(id_producto,userenvia,haha)'>
+						  <div class="emoji__face">
+						    <div class="emoji__eyes"></div>
+						    <div class="emoji__mouth">
+						      <div class="emoji__tongue"></div>
+						    </div>
+						  </div>  
+						</div>
+						<div class="emoji  emoji--yay" ng-click='enviarchat(id_producto,userenvia,haha)'>
+						  <div class="emoji__face">
+						    <div class="emoji__eyebrows"></div>
+						    <div class="emoji__mouth"></div>
+						  </div>
+						</div>
+						<div class="emoji  emoji--wow" ng-click='enviarchat(id_producto,userenvia,wow)'>
+						  <div class="emoji__face">
+						    <div class="emoji__eyebrows"></div>
+						    <div class="emoji__eyes"></div>
+						    <div class="emoji__mouth"></div>
+						  </div>
+						</div>
+						<div class="emoji  emoji--sad" ng-click='enviarchat(id_producto,userenvia,sad)'>
+						  <div class="emoji__face">
+						    <div class="emoji__eyebrows"></div>
+						    <div class="emoji__eyes"></div>
+						    <div class="emoji__mouth"></div>
+						  </div>
+						</div>
+						<div class="emoji  emoji--angry" ng-click='enviarchat(id_producto,userenvia,angry)'>
+						  <div class="emoji__face">
+						    <div class="emoji__eyebrows"></div>
+						    <div class="emoji__eyes"></div>
+						    <div class="emoji__mouth"></div>
+						  </div>
+						</div>
+						  </ul>
+						</div>
+
+
+
+		
+
+			 		 {% endif %}
+
+					</div>
+
+
+			 		<div class="col-8"><input type="hidden" class="form-control" id="fono" ng-model = 'id_producto'  placeholder="producto" >
 					    <input type="hidden" class="form-control" id="fono" ng-model = 'userenvia'  placeholder="user" >
 					    <input type="text" required class="form-control" id="fono" ng-model = 'mensaje1'  placeholder="Mensaje..." >
 					</div>
@@ -640,6 +747,7 @@ $scope.indice =0
 			 		<div class="col-2">
 
 			 		{% if usuario.username  %}
+						
 			 			<button ng-click='enviarchat(id_producto,userenvia,mensaje1)' class="btn btn-primary"> <i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
 			 		 {% else %}
 
@@ -685,6 +793,7 @@ font-size: 35px;
 cursor: pointer;
 
 }
+
 
 
 	
@@ -735,6 +844,10 @@ article footer {
 
 
 {% include "footer.html" %}
+
+
+
+
 </body>
 </html>
 

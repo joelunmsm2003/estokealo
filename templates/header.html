@@ -32,7 +32,9 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
+  <link rel="stylesheet" type="text/css" href="/static/css/emojin.css">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-sanitize.js"></script> 
 </head>
 
 
@@ -41,6 +43,8 @@
 
 
 <body>
+
+
 
 
 
@@ -81,6 +85,8 @@
 
  <a class="navbar-brand" href="/" style='margin-top: -16px;'><img src="{{host}}/static/estoke.png" height="45px"></a>
 
+ 
+
  <small style='position: absolute;
     left: 75px;
     top: 41px;
@@ -118,12 +124,11 @@
     padding-left: 16px;
     padding-right: 14px;" >
 
-    
+      
 
-      <img src="{{host}}{{usuario.photo}}" class='img-fluid rounded-circle' " style='width: 48px;
-    margin-top: -9px;''>
+      <img src="{{usuario.photo}}" class='img-fluid rounded-circle' " style='width: 40px;'>
       <span style='position: absolute;
-    margin-left: 12px;
+   
     color: #37475a; font-size:12px;'>{{usuario.first_name}}</span>
     
           
@@ -231,7 +236,7 @@
                 <div class="containerflex elem" ng-if='m.user__username!="{{usuario.username}}"'>
 
                   <section class="elem elem-green flexuser">
-                    <img src='{{host}}{[{m.user__photo}]}' class='img-fluid' >
+                    <img src='{[{m.user__photo}]}' class='img-fluid' >
                   </section>
                   <section class="elem elem-green flex2">
                    
