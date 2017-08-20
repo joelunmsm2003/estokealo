@@ -340,12 +340,14 @@ if(device === "xs"){
     
 
         <div class='one'>
-			  <img class="img-fluid" src="{{host}}{{producto.photo_home}}" alt="Card image cap">
+			  <img class="img-fluid" src="{{host}}{{producto.photo_home}}" alt="{{host}}{{producto.photo_home}}">
 
 
         <div class='two'>
-        <img class="card-img-top img-fluid" src="{{host}}{{producto.photo_home1}}" alt="Card image cap">
 
+        {% if producto.photo_home1 %}
+        <img class="card-img-top img-fluid" src="{{host}}{{producto.photo_home1}}" alt="{{host}}{{producto.photo_home1}}">
+        {% endif %}
         </div>
 
         </div>
@@ -554,6 +556,7 @@ position: absolute;
 </style>
 {% include "footer.html" %}
 
+ 
 
 
 </body>

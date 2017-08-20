@@ -215,3 +215,14 @@ class Favoritoproducto(models.Model):
     class Meta:
         managed = False
         db_table = 'favoritoproducto'
+
+class Notificacion(models.Model):
+    payload = models.TextField(blank=True, null=True)
+    p256dh = models.TextField(blank=True, null=True)
+    auth = models.TextField(blank=True, null=True)
+    endpoint = models.TextField(blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='user', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'notificacion'

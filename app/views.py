@@ -50,8 +50,6 @@ def home(request):
 
 	m = str(current_site).split('.')[0]
 
-	print m
-
 	usuario = None
 
 	productos= Producto.objects.all().order_by('-id')
@@ -76,7 +74,7 @@ def home(request):
 
 		usuario= AuthUser.objects.get(id=user)
 
-		if 'https://' in str(usuario.photo)==False:
+		if ('https://' in str(usuario.photo))==False:
 
 			usuario.photo = str(host)+str(usuario.photo)
 
@@ -122,11 +120,6 @@ def autentificacion(request):
 		return render(request, 'login.html',{'host':host})
 
 
-
-
-
-
-
 @login_required(login_url="/autentificacion")
 
 def salir(request):
@@ -134,9 +127,6 @@ def salir(request):
 	logout(request)
 	
 	return HttpResponseRedirect("/")
-
-
-
 
 
 @login_required(login_url="/autentificacion")
@@ -147,6 +137,11 @@ def perfil(request):
 	productos= Producto.objects.filter(user_id=user)
 
 	usuario= AuthUser.objects.get(id=user)
+
+	if ('https://' in str(usuario.photo))==False:
+
+		usuario.photo = str(host)+str(usuario.photo)
+
 
 	current_site = get_current_site(request)
 
@@ -311,6 +306,71 @@ def filtrarsubcategoria(request,dato,subcategoria):
 
 
 
+@csrf_exempt
+def enviarnotis(request,id):
+
+
+
+	if request.method == 'POST':
+
+		body= json.loads(request.body)['body']
+
+		title= json.loads(request.body)['title']
+
+		data = simplejson.dumps(body)
+
+	if int(id)==0:
+
+		n=Notificacion.objects.get(user_id__isnull=True)
+
+	else:
+
+		n=Notificacion.objects.get(user_id=id)
+
+
+	print 'n.payload',n.payload
+
+	endpoint= n.endpoint
+
+	auth= n.auth
+	p256dh =n.p256dh
+
+
+
+	os.system('python /home/estokeate/envia.py '+str(endpoint)+' '+str(auth)+' '+str(p256dh)+' '+str(body)+' '+str(title))
+
+	return HttpResponse(data, content_type="application/json")
+
+
+
+@csrf_exempt
+def recibenotis(request):
+
+	user = request.user.id
+
+	data = request.POST['keys']
+
+	endpoint = json.loads(data)['endpoint']
+
+	data = json.loads(data)['keys']
+
+	f = open('/home/estokeate/notificaciones.txt', 'a')
+	f.write('p256dh.bsbsbsbsbsb...'+str(user)+'\n')
+	f.close()
+
+	Notificacion.objects.filter(user_id=user).delete()
+
+	Notificacion(payload=data,auth=data['auth'],endpoint=endpoint,p256dh=data['p256dh'],user_id=user).save()
+
+
+
+
+	# f = open('/home/estokeate/notificaciones.txt', 'a')
+	# f.write(str(data)+'\n')
+	# f.close()
+
+	return render(request, 'home.html',{}) 
+
 @login_required(login_url="/autentificacion")
 def chat(request,id_user,id_producto):
 
@@ -325,6 +385,10 @@ def chat(request,id_user,id_producto):
 	p = str(current_site).split('.')[0]
 
 	usuario= AuthUser.objects.get(id=user)
+
+	if ('https://' in str(usuario.photo))==False:
+
+		usuario.photo = str(host)+str(usuario.photo)
 
 	favoritos = Favoritoproducto.objects.filter(user_id=user)
 
@@ -359,6 +423,10 @@ def productos(request,id):
 	if user:
 
 		usuario =AuthUser.objects.get(id=user)
+
+		if ('https://' in str(usuario.photo))==False:
+
+			usuario.photo = str(host)+str(usuario.photo)
 
 	productos= Producto.objects.filter(user_id=id)
 
@@ -414,12 +482,21 @@ def detallechat(request,user,producto):
 
 	user_id = request.user.id
 
+	favorito = None
+
 	if user_id:
 
 		usuario =AuthUser.objects.get(id=user_id)
 
+		if ('https://' in str(usuario.photo))==False:
 
-	favorito = Favoritoproducto.objects.get(user_id=user_id,producto_id=producto).estado
+			usuario.photo = str(host)+str(usuario.photo)
+
+
+
+	if Favoritoproducto.objects.filter(user_id=user_id,producto_id=producto):
+
+		favorito = Favoritoproducto.objects.get(user_id=user_id,producto_id=producto).estado
 
 	return render(request, 'detallechat.html',{'favorito':favorito,'host':host,'user':user,'producto':producto,'usuario_receptor':usuario_receptor,'usuario':usuario})
 
@@ -470,7 +547,7 @@ def detallechatpc(request,user,id_producto):
 
 			usuario =AuthUser.objects.get(id=user_id)
 
-			if 'https://' in str(usuario.photo)==False:
+			if ('https://' in str(usuario.photo))==False:
 
 				usuario.photo = str(host)+str(usuario.photo)
 
@@ -536,7 +613,7 @@ def estadofavorito(request,producto):
 
 def productosjson(request):
 
-	print 'tttttt'
+
 
 	productos_ = Producto.objects.all().values('id','categoria__nombre','precio','subcategoria__nombre','titulo','user','descripcion')
 
@@ -557,11 +634,9 @@ def productosjson(request):
 
 def busquedacategoria(request,categoria,subcategoria):
 
-	print categoria
 
 	if int(subcategoria)==0:
 
-		print 'entre..'
 
 		producto = Producto.objects.filter(categoria_id=categoria).values('id','titulo','descripcion','precio')
 
@@ -605,7 +680,10 @@ def detalleproducto(request,id):
 
 	for p in range(len(producto)):
 
-		print str(Photoproducto.objects.filter(producto_id=producto[p]['id']).values('photo','photo__photo')[0]['photo__photo'])
+		if ('https://' in str(producto[p]['user__photo']))==False:
+
+			producto[p]['user__photo'] = str(host)+str(producto[p]['user__photo'])
+		
 		producto[p]['photo_producto'] = str(Photoproducto.objects.filter(producto_id=producto[p]['id']).values('photo','photo__photo')[0]['photo__photo'])
 
 
@@ -627,7 +705,6 @@ def productocategoria(request,id):
 
 	for p in range(len(producto)):
 
-		print str(Photoproducto.objects.filter(producto_id=producto[p]['id']).values('photo','photo__photo')[0]['photo__photo'])
 		producto[p]['detalle'] = str(Photoproducto.objects.filter(producto_id=producto[p]['id']).values('photo','photo__photo')[0]['photo__photo'])
 
 
@@ -738,15 +815,21 @@ def producto(request,id):
 
 	user = request.user.id
 
-
-	
 	usuario = None
 
 	if user:
 
 		usuario =AuthUser.objects.get(id=user)
 
+		if ('https://' in str(usuario.photo))==False:
+
+			usuario.photo = str(host)+str(usuario.photo)
+
 	producto= Producto.objects.get(id=id)
+
+	if ('https://' in str(producto.user.photo))==False:
+
+		producto.user.photo = str(host)+str(producto.user.photo)
 
 	videos = None
 
@@ -766,7 +849,6 @@ def producto(request,id):
 
 		return render(request, 'productodetalle.html',{'host':host,'producto':producto,'usuario':usuario,'videos':videos})
 		
-
 
 def busqueda(request):
 
@@ -862,7 +944,6 @@ def registra(request):
 
 	if request.method == 'POST':
 
-		print request.POST
 
 		user = request.POST['username']
 		
@@ -909,9 +990,6 @@ def enviamensaje_perfil(request):
 	if request.method == 'POST':
 
 		user = request.user.id
-
-		print 'json.loads(request.body)',json.loads(request.body)
-
 
 
 		data = json.loads(request.body)
@@ -971,10 +1049,6 @@ def noti(request):
 
 	if request.method == 'POST':
 
-
-
-		print 'json.loads(request.body)',json.loads(request.body)
-
 		data = simplejson.dumps('subcategorias')
 
 	return HttpResponse(data, content_type="application/json")
@@ -1012,8 +1086,6 @@ def uploadphoto(request):
 		img = Image.open(fd_img)
 
 		width, height = img.size
-
-		print 'tamanos',width,height
 
 		photo = Photo.objects.filter(id=id_photo).values('id','photo')
 
@@ -1063,7 +1135,6 @@ def uploadphoto(request):
 
 		if int(height) < 400 :
 
-			print 'Enano'
 
 			data_json = simplejson.dumps('Enano')
 
@@ -1089,7 +1160,6 @@ def uploadphoto(request):
 
 			photo[0]['photo'] = caption_galeria.split('/home/estokeate/')[1]
 
-			print 'pppppppppppppppp',photo[0]
 
 			data_json = simplejson.dumps(photo)
 
@@ -1139,7 +1209,7 @@ def verificalogin(request):
 
 		if request.user.is_authenticated():
 
-			print 'Autentificado.... OK'
+
 
 			data = simplejson.dumps('Logeado')
 
@@ -1332,8 +1402,6 @@ def vender(request):
 		categoria=data['categoria']
 		subcategoria=data['subcategoria']
 
-		print 'hdhdh',data
-
 
 		Producto(user_id=id_user,titulo=titulo,categoria_id=categoria,subcategoria_id=subcategoria,descripcion=descripcion,precio=precio).save()
 
@@ -1343,14 +1411,12 @@ def vender(request):
 		for d in data:
 
 
-			print 'Queee...',d
-
 
 			if d=='image':
 
 				image=data['image']
 
-				print 'Imagen...',image
+
 
 				Photoproducto(photo_id=image,producto_id=id_producto).save()
 

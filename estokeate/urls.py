@@ -53,5 +53,9 @@ urlpatterns = [
     url(r'^estadofavorito/(\d+)', 'app.views.estadofavorito'),
     url(r'^misfavoritos/', 'app.views.misfavoritos'),
     url(r'^subirimgprofile/', 'app.views.subirimgprofile'),
+    url(r'^recibenotis/', 'app.views.recibenotis'),
+    url(r'^enviarnotis/(\d+)', 'app.views.enviarnotis'),
+    
+
 
 ]

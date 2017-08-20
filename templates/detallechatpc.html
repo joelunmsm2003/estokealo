@@ -10,10 +10,10 @@
 
 <link rel="stylesheet" type="text/css" href="/static/css/bordeschat.css">
 
-
+<link rel="manifest" href="/static/manifest.json">
 
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-   <script data-require="jquery" data-semver="2.0.3" src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script data-require="bootstrap" data-semver="3.0.0" src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
    
 
@@ -512,15 +512,14 @@ $scope.love="<div class='emoji  emoji--love'><div class='emoji__heart'></div></d
 
 		<div class='col-2'>
 
-		<img ng-if='mensajestitulo.user__photo' src="{[{mensajestitulo.user__photo}]}" alt="" style="height: 100%;
-	    ">
+		<img ng-if='mensajestitulo.user__photo' src="{[{mensajestitulo.user__photo}]}" alt="" class='img-fluid'>
 
 		</div>
 
-		<div class='col-6' st>
+		<div class='col-6' style='padding-top: 11px; padding-left: 0px;'>
 	
-		<small>{[{mensajestitulo.user__first_name}]}</small><br>
-		{[{mensajestitulo.titulo}]}<br>
+		<small>{[{mensajestitulo.user__first_name}]}</small> |
+		{[{mensajestitulo.titulo}]}|
 		<small>S/.{[{mensajestitulo.precio}]}</small>
 		
 
@@ -528,19 +527,17 @@ $scope.love="<div class='emoji  emoji--love'><div class='emoji__heart'></div></d
 
 		</div>
 
-		<div class='col-4' style='margin-top: 0px;
+		<div class='col-4' style='    margin-top: 0px;
     font-size: 12px;
-    margin-left: -1px;
     background: #ffffff;
-    padding-top: 13px;
     color: #234;
     padding-left: 19px;
-    transform: skew(-8deg);
     border: 1px solid #1b9f94;
+    text-align: right;
+    padding-top: 4px;
+}'>
 
-'>
-
-			<a href='/productos/{[{mensajestitulo.user_id}]}'>Mas anuncios de {[{mensajestitulo.user__first_name}]} </a> 
+			<a href='/productos/{[{mensajestitulo.user_id}]}'>Tienda Virtual de {[{mensajestitulo.user__first_name}]} </a> 
 
 
 		</div>
@@ -761,6 +758,12 @@ $scope.love="<div class='emoji  emoji--love'><div class='emoji__heart'></div></d
 			  
 			
 			</form>
+
+
+
+
+		
+
 
 
 

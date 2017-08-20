@@ -32,7 +32,12 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-sanitize.js"></script> 
 
+   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+  
+  <link rel="stylesheet" type="text/css" href="/static/css/emojin.css">
 
 </head>
 
@@ -47,22 +52,26 @@
 
 <div class="drawer-title">
 
-<div class="row no-gutters">
+
 
   {% if usuario.username %}
-  
-  <div class="col-4"><div style='padding: 8px;'><img src='{{host}}{{usuario.photo}}' class="img-fluid rounded-circle" style='max-height: 40px;'></img></div></div>
 
-  <div class="col-8"><div class="drawer-text"><a href="/"><span class="user-name">Hola, {{usuario.first_name}}</span></a></div></div>
+  <div class="row no-gutters">
+  
+  <div class="col-4"><div style='padding: 8px;'><img src='{{usuario.photo}}' class="img-fluid rounded-circle" style='max-height: 40px;'></img></div></div>
+
+  <div class="col-8"><a href="/"><div class="drawer-text"><span class="user-name">Hola, {{usuario.first_name}}</span></div></a></div>
+
+  </div>
 
   
  {% else %}
 
-<div style='padding: 8px;'><a class='icons ' href="/ingresar/7"> <i class="material-icons">input</i><span class='detallemovil'>Ingresar</span></a></div>
+<a href="/ingresar/7"><div style='padding: 8px;'> <i class="material-icons">input</i><span class='detallemovil'>Ingresar</span></div></a>
   
   {% endif %}
 
-</div>
+
 
 
 
@@ -84,7 +93,7 @@
 
 <a class='icons' href='/perfil'><i class="material-icons">account_circle</i><span class='detallemovil'>Mi Perfil</span></a>
 
-<a class='icons' href='/chat'><i class="material-icons">chat</i><span class='detallemovil'>Mis Mensajes</span></a>
+<a class='icons' href='/chat/7/7'><i class="material-icons">chat</i><span class='detallemovil'>Mis Mensajes</span></a>
 
 <a class='icons' href='/vender'><i class="material-icons">camera_alt</i><span class='detallemovil'>Vender</span></a>
 
@@ -160,6 +169,9 @@
   
   
 </nav>
+
+
+ 
 
 
 <label class="drawer-overlay" for="drawer-toggle"  onclick="cierranav()" ></label>

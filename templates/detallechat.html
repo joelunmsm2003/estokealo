@@ -64,7 +64,7 @@
 
 
 <script>
-var app = angular.module('myApp', ['ngCookies']);
+var app = angular.module('myApp', ['ngCookies','ngSanitize']);
 
 app.config(function($interpolateProvider){
     $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
@@ -74,18 +74,30 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 
 
-	console.log('ddddd','{{user}}')
-
 	$scope.userenvia = '{{user}}'
 
 
-    $scope.host = 'http://192.168.1.40/'
 
-    $scope.firstName = "John";
-    $scope.lastName = "Doe";
 
 
     $scope.id_producto ='{{producto}}'
+
+    $scope.haha="<div class='emoji  emoji--haha'><div class='emoji__face'><div class='emoji__eyes'></div><div class='emoji__mouth'><div class='emoji__tongue'></div></div></div></div>"
+
+	$scope.yay="<div class='emoji  emoji--yay'><div class='emoji__face'><div class='emoji__eyebrows'></div><div class='emoji__mouth'></div></div></div>"
+
+	$scope.wow ="<div class='emoji  emoji--wow' ng-click='enviarchat(id_producto,userenvia,wow)'><div class='emoji__face'><div class='emoji__eyebrows'></div><div class='emoji__eyes'></div><div class='emoji__mouth'></div></div></div>"
+
+
+
+	$scope.sad="<div class='emoji  emoji--sad'><div class='emoji__face'><div class='emoji__eyebrows'></div><div class='emoji__eyes'></div><div class='emoji__mouth'></div></div></div>"
+
+	$scope.angry = "<div class='emoji  emoji--angry'><div class='emoji__face'><div class='emoji__eyebrows'></div><div class='emoji__eyes'></div><div class='emoji__mouth'></div></div></div>"
+
+
+	$scope.like="<div class='emoji  emoji--like'><div class='emoji__hand'><div class='emoji__thumb'></div></div></div>"
+
+	$scope.love="<div class='emoji  emoji--love'><div class='emoji__heart'></div></div>"
 
 
 
@@ -208,8 +220,20 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
  
 
+    	    	if (mensaje1.indexOf(".jpg") != -1){
 
-    	console.log('he',$(".scroll").height())
+    		mensaje1='<img style="width:200px;padding: 8px;" src="'+mensaje1+'">'
+
+
+    	}
+
+    	if (mensaje1.indexOf(".gif") != -1){
+
+    		mensaje1='<img style="width:200px;padding:8px;" src="'+mensaje1+'">'
+
+
+    	}
+
 
     	
 
@@ -260,8 +284,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 
 
-	<div class='row' class='detallechatproducto' style='background: #1b9f94; color:#fff;'>
-
+	<div class='row' class='detallechatproducto' style='background: #1b9f94; color:#fff; padding-top: 10px;'>
 
 
 		<div class='col-4'>
@@ -288,6 +311,8 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 
 
+
+
 	
 	<div class="col-md-12" ng-repeat="(key, m) in mensajes">
 
@@ -301,11 +326,11 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 							
 							<div class="col-12" style='text-align:right;' ng-if='key!=mensajes.length-1'>
 
-								<div class="talk-bubble tri-right round border right-top">
+								<div class="talk-bubble tri-right round border right-top" ng-if="m.mensaje.length<60">
 								  <div class="talktext ">
 								  <!-- <small>{[{m.user__first_name}]}</small><br> -->
 								   <!-- <small style='font-size:8px;'> {[{m.fecha}]}</small><br> -->
-								    <small>{[{m.mensaje}]}</small>
+								    <span ng-bind-html="m.mensaje"></span>
 
 
 
@@ -315,19 +340,23 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 								  
 								</div>
 
+								<span ng-if="m.mensaje.length>60" ng-bind-html="m.mensaje"></span>
+
 							</div>
 
 							<div class="col-12" style='text-align:right;' ng-if='key==mensajes.length-1'>
 
-								<div class="talk-bubble tri-right round border right-top ultimo">
+								<div class="talk-bubble tri-right round border right-top ultimo" ng-if="m.mensaje.length<60">
 								  <div class="talktext ">
 							<!-- 	  <small>{[{m.user__first_name}]}</small><br> -->
 								 <!--   <small style='font-size:8px;'>{[{m.fecha}]}</small><br> -->
-								    <small>{[{m.mensaje}]}</small>
+								   <span ng-bind-html="m.mensaje"></span>
 
 								  </div>
 								  
 								</div>
+
+								<span ng-if="m.mensaje.length>60" ng-bind-html="m.mensaje"></span>
 
 							</div>
 
@@ -349,26 +378,32 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 								<div class="col-12" ng-if='key!=mensajes.length-1'>
 
-									<div class="talk-bubble_1 tri-right_1 left-top">
+									<div class="talk-bubble_1 tri-right_1 left-top" ng-if="m.mensaje.length<60">
 									<div class="talktext ">
 						<!-- 			<small>{[{m.user__first_name}]}</small><br> -->
 								<!-- 	<small style='font-size:8px;'>{[{m.fecha}]}</small><br> -->
-									<small>{[{m.mensaje}]}</small>
+									<span ng-bind-html="m.mensaje"></span>
 
 									</div>
 									</div>
+
+									<span ng-if="m.mensaje.length>60" ng-bind-html="m.mensaje"></span>
 								</div>
 
 								<div class="col-12" ng-if='key==mensajes.length-1'>
 
-									<div class="talk-bubble_1 tri-right_1 left-top ultimo">
+									<div class="talk-bubble_1 tri-right_1 left-top ultimo" ng-if="m.mensaje.length<60">
 									<div class="talktext ">
 									<!-- <small>{[{m.user__first_name}]}</small><br> -->
 									<!-- <small style='font-size:8px;'>{[{m.fecha}]}</small><br> -->
-									<small>{[{m.mensaje}]}</small>
+									<span ng-bind-html="m.mensaje"></span>
 
 									</div>
 									</div>
+
+									<span ng-if="m.mensaje.length>60" ng-bind-html="m.mensaje"></span>
+
+
 								</div>
 
 							
@@ -392,17 +427,98 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 		<div class='fixed44'>
 
+
+
+
+
+
+
 		<form>
 
 			<div class="row no-gutters">
-				<div class="col-10"><input type="hidden" class="form-control" id="fono" ng-model = 'id_producto'  placeholder="producto" >
+
+			<div class='col-2'>
+			{% if usuario.username  %}
+
+						
+
+						<div class="dropdown">
+						  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-smile-o" aria-hidden="true"></i>
+
+						  <span class="caret"></span></button>
+						  <ul class="dropdown-menu">
+						  <div class="emoji  emoji--like" ng-click='enviarchat(id_producto,userenvia,like)'>
+						  <div class="emoji__hand">
+						      <div class="emoji__thumb"></div>
+						  </div>
+						</div>
+						<div class="emoji  emoji--love" ng-click='enviarchat(id_producto,userenvia,love)'>
+						  <div class="emoji__heart"></div>
+						</div>
+						<div class="emoji  emoji--haha" ng-click='enviarchat(id_producto,userenvia,haha)'>
+						  <div class="emoji__face">
+						    <div class="emoji__eyes"></div>
+						    <div class="emoji__mouth">
+						      <div class="emoji__tongue"></div>
+						    </div>
+						  </div>  
+						</div>
+						<div class="emoji  emoji--yay" ng-click='enviarchat(id_producto,userenvia,haha)'>
+						  <div class="emoji__face">
+						    <div class="emoji__eyebrows"></div>
+						    <div class="emoji__mouth"></div>
+						  </div>
+						</div>
+						<div class="emoji  emoji--wow" ng-click='enviarchat(id_producto,userenvia,wow)'>
+						  <div class="emoji__face">
+						    <div class="emoji__eyebrows"></div>
+						    <div class="emoji__eyes"></div>
+						    <div class="emoji__mouth"></div>
+						  </div>
+						</div>
+						<div class="emoji  emoji--sad" ng-click='enviarchat(id_producto,userenvia,sad)'>
+						  <div class="emoji__face">
+						    <div class="emoji__eyebrows"></div>
+						    <div class="emoji__eyes"></div>
+						    <div class="emoji__mouth"></div>
+						  </div>
+						</div>
+						<div class="emoji  emoji--angry" ng-click='enviarchat(id_producto,userenvia,angry)'>
+						  <div class="emoji__face">
+						    <div class="emoji__eyebrows"></div>
+						    <div class="emoji__eyes"></div>
+						    <div class="emoji__mouth"></div>
+						  </div>
+						</div>
+						  </ul>
+						</div>
+
+
+
+		
+
+			 		 {% endif %}
+			</div>
+
+
+
+
+
+      
+         
+				<div class="col-8"><input type="hidden" class="form-control" id="fono" ng-model = 'id_producto'  placeholder="producto" >
 			    <input type="hidden" class="form-control" id="fono" ng-model = 'userenvia'  placeholder="user" >
 			    <input type="text" class="form-control" id="fono" ng-model = 'mensaje1'  placeholder="Mensaje..." >
 			</div>
 
 				<div class="col-2">
+
+
+
+
 					<button ng-click='enviarchat(id_producto,userenvia,mensaje1)' class="btn btn-primary"> <i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
 				</div>
+
 			</div>
 
 		</form>
@@ -429,6 +545,29 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
     background: #fff;
  
 }
+
+.container-movil {
+    padding-top: 64px;
+    padding-bottom: 59px;
+}
+
+.chatin {
+
+    padding-bottom: 5em;
+}
+
+.dropdown-menu {
+
+    min-width: 29rem;
+    padding: 0px;
+    margin: -27.875rem 0 0;
+    background: rgba(2,3,4,.1);
+
+    border:0px;
+
+}
+
+
 </style>
 
 

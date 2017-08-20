@@ -15,10 +15,7 @@ app.config(function($interpolateProvider){
 app.controller('myCtrl', function($scope,$http) {
 
 
-    $scope.host = 'http://192.168.1.40/'
 
-    $scope.firstName = "John";
-    $scope.lastName = "Doe";
 
     $http.get("/chatin/{{usuario.id}}")
     .then(function(response) {
@@ -70,7 +67,7 @@ app.controller('myCtrl', function($scope,$http) {
 
 <div class='col-md-4'>
 
-<img src='{{host}}{{usuario.photo}}' class="img-fluid" ></img>
+<img src='{{usuario.photo}}' class="img-fluid" ></img>
 
 
 </div>

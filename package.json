@@ -28,6 +28,7 @@
     "jshint-stylish": "^2.0.0"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0-alpha.6"
+    "bootstrap": "^4.0.0-alpha.6",
+    "web-push": "^3.2.2"
   }
 }

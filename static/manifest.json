@@ -1,5 +1,5 @@
 {
-  "short_name": "PW Flap",
+  "short_name": "PyyyW Flap",
   "name": "Progressive Web Flap",
   "icons": [
     {
@@ -11,5 +11,5 @@
   "start_url": "/",
   "background_color": "#4EC0CA",
   "theme_color": "#4EC0CA",
-  "display": "fullscreen"
+  "display": "standalone"
 }

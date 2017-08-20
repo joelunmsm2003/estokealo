@@ -31,10 +31,7 @@ app.config(function($interpolateProvider){
 app.controller('myCtrl', function($scope,$http,$cookies) {
 
 
-    $scope.host = 'http://192.168.1.40/'
 
-    $scope.firstName = "John";
-    $scope.lastName = "Doe";
 
     $http.get("/chatin/{{usuario.id}}")
     .then(function(response) {
@@ -43,7 +40,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
     	$scope.chatin = response.data
 
-    		console.log('chatin...',$scope.chatin)
+
         
     });
 
@@ -204,7 +201,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 					<div class="col-2">
 
-					<img src="{{host}}{[{c.user__photo}]}" class='img-fluid    img-rounded'>
+					<img src="{[{c.user__photo}]}" class='img-fluid    img-rounded'>
 					
 					</div>
 
@@ -257,6 +254,7 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
     overflow-y: auto;
     height: 20em;
+    overflow-x: hidden;
 	}
 
 	.titulomensaje{
