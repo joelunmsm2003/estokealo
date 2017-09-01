@@ -1741,7 +1741,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
   height: 3.16667rem; }
 
 .form-group {
-  margin-bottom: 0.1rem; }
+  margin-bottom: 1rem; }
 
 .form-text {
   display: block;
@@ -1845,8 +1845,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
   -ms-flex-flow: row wrap;
   flex-flow: row wrap;
   -ms-flex-align: center;
-  align-items: center;
-  width: 520px; }
+  align-items: center; }
   .form-inline .form-check {
     width: 100%; }
   @media (min-width: 540px) {
@@ -3640,7 +3639,7 @@ a.badge:focus, a.badge:hover {
   flex-flow: row wrap;
   -ms-flex-align: center;
   align-items: center;
-  padding: 0.75rem 1.25rem;
+  padding: 0.6rem 1.25rem;
   margin-bottom: -1px;
   background-color: #35aaa0;
   border: 1px solid #3bbdb2;
@@ -6819,9 +6818,6 @@ a {
   background: #35aaa0;
   color: #fff;
   padding: 19px; }
-
-.sli {
-  background: rgba(109, 193, 186, 0.4); }
 
 .list-group-item:hover {
   background: #4bc7bc;

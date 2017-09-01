@@ -8,602 +8,64 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="height=device-height, initial-scale=1">
 
+  <script type="text/javascript" src='/static/app/vender.js'></script>
+
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+
 </head>
 
-<script>
-var app = angular.module('myApp', ['ngCookies']);
-
-app.config(function($interpolateProvider){
-    $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
-    })
-
-app.directive('fileModel', ['$parse', function ($parse) {
-            return {
-               restrict: 'A',
-               link: function(scope, element, attrs) {
-                  var model = $parse(attrs.fileModel);
-                  var modelSetter = model.assign;
-                  
-                  element.bind('change', function(){
-                     scope.$apply(function(){
-                        modelSetter(scope, element[0].files[0]);
-                     });
-                  });
-               }
-            };
-         }])
-
-app.controller('myCtrl', function($scope,$http,$cookies,$location) {
-
-
-
-    $http.get("/chatin/2")
-              .then(function(response) {
-
-               console.log('hshs',response.data)
-
-               $scope.listachat = response.data
-
-                  
-              });
-
-
-
-    $scope.enviaventa ={}
-
-    //Primarea Imagen
-
-    $scope.photo_1 =true
-    $scope.photo_2 =true
-    $scope.photo_3 =true
-    $scope.photo_4 =true
-
-    console.log('$scope.photo_1',$scope.photo_1)
-
-    $scope.muestrasubca = false
-
-    $scope.setFile = function(element) {
-
-    $scope.photo_1 = false
-
-    $scope.statusimagen = 'Cargando imagen...'
-
-    $scope.currentFile = element.files[0];
-
-
-    var reader = new FileReader();
-
-    reader.onload = function(event) {
-
-    $scope.image = event.target.result
-
-    $scope.$apply()
-
-    }
-    
-    reader.readAsDataURL(element.files[0]);
-
-    var file = $scope.myFile;
-
-    var fd = new FormData();
-
-    fd.append('file', $scope.currentFile);
-
-    $http.post('/uploadphoto/', fd, {
-    transformRequest: angular.identity,
-    headers: {'Content-Type': undefined}
-    })
-    
-
-    .success(function(data){
-
-
-      if (data=='Enano'){
-
-        $scope.photo_1 = true
-
-        $scope.statusimagen ='Ups... tu foto es muy pequeña '
-      }
-      else{
-
-
-      $scope.image = data[0].photo
-
-      $scope.enviaventa.image  = data[0].id
-
-      $scope.statusimagen =''
-
-      }
-
-
-
-    })
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-
-
-   
-
-    // Segunda Imagen
-
-    $scope.setFile1 = function(element) {
-
-    $scope.statusimagen1 = 'Cargando imagen...'
-
-    $scope.currentFile = element.files[0];
-
-    $scope.photo_2 =false
-
-    var reader = new FileReader();
-
-    reader.onload = function(event) {
-
-    $scope.image_1 = event.target.result
-
-    $scope.$apply()
-
-    }
-    // when the file is read it triggers the onload event above.
-    reader.readAsDataURL(element.files[0]);
-
-    var file = $scope.myFile1;
-
-    var fd = new FormData();
-
-    fd.append('file', $scope.currentFile);
-
-    $http.post('/uploadphoto/', fd, {
-    transformRequest: angular.identity,
-    headers: {'Content-Type': undefined}
-    })
-
-    .success(function(data){
-
-      if (data=='Enano'){
-
-         $scope.photo_2 = true
-
-        $scope.statusimagen1 ='Ups... tu foto es muy pequeña '
-      }
-      else{
-
-          $scope.image_1 = data[0].photo
-
-          $scope.enviaventa.image_1  = data[0].id
-
-          $scope.statusimagen1 =''
-
-
-      }
-
-
-
-    })
-
-
-
-    }
-
-    $scope.setFile2 = function(element) {
-
-
-    $scope.statusimagen2 = 'Cargando imagen...'
-
-    $scope.currentFile = element.files[0];
-
-    $scope.photo_3 =false
-
-    var reader = new FileReader();
-
-    reader.onload = function(event) {
-
-    $scope.image_2 = event.target.result
-
-    $scope.$apply()
-
-    }
-    // when the file is read it triggers the onload event above.
-    reader.readAsDataURL(element.files[0]);
-
-    var file = $scope.myFile2;
-
-    var fd = new FormData();
-
-    fd.append('file', $scope.currentFile);
-
-    $http.post('/uploadphoto/', fd, {
-    transformRequest: angular.identity,
-    headers: {'Content-Type': undefined}
-    })
-
-    .success(function(data){
-
-
-      if (data=='Error'){
-
-         $scope.photo_3 = true
-
-        $scope.statusimagen2 ='Ups... tu foto es muy pequeña '
-      }
-      else{
-
-          $scope.image_2 = data[0].photo
-
-          $scope.enviaventa.image_2  = data[0].id
-
-          $scope.statusimagen2 =''
-
-
-      }
-
-
-
-
-    })
-
-
-    }
-
-      $scope.setFile3 = function(element) {
-
-    $scope.statusimagen3 = 'Cargando imagen...'
-
-    $scope.currentFile = element.files[0];
-
-    $scope.photo_4 =false
-
-
-
-    var reader = new FileReader();
-
-    reader.onload = function(event) {
-
-    $scope.image_3 = event.target.result
-
-    $scope.$apply()
-
-    }
-    // when the file is read it triggers the onload event above.
-    reader.readAsDataURL(element.files[0]);
-
-        var file = $scope.myFile3;
-
-    var fd = new FormData();
-
-    fd.append('file', $scope.currentFile);
-
-    $http.post('/uploadphoto/', fd, {
-    transformRequest: angular.identity,
-    headers: {'Content-Type': undefined}
-    })
-
-    .success(function(data){
-
-      if (data=='Error'){
-
-         $scope.photo_4 = true
-
-        $scope.statusimagen3 ='Ups... tu foto es muy pequeña '
-      }
-      else{
-
-        $scope.image_3 = data[0].photo
-
-        $scope.enviaventa.image_3  = data[0].id
-
-        $scope.statusimagen3 =''
-
-      }
-
-
-
-    })
-
-
-    }
-
-      $scope.setFile4 = function(element) {
-
-    $scope.statusimagen4 = 'Cargando imagen...'
-
-    $scope.currentFile = element.files[0];
-
-    $scope.photo_4 =false
-
-    var reader = new FileReader();
-
-    reader.onload = function(event) {
-
-    $scope.image_4 = event.target.result
-
-    $scope.$apply()
-
-    }
-    // when the file is read it triggers the onload event above.
-    reader.readAsDataURL(element.files[0]);
-
-        var file = $scope.myFile4;
-
-    var fd = new FormData();
-
-    fd.append('file', $scope.currentFile);
-
-    $http.post('/uploadphoto/', fd, {
-    transformRequest: angular.identity,
-    headers: {'Content-Type': undefined}
-    })
-
-    .success(function(data){
-
-      if (data=='Error'){
-
-        $scope.statusimagen4 ='Ups... tu foto es muy pequeña '
-      }
-      else{
-
-      $scope.image_4 = data[0].photo
-
-      $scope.enviaventa.image_4  = data[0].id
-
-      $scope.statusimagen4 =''
-
-      }
-
-
-
-
-    })
-
-
-    }
-
-      $scope.setFile5 = function(element) {
-
-    $scope.statusimagen5 = 'Cargando imagen...'
-
-    $scope.currentFile = element.files[0];
-
-
-    var reader = new FileReader();
-
-    reader.onload = function(event) {
-
-    $scope.image_5 = event.target.result
-
-    $scope.$apply()
-
-    }
-    // when the file is read it triggers the onload event above.
-    reader.readAsDataURL(element.files[0]);
-
-        var file = $scope.myFile5;
-
-    var fd = new FormData();
-
-    fd.append('file', $scope.currentFile);
-
-    $http.post('/uploadphoto/', fd, {
-    transformRequest: angular.identity,
-    headers: {'Content-Type': undefined}
-    })
-
-    .success(function(data){
-
-
-       if (data=='Error'){
-
-        $scope.statusimagen5 ='Ups... tu foto es muy pequeña '
-      }
-      else{
-
-        $scope.image_5 = data[0].photo
-
-        $scope.enviaventa.image_5  = data[0].id
-
-        $scope.statusimagen5 =''
-
-      }
-
-      
-
-
-    })
-
-
-    }
-
-      $scope.setFile6 = function(element) {
-
-    $scope.statusimagen6 = 'Cargando imagen...'
-
-    $scope.currentFile = element.files[0];
-
-
-    var reader = new FileReader();
-
-    reader.onload = function(event) {
-
-    $scope.image_6 = event.target.result
-
-    $scope.$apply()
-
-    }
-    // when the file is read it triggers the onload event above.
-    reader.readAsDataURL(element.files[0]);
-
-        var file = $scope.myFile6;
-
-    var fd = new FormData();
-
-    fd.append('file', $scope.currentFile);
-
-    $http.post('/uploadphoto/', fd, {
-    transformRequest: angular.identity,
-    headers: {'Content-Type': undefined}
-    })
-
-    .success(function(data){
-
-
-      if (data=='Error'){
-
-        $scope.statusimagen6 ='Ups... tu foto es muy pequeña '
-      }
-
-      else{
-
-              $scope.image_6 = data[0].photo
-
-          $scope.enviaventa.image_6  = data[0].id
-
-          $scope.statusimagen5 =''
-
-
-      }
-
-
-
-
-    })
-
-
-    }
-
-    $scope.setFile7 = function(element) {
-
-    $scope.statusvideo ='Cargando video...'
-
-    $scope.currentFile = element.files[0];
-
-    var reader = new FileReader();
-
-    // when the file is read it triggers the onload event above.
-    reader.readAsDataURL(element.files[0]);
-
-    var file = $scope.myFile7;
-
-    var fd = new FormData();
-
-    fd.append('file', $scope.currentFile);
-
-    $http.post('/uploadvideo/', fd, {
-    transformRequest: angular.identity,
-    headers: {'Content-Type': undefined}
-    })
-
-    .success(function(data){
-
-
-
-      $scope.video = data[0].video
-
-      $scope.enviaventa.video  = data[0].id
-
-      $scope.statusvideo = 'Completado 100%'
-
-
-    })
-
-
-    }
-
-
-
-
-        $scope.vender = function(data){
-
-
-               if(!data.subcategoria){
-
-
-              $scope.alerta ='Porfavor ingrese subcategoria'
-            }
-
-
-            if(!data.categoria){
-
-
-              $scope.alerta ='Porfavor ingrese categoria'
-            }
-
-          
-
-         var todo={dato: data}
-
-
-        $http({
-        url: "/vender/",
-        data: todo,
-        method: 'POST',
-        headers: {
-        'X-CSRFToken': $cookies['csrftoken']
-        }
-        }).
-        success(function(data) {
-
-         window.location.href = '../detallechatpc/'+data.user+'/'+data.producto;
-        
-       
-
-        })
-
-    }
-
-
-
-
-
-    $scope.traesubcategorias = function(data){
-
-
-
-    
-          $scope.datacat = data
-
-
-          $scope.enviaventa.categoria = data
-
-              $http.get("/traesubcategorias/"+data)
-              .then(function(response) {
-
-
-                $scope.subcategorias = response.data
-
-                $scope.muestrasubca = true
-
-
-
-                  
-              });
-
-
-    }
-
-    $scope.datasub = 1000
-
-    $scope.enviasuv=function(data){
-
-      $scope.datasub = data
-    }
-
-
-
-});
-</script>
-
-
+<style type="text/css">
+  
+    .activo{
+
+  background: #1ea095 !important;
+  color:#fff !important;
+}
+
+
+.desactivo{
+
+  background: #fff;
+  color:#000;
+}
+
+.flex-vender {
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 38px;
+
+}
+
+.flex-vender-item {
+width: 309px;
+    height: 52px;
+    padding: 1em;
+    padding-top: 14px;
+    border: 1px solid #acbed0;
+    border-radius: 3px;
+}
+.numero{
+      background: #fff;
+    color: #1ea095;
+    padding: 7px;
+    padding-left: 15px;
+    position: absolute;
+    float: right;
+    top: 6px;
+    right: 8px;
+    bottom: 6px;
+    width: 38px;
+    border-radius: 34px;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0px 0px 8px #fff;
+}
+
+
+</style>
+</head>
 
 <body>
 
@@ -622,23 +84,32 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     padding-top: 33px;
     border: 1px solid #d9d9d9;'>
 
+
+    
+<div class="flex-vender">
+  <div class="flex-vender-item" ng-click='categoriam=true;fotosm=false;descripcionm=false' ng-class="{'activo animated bounceIn': categoriam===true}">Escoje la categoria <span class='numero'> 1</span></div>
+  <div class="flex-vender-item" ng-click='categoriam=false;fotosm=true;descripcionm=false' ng-class="{'activo animated bounceIn': fotosm===true}">Subi la foto o video de tu producto <span class='numero'> 2</span></div>
+  <div class="flex-vender-item" ng-click='categoriam=false;fotosm=false;descripcionm=true' ng-class="{'activo animated bounceIn': descripcionm===true}">Agrega una descripcion <span class='numero'> 3</span></div>  
+</div>
+
+
   <form ng-submit='vender(enviaventa)'>
   {% csrf_token %}
 
       
-      <div class="row">
+      <div class="row animated fadeIn" ng-show='categoriam'>
 
               <div class="col-4" style='padding: 12px;'>
 
-                  <label for="email">Categoria:</label>
+                  <label for="email">Categorias:</label>
                 
                   <ul class="list-group" >
 
                   {% for c in categoria %}
 
-    
+            
 
-                  <li class="list-group-item listventa"  ng-class="{'activo': datacat==={{c.id}}}" href="/hotel/{{rows.id}}" ng-click='traesubcategorias({{c.id}})'><span class='iconocat' style='padding-right:12px; '><i class="material-icons">{{c.icon}}</i></span>  {{c.nombre}} </a></li>
+                  <li class="list-group-item listventa"  ng-class="{'activo': datacat==={{c.id}}}" ng-click='traesubcategorias({{c.id}})'><span class='iconocat' style='padding-right:12px; '><i class="material-icons">{{c.icon}}</i></span>  {{c.nombre}} </a></li>
 
 
                   {% endfor %}
@@ -649,11 +120,11 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
               <div class="col-4" style='padding: 12px;'>
 
-                      <label for="email">Subcategoria:</label>
+                      <label ng-show='muestrasubca' for="email">Subcategoria:</label>
             
                       <ul class="list-group" ng-show='muestrasubca' >
 
-                      <li ng-repeat="c in subcategorias" ng-click='enviaventa.subcategoria=c.id;enviasuv(c.id)' ng-class="{'activo': datasub===c.id}" class="list-group-item listventa"  ><a > {[{c.nombre}]} </a></li>
+                      <li ng-repeat="c in subcategorias"  ng-click='enviaventa.subcategoria=c.id;enviasuv(c.id);ancla()' ng-class="{'activo': datasub===c.id}" class="list-group-item listventa"  ><a > {[{c.nombre}]} </a></li>
 
                       </ul>
 
@@ -663,124 +134,71 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
 
     </div>
-    <style type="text/css">
-      
-      .listventa{
-
-        background:#fff; 
-        color: #37475a;
-      }
-
-      .listventa:hover{
-
-        background:#1ea095; 
-        color: #fff;
-
-
-      }
-
-    </style>
-
-
-  
-
-
-    <div class='form-group'>
-
-    <label for="pwd">Fotos</label>
-    
-    <div class='row '>
-
-
-  
-
-    <style type="text/css">
-      div.upload {
-        width: 100px;
-        height: 100px;
-        background: url(/static/photo.png);
-        overflow: hidden;
-        border: 1px dashed #607d8b;
-    }
-
-    div.upload input {
-        display: block !important;
-        width: 100px !important;
-        height: 100px !important;
-        opacity: 0 !important;
-        overflow: hidden !important;
-    }
-
-        div.uploadvideo {
-        width: 100px;
-        height: 100px;
-        background: url(/static/youtube.png);
-        overflow: hidden;
-        border: 1px dashed #607d8b;
-    }
-
-    div.uploadvideo input {
-        display: block !important;
-        width: 100px !important;
-        height: 100px !important;
-        opacity: 0 !important;
-        overflow: hidden !important;
-    }
-    </style>
-    
-    <div class="col-md-3">
-
-
-
-      <img ng-hide='photo_1'  height='200px'  src="{{host}}{[{image}]}" class='img-fluid'>
-      <small>{[{statusimagen}]}</small>
-      <div ng-show='photo_1' class="upload">
-      <input  onchange="angular.element(this).scope().setFile(this)" accept="image/*" type = "file" file-model = "myFile"/>
-      </div>
-
-
-
-    </div>
-
-    
-    <div class="col-md-6">
-
-        <div class='row'>
  
-            <div class="col-md-4">
+  
 
-              <img ng-hide='photo_2'  height='100px'  src="{{host}}{[{image_1}]}" class='img-fluid'>
+
+    <div class='form-group' id='data'>
+
+
+    <!--Imagenes y Video-->
+
+    <div class="row animated fadeIn" ng-show='fotosm'>
+
+
+        
+
+        <div class="col-md-8" style='display:flex;'>
+
+
+               <label for="pwd" style='padding:39px;'>Fotos </label><br>
+          
+
+              <img ng-hide='photo_1' class='fotitos'    src="{{host}}{[{image}]}" >
+              <small>{[{statusimagen}]}</small>
+              <div ng-show='photo_1' class="upload">
+              <input  onchange="angular.element(this).scope().setFile(this)" accept="image/*" type = "file" file-model = "myFile"/>
+              </div>
+
+
+              <img ng-hide='photo_2' class='fotitos'  src="{{host}}{[{image_1}]}" >
               <small>{[{statusimagen1}]}</small>
               <div ng-show='photo_2' class="upload">
               <input  onchange="angular.element(this).scope().setFile1(this)" accept="image/*" type = "file" file-model = "myFile1"/>
-              </div>
+              </div> 
 
-            </div>
-            
-
-            <div class="col-md-4">
-
-              <img ng-hide='photo_3'  height='100px'  src="{{host}}{[{image_2}]}" class='img-fluid'>
+              <img ng-hide='photo_3' class='fotitos'   src="{{host}}{[{image_2}]}" >
               <small>{[{statusimagen2}]}</small>
               <div ng-show='photo_3' class="upload">
               <input  onchange="angular.element(this).scope().setFile2(this)" accept="image/*" type = "file" file-model = "myFile2"/>
               </div>
 
-            </div>
-
-
-            <div class="col-md-4">
-
-
-              <img ng-hide='photo_4'  height='100px'  src="{{host}}{[{image_3}]}" class='img-fluid'>
+              <img ng-hide='photo_4' class='fotitos' src="{{host}}{[{image_3}]}" >
               <small>{[{statusimagen3}]}</small>
               <div ng-show='photo_4' class="upload">
               <input  onchange="angular.element(this).scope().setFile3(this)" accept="image/*" type = "file" file-model = "myFile3"/>
               </div>
 
 
+        </div>
 
+
+        <div class="col-md-4" style='display:flex;'>
+          
+            <label for="pwd" style='padding:39px;'>Video </label>
+            <small>{[{statusvideo}]}</small>
+            <div  class="uploadvideo">
+            <input onchange="angular.element(this).scope().setFile7(this)" accept="video/*" type = "file" file-model = "myFile7"/>
             </div>
+
+        </div>
+      
+
+
+    </div>
+
+
+
 
 
 
@@ -788,9 +206,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
             <div class="col-md-4">
 
               <img height='200px'  src="{{host}}{[{image_4}]}" class='img-fluid'>
-         
               <small>{[{statusimagen4}]}</small>
-
              <input onchange="angular.element(this).scope().setFile4(this)" accept="image/*" type = "file" file-model = "myFile4"/>
 
 
@@ -825,48 +241,209 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
             </div> 
  -->
 
-        </div>
+        
 
-       
+
+     
+
       
-    </div>
 
+              <div class="col-6 animated fadeIn" style='padding: 12px;' ng-show='descripcionm'>
 
-      <div class="col-6" id='subcateg'>
-
-      <label for="pwd">Video</label>
-
-      <small>{[{statusvideo}]}</small>
-      <div  class="uploadvideo">
-      <input onchange="angular.element(this).scope().setFile7(this)" accept="video/*" type = "file" file-model = "myFile7"/>
-      </div>
-
-      </div>
-
-         <div class="col-8" style='padding: 12px;'>
-
-                <div class="form-group" >
-                <label for="pwd">Titulo</label>
+        
+                <div class="form-group row">
+                <label for="pwd" class="col-sm-2 col-form-label">Titulo</label>
+                <div class="col-sm-10">
                 <input type="text" class="form-control" ng-model='enviaventa.titulo' name = 'titulo' required id="pwd"  placeholder="Ingrese titulo">
-              </div>
+                </div>
+                </div>
 
-              <div class="form-group">
-                <label for="pwd">Descripcion</label>
+
+                <div class="form-group row">
+                <label for="pwd" class="col-sm-2 col-form-label">Descripcion</label>
+                <div class="col-sm-10">
                 <textarea type="text" class="form-control" ng-model='enviaventa.descripcion'  name='descripcion' rows='5' required id="pwd"  placeholder="Agregar descripcion"></textarea>
+                </div>
+                </div>
+
+
+                <div class="form-group row" ng-show="autos">
+                <label for="pwd" class="col-sm-2 col-form-label">Marca</label>
+                <div class="col-sm-10">
+                <select class='form-control'  ng-change='traemodelos(enviaventa.marca)' ng-options="m.id as m.nombre for m in marcas" ng-model="enviaventa.marca"  ><option></option></select>
+                </div>
+                </div>
+
+                <div ng-if='enviaventa.marca' class="form-group row" ng-show="autos">
+                <label for="pwd" class="col-sm-2 col-form-label">Modelo</label>
+                <div class="col-sm-10">
+                <select class='form-control'  ng-change='traetipos(enviaventa.modelo)' ng-options="m.modelo as m.modelo__nombre for m in modelos" ng-model="enviaventa.modelo"  ><option></option></select>
+                </div>
+                </div>
+
+                <div ng-if='enviaventa.modelo' class="form-group row" ng-show="autos">
+                <label for="pwd" class="col-sm-2 col-form-label">Tipo</label>
+                <div class="col-sm-10">
+                <select class='form-control'  ng-options="t.tipo as t.tipo__nombre for t in tipos" ng-model="enviaventa.tipo"  ><option></option></select>
+                </div>
+                </div>
+
+                <div ng-if='enviaventa.tipo' class="form-group row" ng-show="autos">
+                <label for="pwd" class="col-sm-2 col-form-label">Año</label>
+                <div class="col-sm-10">
+                <select  class="form-control"  ng-model='enviaventa.anio' >
+                <option  value='2017'>2017</option>
+                <option value='2016'>2016</option>
+                <option value='2015'>2015</option>
+                <option value='2014'>2014</option>
+                <option value='2013'>2013</option>
+                <option value='2012'>2012</option>
+                <option value='2011'>2011</option>
+                <option value='2010'>2010</option>
+                <option value='2009'>2009</option>
+                <option value='2008'>2008</option>
+                <option value='2007'>2007</option>
+                <option value='2006'>2006</option>
+                <option value='2005'>2005</option>
+                <option value='2004'>2004</option>
+                <option value='2003'>2003</option>
+                <option value='2002'>2002</option>
+                <option value='2001'>2001</option>
+                <option value='2000'>2000</option>
+                </select>
+                </div>
+                </div>
+
+                <div ng-if='enviaventa.anio' class="form-group row" ng-show="autos">
+                <label for="pwd" class="col-sm-2 col-form-label">Kilometraje</label>
+                <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model='enviaventa.kilometraje' name = 'titulo'  id="pwd"  placeholder="Ingrese titulo">
+                </div>
+                </div>
+
+                <div ng-if='enviaventa.kilometraje' class="form-group row" ng-show="autos">
+                <label for="pwd" class="col-sm-2 col-form-label">Color</label>
+                <div class="col-sm-10">
+                <select class='form-control'  ng-options="c.id as c.nombre for c in colores" ng-model="enviaventa.color"  ><option></option></select>
+                </div>
+                </div>
+
+                <div ng-if='enviaventa.color' class="form-group row" ng-show="autos">
+                <label for="pwd" class="col-sm-2 col-form-label">Cilindros</label>
+                <div class="col-sm-10">
+                <select class="form-control"  ng-model='enviaventa.cilindros' >
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                </select>
+                </div>
+                </div>
+
+                <div ng-if='enviaventa.cilindros' class="form-group row" ng-show="autos">
+                <label for="pwd" class="col-sm-2 col-form-label">Transmision</label>
+                <div class="col-sm-10">
+                <select  class="form-control"  ng-model='enviaventa.transmision' >
+                <option  value='Gasolina'>Gasolina</option>
+                <option value='Petroleo'>Petroleo</option>
+                <option value='Gas'>Gas</option>
+                </select>
+                </div>
+                </div>
+
+                <div ng-if='enviaventa.combustible' class="form-group row" ng-show="autos">
+                <label for="pwd" class="col-sm-2 col-form-label">Combustible</label>
+                <div class="col-sm-10">
+                <select  class="form-control"  ng-model='enviaventa.combustible' >
+                <option  value='Gasolina'>Gasolina</option>
+                <option value='Petroleo'>Petroleo</option>
+                <option value='Gas'>Gas</option>
+                </select>
+                </div>
+                </div>
+
+                <div ng-if='enviaventa.combustible' class="form-group row" ng-show="autos">
+                <label for="pwd" class="col-sm-2 col-form-label">Condicion</label>
+                <div class="col-sm-10">
+                <select  class="form-control"  ng-model='enviaventa.condicion' >
+                <option  value='Nuevo'>Nuevo</option>
+                <option value='Usado'>Usado</option>
+                </select>
+                </div>
+                </div>
+
+                <div class="form-group row" ng-show="mascotas">
+                <label for="pwd" class="col-sm-2 col-form-label">Animal</label>
+                <div class="col-sm-10">
+                <select class='form-control'  ng-options="a.id as a.nombre for a in animales" ng-model="enviaventa.animal"  ><option></option></select>
+                </div>
+                </div>
+
+
+                <div class="form-group row">
+
+                    
+
+                      <label for="pwd" class="col-sm-2 col-form-label">Precio</label>
+                      <div class="col-sm-2">
+                      <select  class="form-control"  ng-model='enviaventa.moneda' required>
+                      <option  value='Soles'>S/.</option>
+                      <option value='Dolares'>USD</option>
+                      </select>
+                      </div>
+
+                    
+
+
+               
+                      <div class="col-sm-4">
+                      <input type="number" class="form-control" ng-model='enviaventa.precio' name = 'precio' required id="pwd"  placeholder="Precio">
+                      </div>
+
+
+                      <div class="col-sm-4">
+
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" ng-click="enviaventa.transaction='Fijo'" class="btn btn-secondary" ng-class="{'activo': enviaventa.transaction==='Fijo'}">Fijo</button>
+                        <button type="button" ng-click="enviaventa.transaction='Negociable'" ng-class="{'activo': enviaventa.transaction==='Negociable'}" class="btn btn-secondary">Negociable</button>
+                        
+                      </div>
+                      
+                      </div>
+
+
+
+
+                </div>
+
+
+                
+
+
+
+                <div class="form-group row">
+                <label for="pwd" class="col-sm-2 col-form-label">Provincia</label>
+                <div class="col-sm-10">
+                <select class='form-control' ng-change='traedistrito(enviaventa.provincia)' ng-options="p.id as p.name for p in provincias" ng-model="enviaventa.provincia"  ><option></option></select>
+                </div>
+                </div>
+
+                 <div class="form-group row" ng-show='mdistrito'>
+                <label for="pwd" class="col-sm-2 col-form-label">Distrito</label>
+                <div class="col-sm-10">
+                 <select ng-show='mdistrito' class='form-control'  ng-options="d.id as d.nombre for d in distritos" ng-model="enviaventa.distrito"  ><option></option></select>
+
+                </div>
+                </div>
+
+
+
+
+
+
               </div>
 
-              <div class="form-group">
-                <label for="pwd">Precio</label>
-                S/.<input type="number" class="form-control" ng-model='enviaventa.precio' name = 'precio' required id="pwd"  placeholder="Ingrese precio">
-              </div>
 
 
-
-              </div>
-
-
-
-    </div>
 
     
 
@@ -878,7 +455,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
         {[{alerta}]}
       </div>
     
-    <button type="submit" class="btn btn-primary btn-lg">Publicar</button>
+    <button type="submit" class="btn btn-primary btn-lg" ng-show='descripcionm'>Publicar</button>
 
    
   </form>
@@ -899,32 +476,60 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
 <style type="text/css">
   
-  .activo{
-
-  background: #1ea095;
-  color:#fff;
-}
 
 
-.desactivo{
 
-  background: #fff;
-  color:#000;
-}
+      div.upload {
+        width: 100px;
+        height: 100px;
+        background: url(/static/photo.png);
+        overflow: hidden;
+        border: 1px dashed #607d8b;
+    }
+
+    div.upload input {
+        display: block !important;
+        width: 100px !important;
+        height: 100px !important;
+        opacity: 0 !important;
+        overflow: hidden !important;
+    }
+
+        div.uploadvideo {
+        width: 100px;
+        height: 100px;
+        background: url(/static/youtube.png);
+        overflow: hidden;
+        border: 1px dashed #607d8b;
+    }
+
+    div.uploadvideo input {
+        display: block !important;
+        width: 100px !important;
+        height: 100px !important;
+        opacity: 0 !important;
+        overflow: hidden !important;
+    }
+
+          .listventa{
+
+        background:#fff; 
+        color: #37475a;
+      }
+
+      .listventa:hover{
+
+        background:#1ea095; 
+        color: #fff;
+
+
+      }
+
+      .fotitos{
+
+        height: 100px;
+      }
+
 </style>
-
-
-<script type="text/javascript">
-    
-
-    $('.ancla').on('click', function(e){
-e.preventDefault();
-var strAncla = '#' + $(this).data('ancla');
-$('html,body').animate({scrollTop: $(strAncla).offset().top-100}, 2000);
-});
-
-
-    
-</script>
 
 

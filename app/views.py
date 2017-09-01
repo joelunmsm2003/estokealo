@@ -34,9 +34,16 @@ from resizeimage import resizeimage
 from estokeate.settings import *
 from datetime import datetime,timedelta
 from django.contrib.auth import authenticate
-
+import re
 from django.contrib.sites.shortcuts import get_current_site
 
+def mobile(request):
+	"""Return True if the request comes from a mobile device."""
+	MOBILE_AGENT_RE=re.compile(r".*(iphone|mobile|androidtouch)",re.IGNORECASE)
+	if MOBILE_AGENT_RE.match(request.META['HTTP_USER_AGENT']):
+		return True
+	else:
+		return False
 
 def ValuesQuerySetToDict(vqs):
 
@@ -46,9 +53,8 @@ def home(request):
 
 	user = request.user.id
 
-	current_site = get_current_site(request)
 
-	m = str(current_site).split('.')[0]
+	
 
 	usuario = None
 
@@ -95,6 +101,10 @@ def home(request):
 
 	compradores = ValuesQuerySetToDict(compradores)+ValuesQuerySetToDict(propios)
 
+	## Mobile Detection
+	m=None
+	if mobile(request):
+		m='m'
 
 	if m=='m':	
 
@@ -107,11 +117,12 @@ def home(request):
 
 def autentificacion(request):
 
-	current_site = get_current_site(request)
+	m=None
 
-	p = str(current_site).split('.')[0]
+	if mobile(request):
+		m='m'
 
-	if p=='m':	
+	if m=='m':	
 
 		return render(request, 'loginmovil.html',{'host':host})
 
@@ -134,6 +145,8 @@ def perfil(request):
 
 	user = request.user.id
 
+
+
 	productos= Producto.objects.filter(user_id=user)
 
 	usuario= AuthUser.objects.get(id=user)
@@ -142,12 +155,11 @@ def perfil(request):
 
 		usuario.photo = str(host)+str(usuario.photo)
 
+	m=None
+	if mobile(request):
+		m='m'
 
-	current_site = get_current_site(request)
-
-	p = str(current_site).split('.')[0]
-
-	if p=='m':	
+	if m=='m':	
 
 		return render(request, 'perfilmovil.html',{'productos':productos,'usuario':usuario,'miperfil':'active','host':host})
 
@@ -317,6 +329,10 @@ def enviarnotis(request,id):
 
 		title= json.loads(request.body)['title']
 
+		photo = json.loads(request.body)['photo']
+
+		photo_user = json.loads(request.body)['photo_user']
+
 		data = simplejson.dumps(body)
 
 	if int(id)==0:
@@ -337,7 +353,7 @@ def enviarnotis(request,id):
 
 
 
-	os.system('python /home/estokeate/envia.py '+str(endpoint)+' '+str(auth)+' '+str(p256dh)+' '+str(body)+' '+str(title))
+	os.system('python /home/estokeate/envia.py '+str(endpoint)+' '+str(auth)+' '+str(p256dh)+' "'+str(body)+'" "'+str(title)+'" "'+str(photo)+'" "'+str(photo_user)+'"')
 
 	return HttpResponse(data, content_type="application/json")
 
@@ -380,9 +396,6 @@ def chat(request,id_user,id_producto):
 
 
 
-	current_site = get_current_site(request)
-
-	p = str(current_site).split('.')[0]
 
 	usuario= AuthUser.objects.get(id=user)
 
@@ -397,8 +410,11 @@ def chat(request,id_user,id_producto):
 		f.photo = Photoproducto.objects.filter(producto_id=f.producto.id).values('photo__photo')[0]['photo__photo']
 
 
+	m=None
+	if mobile(request):
+		m='m'
 
-	if p=='m':	
+	if m=='m':	
 
 		return render(request, 'chatmovil.html',{'host':host,'productos':productos,'usuario':usuario,'mimensaje':'active'})
 
@@ -440,18 +456,17 @@ def productos(request,id):
 
 
 
-	usuario= AuthUser.objects.get(id=user)
 
 	userproducto = AuthUser.objects.get(id=id)
 
-	current_site = get_current_site(request)
+	m=None
+	if mobile(request):
+		m='m'
 
-	p = str(current_site).split('.')[0]
 
+	if m=='m':	
 
-	if p=='m':	
-
-		return render(request, 'productosusermovil.html',{'host':host,'productos':productos,'usuario':usuario,'mianuncio':'active'})
+		return render(request, 'productosusermovil.html',{'host':host,'userproducto':userproducto,'productos':productos,'usuario':usuario,'mianuncio':'active'})
 
 	else:	
 
@@ -569,15 +584,15 @@ def detallechatpc(request,user,id_producto):
 		return HttpResponseRedirect("/")
 
 
-def distritos(request):
+def provincias(request):
 
-	distrito = Distrito.objects.all().values('id','name')
+	p = Provincia.objects.all().values('id','name')
 
-	distrito = ValuesQuerySetToDict(distrito)
+	p = ValuesQuerySetToDict(p)
 
-	distrito = simplejson.dumps(distrito)
+	p = simplejson.dumps(p)
 
-	return HttpResponse(distrito, content_type="application/json")
+	return HttpResponse(p, content_type="application/json")
 
 
 def misfavoritos(request):
@@ -592,6 +607,69 @@ def misfavoritos(request):
 
 	return HttpResponse(f, content_type="application/json")
 
+def marcas(request):
+
+	f = Marca.objects.all().values('id','nombre')
+
+	f = ValuesQuerySetToDict(f)
+
+	f = simplejson.dumps(f)
+
+	return HttpResponse(f, content_type="application/json")
+
+def provincias(request):
+
+	f = Provincia.objects.all().values('id','name')
+
+	f = ValuesQuerySetToDict(f)
+
+	f = simplejson.dumps(f)
+
+	return HttpResponse(f, content_type="application/json")
+
+
+def distritos(request,provincia):
+
+	f = Distrito.objects.filter(provincia_id=provincia).values('id','nombre')
+
+	f = ValuesQuerySetToDict(f)
+
+	f = simplejson.dumps(f)
+
+	return HttpResponse(f, content_type="application/json")
+
+def colores(request):
+
+	f = Color.objects.all().values('id','nombre')
+
+	f = ValuesQuerySetToDict(f)
+
+	f = simplejson.dumps(f)
+
+	return HttpResponse(f, content_type="application/json")
+
+
+
+def modelos(request,marca):
+
+	f = Auto.objects.filter(marca_id=marca).values('id','modelo__nombre','modelo')
+
+	f = ValuesQuerySetToDict(f)
+
+	f = simplejson.dumps(f)
+
+	return HttpResponse(f, content_type="application/json")
+
+
+def tipos(request,modelo):
+
+	f = Auto.objects.filter(modelo_id=modelo).values('id','tipo__nombre','tipo')
+
+	f = ValuesQuerySetToDict(f)
+
+	f = simplejson.dumps(f)
+
+	return HttpResponse(f, content_type="application/json")
 
 
 def estadofavorito(request,producto):
@@ -658,12 +736,11 @@ def busquedacategoria(request,categoria,subcategoria):
 
 	total = producto.count()
 
+	m=None
+	if mobile(request):
+		m='m'
 
-	current_site = get_current_site(request)
-
-	p = str(current_site).split('.')[0]
-
-	if p=='m':	
+	if m=='m':	
 
 		return render(request, 'busquedacategoriamovil.html',{'host':host,'productos':producto,'total':total,'categoria':cat})
 
@@ -837,11 +914,11 @@ def producto(request,id):
 
 		videos = Videoproducto.objects.filter(producto_id=id)[0]
 
-	current_site = get_current_site(request)
+	m=None
+	if mobile(request):
+		m='m'
 
-	p = str(current_site).split('.')[0]
-
-	if p=='m':	
+	if m=='m':	
 
 		return render(request, 'productodetallemovil.html',{'host':host,'producto':producto,'usuario':usuario,'videos':videos})
 
@@ -885,11 +962,12 @@ def busqueda(request):
 
 		resultados= Producto.objects.filter(descripcion__contains=dato).values('categoria','categoria__nombre','categoria__icon').annotate(total=Count('categoria'))
 
-		current_site = get_current_site(request)
+		m=None
+		if mobile(request):
+			m='m'
 
-		p = str(current_site).split('.')[0]
 
-		if p=='m':	
+		if m=='m':	
 
 			return render(request, 'busquedamovil.html',{'host':host,'categoria':categoria,'productos':productos,'total':total,'dato':dato,'resultados':resultados})
 
@@ -901,6 +979,7 @@ def busqueda(request):
 
 
 def productojson(request,id):
+
 
 	user = request.user.id
 
@@ -919,7 +998,6 @@ def productojson(request,id):
 
 
 	videos = Videoproducto.objects.filter(producto_id=id).values('id','video__video')
-
 
 	photos = ValuesQuerySetToDict(photos)
 
@@ -970,6 +1048,10 @@ def enviamensaje(request):
 
 		user = request.user.id
 
+		url = 'https://m.estokealo.com/enviarnotis/'
+
+		first_name = AuthUser.objects.get(id=user).first_name
+
 		fecha = datetime.today()-timedelta(hours=5)
 
 		producto = request.POST['producto']
@@ -978,11 +1060,13 @@ def enviamensaje(request):
 
 		receptor = Producto.objects.get(id=producto).user.id
 
+		data = {'title':'Mensaje de '+first_name,'body':mensaje}
+        
+		r = requests.post(url+str(receptor), data=json.dumps(data), headers=headers)
+
 		Chat(user_id=user,destino_id=receptor,mensaje=mensaje,producto_id=producto,fecha=fecha).save()
 
-
-
-	return HttpResponseRedirect("/producto/"+producto)
+		return HttpResponseRedirect("/producto/"+producto)
 
 @csrf_exempt
 def enviamensaje_perfil(request):
@@ -991,6 +1075,17 @@ def enviamensaje_perfil(request):
 
 		user = request.user.id
 
+		first_name = AuthUser.objects.get(id=user).first_name
+
+		photo_user= str(AuthUser.objects.get(id=user).photo)
+
+		if ('https://' in str(photo_user))==False:
+
+			photo_user = str(host)+str(photo_user)
+
+		url = 'https://m.estokealo.com/enviarnotis/'
+
+		headers = {'Content-Type': 'application/json'}
 
 		data = json.loads(request.body)
 
@@ -998,9 +1093,15 @@ def enviamensaje_perfil(request):
 
 		producto = data['producto']
 
+		photo = host+str(Photoproducto.objects.filter(producto_id=producto)[0].photo.photo)
+
 		mensaje = data['mensaje1']
 
 		receptor = data['user']
+
+		noti = {'body':mensaje,'title':'Mensaje de '+str(first_name),'photo':photo,'photo_user':photo_user}
+
+		r = requests.post(url+str(receptor), data=json.dumps(noti), headers=headers)
 
 		Chat(user_id=user,destino_id=receptor,mensaje=mensaje,producto_id=producto,fecha=fecha).save()
 
@@ -1127,6 +1228,7 @@ def uploadphoto(request):
 
 
 
+
 		# Guarda galery
 
 		fd_img = open(caption, 'r')
@@ -1243,6 +1345,17 @@ def subirimgprofile(request):
 		return HttpResponse(id_producto, content_type="application/json")
 
 
+@csrf_exempt
+def animales(request):
+
+	c=Animal.objects.all().values('id','nombre')
+
+	c = ValuesQuerySetToDict(c)
+
+	data_json = simplejson.dumps(c)
+
+	return HttpResponse(data_json, content_type="application/json")
+
 
 @csrf_exempt
 def loginxfacebook(request):
@@ -1335,9 +1448,9 @@ def editarproducto(request,id):
 
 		photo = Photoproducto.objects.filter(producto_id=id)
 
-		current_site = get_current_site(request)
-
-		m = str(current_site).split('.')[0]
+		m=None
+		if mobile(request):
+			m='m'
 
 		if m=='m':
 
@@ -1375,12 +1488,6 @@ def vender(request):
 
 	user = request.user.id
 
-	current_site = get_current_site(request)
-
-	m = str(current_site).split('.')[0]
-
-
-
 	id_user=None
 
 	usuario= None
@@ -1403,7 +1510,61 @@ def vender(request):
 		subcategoria=data['subcategoria']
 
 
-		Producto(user_id=id_user,titulo=titulo,categoria_id=categoria,subcategoria_id=subcategoria,descripcion=descripcion,precio=precio).save()
+		marca=None
+		modelo=None
+		tipo=None
+		anio=None
+		kilometraje=None
+		color=None
+		cilindros=None
+		transmision=None
+		combustible=None
+		condicion=None
+		animal=None
+		provincia=None
+		distrito=None
+		auto=None
+
+		for p in data:
+
+			if p =='marca': marca= data['marca']
+
+			if p =='modelo': modelo = data['modelo']
+
+			if p =='tipo': tipo =data['tipo']
+
+			if p =='anio': anio =data['anio']
+
+			if p =='kilometraje': kilometraje =data['kilometraje']
+
+			if p =='color':color=data['color']
+
+			if p =='cilindros':cilindros=data['cilindros']
+
+			if p =='transmision': transmision=data['transmision']
+
+			if p =='combustibles':combustible=data['combustible']
+
+			if p =='condicion':condicion=data['condicion']
+
+			if p =='moneda':moneda=data['moneda']
+
+			if p =='animal':animal=data['animal']
+
+			if p =='transaction':tipo=data['transaction']
+
+			if p =='provincia':provincia=data['provincia']
+
+			if p =='distrito':distrito=data['distrito']
+
+
+
+		if marca and modelo and tipo:
+
+			auto = Auto.objects.get(marca_id=marca,modelo_id=modelo,tipo_id=tipo).id
+
+
+		Producto(auto_id=auto,anio=anio,kilometraje=kilometraje,color_id=color,cilindros=cilindros,transmision=transmision,combustible=combustible,condicion=condicion,animal=animal,transaction=transaction,provincia_id=provincia,distrito_id=distrito,user_id=id_user,titulo=titulo,categoria_id=categoria,subcategoria_id=subcategoria,descripcion=descripcion,precio=precio).save()
 
 		id_producto = Producto.objects.all().values('id').order_by('-id')[0]['id']
 
@@ -1411,12 +1572,9 @@ def vender(request):
 		for d in data:
 
 
-
 			if d=='image':
 
 				image=data['image']
-
-
 
 				Photoproducto(photo_id=image,producto_id=id_producto).save()
 
@@ -1478,9 +1636,9 @@ def vender(request):
 
 	categoria = Categoria.objects.all().values('id','nombre','icon')
 
-	current_site = get_current_site(request)
-
-	m = str(current_site).split('.')[0]
+	m=None
+	if mobile(request):
+		m='m'
 
 	if m=='m':
 
@@ -1519,9 +1677,9 @@ def ingresar(request,producto):
 
 					login(request, user)
 
-					current_site = get_current_site(request)
-
-					m = str(current_site).split('.')[0]
+					m=None
+					if mobile(request):
+						m='m'
 
 					if p:
 
@@ -1544,9 +1702,9 @@ def ingresar(request,producto):
 		else:
 
 
-			current_site = get_current_site(request)
-
-			m = str(current_site).split('.')[0]
+			m=None
+			if mobile(request):
+				m='m'
 
 			if m=='m':
 
@@ -1581,9 +1739,9 @@ def ingresarone(request):
 
 					login(request, user)
 
-					current_site = get_current_site(request)
-
-					m = str(current_site).split('.')[0]
+					m=None
+					if mobile(request):
+						m='m'
 
 					if p:
 
@@ -1606,9 +1764,9 @@ def ingresarone(request):
 		else:
 
 
-			current_site = get_current_site(request)
-
-			m = str(current_site).split('.')[0]
+			m=None
+			if mobile(request):
+				m='m'
 
 			if m=='m':
 
@@ -1622,7 +1780,7 @@ def ingresarone(request):
 
 def categorias(request):
 
-	c = Categoria.objects.all().values('id','nombre')
+	c = Categoria.objects.all().values('id','nombre').order_by('-nombre')
 
 	c = ValuesQuerySetToDict(c)
 

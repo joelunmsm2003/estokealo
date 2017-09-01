@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^ingresar/$', 'app.views.ingresarone'),
     url(r'^registra/$', 'app.views.registra'),
     url(r'^salir/$', 'app.views.salir'),
-    url(r'^distritos$', 'app.views.distritos'),
+    url(r'^provincias$', 'app.views.provincias'),
     url(r'^perfil/$', 'app.views.perfil'),
     url(r'^vender/$', 'app.views.vender'),
     url(r'^productos/(\d+)$', 'app.views.productos'),
@@ -55,6 +55,14 @@ urlpatterns = [
     url(r'^subirimgprofile/', 'app.views.subirimgprofile'),
     url(r'^recibenotis/', 'app.views.recibenotis'),
     url(r'^enviarnotis/(\d+)', 'app.views.enviarnotis'),
+    url(r'^marcas/', 'app.views.marcas'),
+    url(r'^modelos/(\d+)/', 'app.views.modelos'),
+    url(r'^tipos/(\d+)/', 'app.views.tipos'),
+    url(r'^colores/', 'app.views.colores'),
+    url(r'^provincias/', 'app.views.provincias'),
+    url(r'^distritos/(\d+)/', 'app.views.distritos'),
+    url(r'^animales/', 'app.views.animales'),
+    
     
 
 

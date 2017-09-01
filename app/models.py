@@ -9,6 +9,13 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+class Animal(models.Model):
+    nombre = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'animal'
+
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=80)
@@ -88,6 +95,10 @@ class Categoria(models.Model):
         managed = False
         db_table = 'categoria'
 
+    
+    def __unicode__(self):
+        return self.nombre
+
 class Subcategoria(models.Model):
     categoria = models.ForeignKey(Categoria, models.DO_NOTHING, db_column='categoria', blank=True, null=True)
     nombre = models.CharField(max_length=100, blank=True, null=True)
@@ -97,12 +108,12 @@ class Subcategoria(models.Model):
         db_table = 'subcategoria'
 
 
-class Distrito(models.Model):
+class Provincia(models.Model):
     name = models.CharField(max_length=110, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'distrito'
+        db_table = 'provincia'
 
 
 class DjangoAdminLog(models.Model):
@@ -181,6 +192,54 @@ class Videoproducto(models.Model):
         db_table = 'videoproducto'
 
 
+class Marca(models.Model):
+    nombre = models.CharField(max_length=10000, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'marca'
+
+
+class Modelo(models.Model):
+    nombre = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'modelo'
+
+class Tipo(models.Model):
+    nombre = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tipo'
+
+class Color(models.Model):
+    nombre = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'color'
+
+
+class Distrito(models.Model):
+    nombre = models.CharField(max_length=1000, blank=True, null=True)
+    provincia = models.ForeignKey('Provincia', models.DO_NOTHING, db_column='provincia', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'distrito'
+
+
+
+class Auto(models.Model):
+    marca = models.ForeignKey('Marca', models.DO_NOTHING, db_column='marca', blank=True, null=True)
+    modelo = models.ForeignKey('Modelo', models.DO_NOTHING, db_column='modelo', blank=True, null=True)
+    tipo = models.ForeignKey('Tipo', models.DO_NOTHING, db_column='tipo', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'auto'
 
 class Producto(models.Model):
     user = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='user', blank=True, null=True)
@@ -189,6 +248,22 @@ class Producto(models.Model):
     descripcion = models.CharField(max_length=1000, blank=True, null=True)
     precio = models.IntegerField(blank=True, null=True)
     subcategoria = models.ForeignKey(Subcategoria, models.DO_NOTHING, db_column='subcategoria', blank=True, null=True)
+    precio = models.IntegerField(blank=True, null=True)
+    auto = models.ForeignKey(Auto, models.DO_NOTHING, db_column='auto', blank=True, null=True)
+    anio = models.CharField(max_length=100, blank=True, null=True)
+    kilometraje = models.CharField(max_length=1000, blank=True, null=True)
+    color = models.ForeignKey(Color, models.DO_NOTHING, db_column='color', blank=True, null=True)
+    cilindros = models.CharField(max_length=1000, blank=True, null=True)
+    transmision = models.CharField(max_length=100, blank=True, null=True)
+    combustible = models.CharField(max_length=1000, blank=True, null=True)
+    condicion = models.CharField(max_length=1000, blank=True, null=True)
+    moneda = models.CharField(max_length=1000, blank=True, null=True)
+    transaction = models.CharField(max_length=1000, blank=True, null=True)
+    distrito = models.ForeignKey(Distrito, models.DO_NOTHING, db_column='distrito', blank=True, null=True)
+    provincia = models.ForeignKey(Provincia, models.DO_NOTHING, db_column='provincia', blank=True, null=True)
+    telefono = models.CharField(max_length=1000, blank=True, null=True)
+    animal = models.IntegerField(blank=True, null=True)
+
 
     class Meta:
         managed = False

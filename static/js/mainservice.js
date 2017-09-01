@@ -97,12 +97,12 @@ function updateSubscriptionOnServer(subscription) {
     document.querySelector('.js-subscription-details');
 
   if (subscription) {
-    subscriptionJson.textContent = JSON.stringify(subscription);
+    // subscriptionJson.textContent = JSON.stringify(subscription);
 
-    console.log('subscriptionJson.textContent',subscriptionJson.textContent)
+    // console.log('subscriptionJson.textContent',subscriptionJson.textContent)
 
 
-    $.post( "https://m.estokealo.com/recibenotis/", { keys: subscriptionJson.textContent})
+    $.post( "https://m.estokealo.com/recibenotis/", { keys: JSON.stringify(subscription)})
                       .done(function( data ) {
 
                       })

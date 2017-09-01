@@ -137,6 +137,7 @@ $enable-grid-classes:       true !default;
 $enable-print-styles:       true !default;
 
 
+
 // Spacing
 //
 // Control the default styling of most Bootstrap elements by modifying these
@@ -536,7 +537,7 @@ $form-check-input-margin-x: .25rem !default;
 
 $form-check-inline-margin-x: .75rem !default;
 
-$form-group-margin-bottom:       $spacer-y !default;
+$form-group-margin-bottom:       1rem !default;
 
 $input-group-addon-bg:           $gray-lighter !default;
 $input-group-addon-border-color: $input-border-color !default;
@@ -945,7 +946,7 @@ $list-group-border-width:        $border-width !default;
 $list-group-border-radius:       $border-radius !default;
 
 $list-group-item-padding-x:      1.25rem !default;
-$list-group-item-padding-y:      .75rem !default;
+$list-group-item-padding-y:      .6rem !default;
 
 $list-group-hover-bg:            $green !default;
 $list-group-active-color:        lighten($component-active-color,50%) !default;

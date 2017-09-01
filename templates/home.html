@@ -37,10 +37,10 @@ app.controller('myCtrl', function($scope,$http) {
 
 
 
-    $http.get("/distritos")
+    $http.get("/provincias")
     .then(function(response) {
 
-        $scope.distritos = response.data
+        $scope.provincias = response.data
 
         
     });
@@ -70,6 +70,8 @@ if(device === "xs"){
 
   window.location='https://m.estokealo.com'
 
+ 
+
 }
 
 
@@ -84,7 +86,7 @@ if(device === "xs"){
 
           
 
-            $('.subcat').css('margin-top',(data-1)*49)
+            $('.subcat').css('margin-top',(data-1)*45)
 
         
 
@@ -146,6 +148,10 @@ if(device === "xs"){
         $scope.productos = response.data
 
         
+
+
+
+        
     });
 
 
@@ -161,7 +167,7 @@ if(device === "xs"){
 
 {% include "header.html" %}
 
-    <div class='container' style='margin-top:7em;'>
+    <div class='container ' style='margin-top:6em;'>
 
     <div class="row no-gutters">
     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
@@ -204,7 +210,7 @@ if(device === "xs"){
            <!--      <img class="first-slide" src="https://s3.amazonaws.com/eb-blog-bloguk/wp-content/uploads/2016/05/03100406/sell-tickets-through-facebook.jpg" alt="First slide"> -->
                 <div class="container sli">
                   <div class="carousel-caption d-none d-md-block text-left">
-                    <h1>Compra & Vendelo Todo</h1>
+                    <h1 style='color:#fff'>Compra & Vendelo Todo</h1>
                     <p>Desde tu celular o computadora</p>
                     <p><a class="btn btn-lg btn-primary" href="/vender" role="button"><i class="fa fa-camera" aria-hidden="true"></i> Vender</a></p>
                   </div>
@@ -214,7 +220,7 @@ if(device === "xs"){
                 <!-- <img class="first-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Second slide"> -->
                 <div class="container sli"  >
                   <div class="carousel-caption d-none d-md-block">
-                    <h1>Registrate y inicia sesion</h1>
+                    <h1 style='color:#fff'>Registrate y inicia sesion</h1>
                     <p>Es completamente gratis</p>
                     <p><a class="btn btn-lg btn-primary" href="/ingresar" role="button">Registrate</a></p>
                   </div>
@@ -224,7 +230,7 @@ if(device === "xs"){
                <!--  <img class="first-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Third slide"> -->
                 <div class="container sli"  >
                   <div class="carousel-caption d-none d-md-block text-right">
-                    <h1>Imagenes Video y Mensajes</h1>
+                    <h1 style='color:#fff'>Imagenes Video y Mensajes</h1>
                     <p>Interactua efizcamente</p>
                     <p><a class="btn btn-lg btn-primary" href="/vender" role="button"><i class="fa fa-camera" aria-hidden="true"></i> Vender</a></p>
                   </div>
@@ -235,7 +241,7 @@ if(device === "xs"){
                <!--  <img class="first-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Third slide"> -->
                 <div class="container sli" >
                   <div class="carousel-caption d-none d-md-block text-right">
-                    <h1>Tienda Virtual</h1>
+                    <h1 style='color:#fff'>Tienda Virtual</h1>
                     <p>Al registrate ya tendras tu propia tienda virtual</p>
                     <p><a class="btn btn-lg btn-primary" href="/vender" role="button"><i class="fa fa-camera" aria-hidden="true"></i> Vender</a></p>
                   </div>
@@ -299,7 +305,7 @@ if(device === "xs"){
         
 
         <div class='row'>
-          <div ng-repeat='n in distritos' class='col-md-3'>
+          <div ng-repeat='n in provincias' class='col-md-3'>
             <a href='https://www.{[{n.name}]}.estokealo.com'>{[{n.name}]}</a>
           </div>
         </div>
@@ -491,7 +497,7 @@ a{
 
 .subcat{
 position: absolute;
-    margin-left: 213px;
+
     z-index: 100;
 }
 
