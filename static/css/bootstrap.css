@@ -3628,7 +3628,7 @@ a.badge:focus, a.badge:hover {
     text-decoration: none;
     background-color: #35aaa0; }
   .list-group-item-action:active {
-    color: #fff;
+    color: #35aaa0;
     background-color: #eceeef; }
 
 .list-group-item {
@@ -3640,10 +3640,10 @@ a.badge:focus, a.badge:hover {
   -ms-flex-align: center;
   align-items: center;
   padding: 0.6rem 1.25rem;
-  margin-bottom: -1px;
-  background-color: #35aaa0;
-  border: 1px solid #3bbdb2;
-  color: #fff; }
+  margin-bottom: 0px;
+  background-color: #fff;
+  border: 0px solid #3bbdb2;
+  color: #37475a; }
   .list-group-item:first-child {
     border-top-right-radius: 0.25rem;
     border-top-left-radius: 0.25rem; }
@@ -3656,7 +3656,7 @@ a.badge:focus, a.badge:hover {
   .list-group-item.disabled, .list-group-item:disabled {
     color: #636c72;
     cursor: not-allowed;
-    background-color: #35aaa0; }
+    background-color: #fff; }
     .list-group-item.disabled .list-group-item-heading, .list-group-item:disabled .list-group-item-heading {
       color: inherit; }
     .list-group-item.disabled .list-group-item-text, .list-group-item:disabled .list-group-item-text {
@@ -3926,7 +3926,7 @@ button.close {
 
 @media (min-width: 960px) {
   .modal-lg {
-    max-width: 1300px; } }
+    max-width: 960px; } }
 
 .tooltip {
   position: absolute;

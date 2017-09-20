@@ -90,6 +90,8 @@ class AuthUserUserPermissions(models.Model):
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100, blank=True, null=True)
     icon = models.CharField(max_length=1000, blank=True, null=True)
+    descripcion = models.CharField(max_length=100, blank=True, null=True)
+    imagen = models.FileField(upload_to='static')
 
     class Meta:
         managed = False
@@ -102,6 +104,8 @@ class Categoria(models.Model):
 class Subcategoria(models.Model):
     categoria = models.ForeignKey(Categoria, models.DO_NOTHING, db_column='categoria', blank=True, null=True)
     nombre = models.CharField(max_length=100, blank=True, null=True)
+    descripcion = models.CharField(max_length=100, blank=True, null=True)
+    #imagen = models.FileField(upload_to='static')
 
     class Meta:
         managed = False
@@ -114,6 +118,9 @@ class Provincia(models.Model):
     class Meta:
         managed = False
         db_table = 'provincia'
+
+    def __unicode__(self):
+        return self.name
 
 
 class DjangoAdminLog(models.Model):
@@ -241,6 +248,28 @@ class Auto(models.Model):
         managed = False
         db_table = 'auto'
 
+class Servicios(models.Model):
+    nombre = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'servicios'
+
+class Empleo(models.Model):
+    nombre = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'empleo'
+
+class Cursos(models.Model):
+    nombre = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'cursos'
+
+
 class Producto(models.Model):
     user = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='user', blank=True, null=True)
     categoria = models.ForeignKey(Categoria, models.DO_NOTHING, db_column='categoria', blank=True, null=True)
@@ -263,6 +292,24 @@ class Producto(models.Model):
     provincia = models.ForeignKey(Provincia, models.DO_NOTHING, db_column='provincia', blank=True, null=True)
     telefono = models.CharField(max_length=1000, blank=True, null=True)
     animal = models.IntegerField(blank=True, null=True)
+    metros2 = models.CharField(max_length=1000, blank=True, null=True)
+    ubicacion = models.CharField(max_length=1000, blank=True, null=True)
+    empleo = models.ForeignKey(Empleo, models.DO_NOTHING, db_column='empleo', blank=True, null=True)
+    experiencia = models.CharField(max_length=100, blank=True, null=True)
+    salarioestimado = models.CharField(max_length=10000, blank=True, null=True)
+    servicio = models.ForeignKey('Servicios', models.DO_NOTHING, db_column='servicio', blank=True, null=True)
+    detalleservicio = models.CharField(max_length=1000, blank=True, null=True)
+    dormitorios = models.IntegerField(blank=True, null=True)
+    banios = models.IntegerField(db_column='banios', blank=True, null=True)  # Field renamed to remove unsuitable characters.
+    piscina = models.IntegerField(blank=True, null=True)
+    jardin = models.IntegerField(blank=True, null=True)
+    amueblado = models.IntegerField(blank=True, null=True)
+    gimnasio = models.IntegerField(blank=True, null=True)
+    sauna = models.IntegerField(blank=True, null=True)
+    jacuzzi = models.IntegerField(blank=True, null=True)
+    ambientes = models.IntegerField(blank=True, null=True)
+    curso = models.ForeignKey('Cursos', models.DO_NOTHING, db_column='curso', blank=True, null=True)
+    antiguedad = models.CharField(max_length=1000, blank=True, null=True)
 
 
     class Meta:
@@ -301,3 +348,4 @@ class Notificacion(models.Model):
     class Meta:
         managed = False
         db_table = 'notificacion'
+

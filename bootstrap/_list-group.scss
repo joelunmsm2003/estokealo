@@ -55,7 +55,7 @@
   margin-bottom: -$list-group-border-width;
   background-color: $list-group-bg;
   border: $list-group-border-width solid $list-group-border-color;
-  color:$white;
+  color:$blue;
 
   &:first-child {
     @include border-top-radius($list-group-border-radius);

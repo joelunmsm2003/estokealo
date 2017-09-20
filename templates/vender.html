@@ -17,7 +17,7 @@
 
 <style type="text/css">
   
-    .activo{
+.activo{
 
   background: #1ea095 !important;
   color:#fff !important;
@@ -35,6 +35,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 38px;
+        margin-bottom: 12px;
 
 }
 
@@ -73,24 +74,35 @@ width: 309px;
 
 
 
-<div class="container" style='margin-top:6em;'>
+<div class="container" style='margin-top:8em; margin-bottom: 2em;'>
 
 
 
-<div class='panel'>
 
-<div class='panel-body' style='background: #fff;
-    padding: 88px;
+
+<div class='card'>
+
+<div class='card-block' style='background: #fff;
+    
     padding-top: 33px;
     border: 1px solid #d9d9d9;'>
 
 
     
-<div class="flex-vender">
-  <div class="flex-vender-item" ng-click='categoriam=true;fotosm=false;descripcionm=false' ng-class="{'activo animated bounceIn': categoriam===true}">Escoje la categoria <span class='numero'> 1</span></div>
-  <div class="flex-vender-item" ng-click='categoriam=false;fotosm=true;descripcionm=false' ng-class="{'activo animated bounceIn': fotosm===true}">Subi la foto o video de tu producto <span class='numero'> 2</span></div>
-  <div class="flex-vender-item" ng-click='categoriam=false;fotosm=false;descripcionm=true' ng-class="{'activo animated bounceIn': descripcionm===true}">Agrega una descripcion <span class='numero'> 3</span></div>  
-</div>
+
+<ul class="nav nav-pills nav-fill">
+  <li class="nav-item" ng-click='categoriam=true;fotosm=false;descripcionm=false'>
+    <a class="nav-link active"  ng-class="{'active': categoriam===true}" href="#">Escoje la categoria </a>
+  </li>
+  <li class="nav-item" ng-click='categoriam=false;fotosm=true;descripcionm=false'>
+    <a class="nav-link" ng-class="{'active': fotosm===true}" href="#">Subi la foto o video de tu producto</a>
+  </li>
+  <li class="nav-item" ng-click='categoriam=false;fotosm=false;descripcionm=true'>
+    <a class="nav-link" href="#" ng-class="{'active': descripcionm===true}">Agrega una descripcion</a>
+  </li>
+
+</ul>
+
 
 
   <form ng-submit='vender(enviaventa)'>
@@ -99,9 +111,9 @@ width: 309px;
       
       <div class="row animated fadeIn" ng-show='categoriam'>
 
-              <div class="col-4" style='padding: 12px;'>
+              <div class="col-md-3 offset-md-3 col-sm-6" style='padding-top: 50px;'>
 
-                  <label for="email">Categorias:</label>
+                <!--   <label for="email">Categorias:</label> -->
                 
                   <ul class="list-group" >
 
@@ -118,9 +130,9 @@ width: 309px;
 
               </div>
 
-              <div class="col-4" style='padding: 12px;'>
+              <div class="col-md-3 offset-md-0 col-sm-6 catw" style='padding: 50px; display: none;'>
 
-                      <label ng-show='muestrasubca' for="email">Subcategoria:</label>
+                  <!--     <label ng-show='muestrasubca' for="email">Subcategoria:</label> -->
             
                       <ul class="list-group" ng-show='muestrasubca' >
 
@@ -148,7 +160,7 @@ width: 309px;
 
         
 
-        <div class="col-md-8" style='display:flex;'>
+        <div class="col-md-6 offset-md-3" style='display:flex; padding-top: 50px;'>
 
 
                <label for="pwd" style='padding:39px;'>Fotos </label><br>
@@ -182,8 +194,11 @@ width: 309px;
 
         </div>
 
+      
 
-        <div class="col-md-4" style='display:flex;'>
+
+        <div class="col-md-6 offset-md-3" style='display:flex;padding-top: 20px;'>
+          <br><br><br><br>
           
             <label for="pwd" style='padding:39px;'>Video </label>
             <small>{[{statusvideo}]}</small>
@@ -248,12 +263,12 @@ width: 309px;
 
       
 
-              <div class="col-6 animated fadeIn" style='padding: 12px;' ng-show='descripcionm'>
+              <div class="col-sm-12 col-md-6 offset-md-3 animated fadeIn" style='padding: 50px;' ng-show='descripcionm'>
 
         
                 <div class="form-group row">
-                <label for="pwd" class="col-sm-2 col-form-label">Titulo</label>
-                <div class="col-sm-10">
+                <label for="pwd" class="col-sm-2 col-xs-4 col-form-label">Titulo</label>
+                <div class="col-sm-10 col-xs-8">
                 <input type="text" class="form-control" ng-model='enviaventa.titulo' name = 'titulo' required id="pwd"  placeholder="Ingrese titulo">
                 </div>
                 </div>
@@ -266,6 +281,153 @@ width: 309px;
                 </div>
                 </div>
 
+
+
+                <!--  Empleos -->
+
+
+                <div   class="form-group row" ng-show="mempleos">
+                <label for="pwd" class="col-sm-2 col-form-label">Empleo</label>
+                <div class="col-sm-10">
+                <select class='form-control'  ng-options="t.id as t.nombre for t in empleos" ng-model="enviaventa.empleo"  ><option></option></select>
+                </div>
+                </div>
+
+
+             <!--    <div ng-if='enviaventa.empleo' class="form-group row" ng-show="mempleos">
+                <label for="pwd" class="col-sm-2 col-form-label">Descripcion</label>
+                <div class="col-sm-10">
+                <input type="textarea" class="form-control" ng-model='enviaventa.desempleo'     placeholder="Descripcion del empleo">
+                </div>
+                </div> -->
+
+                <div ng-if='enviaventa.desempleo' class="form-group row" ng-show="mempleos">
+                <label for="pwd" class="col-sm-2 col-form-label">Experiencia Laboral</label>
+                <div class="col-sm-10">
+                <select class='form-control'  ng-options="t as t for t in listexperiencia" ng-model="enviaventa.experiencia"  ><option></option></select>
+                </div>
+                </div>
+
+                <div ng-if='enviaventa.experiencia' class="form-group row" ng-show="mempleos">
+                <label for="pwd" class="col-sm-2 col-form-label">Salario Estimado</label>
+                <div class="col-sm-10">
+                <input type="number" class="form-control" ng-model='enviaventa.salarioestimado' name = 'titulo'    >
+                </div>
+                </div>
+
+
+                <!-- Servicio -->
+
+                <div  class="form-group row" ng-show="listser">
+                <label for="pwd" class="col-sm-2 col-form-label">Tipo de Servicio</label>
+                <div class="col-sm-10">
+                <select class='form-control'  ng-options="t.id as t.nombre for t in listservicios" ng-model="enviaventa.servicio"  ><option></option></select>
+                </div>
+                </div>
+
+                <!-- Propiedades -->
+
+                <div class="form-group row" ng-show="mdormitorio">
+                <label for="pwd" class="col-sm-2 col-form-label">Dormitorios</label>
+                <div class="col-sm-10">
+                <select class='form-control'   ng-options="t as t for t in listdormitorios" ng-model="enviaventa.dormitorios"  ><option></option></select>
+                </div>
+                </div>
+
+                <div class="form-group row" ng-show='mbanio' >
+                <label for="pwd" class="col-sm-2 col-form-label">Baños</label>
+                <div class="col-sm-10">
+                <select class='form-control' ng-options="t as t for t in banios" ng-model="enviaventa.banios"  ><option></option></select>
+                </div>
+                </div>
+
+                <div class="form-group row" ng-show='mantiguedad || enviaventa.banios' >
+                <label for="pwd" class="col-sm-2 col-form-label">Antiguedad</label>
+                <div class="col-sm-10">
+                <select class='form-control' ng-options="t as t for t in listantiguedad" ng-model="enviaventa.antiguedad"  ><option></option></select>
+                </div>
+                </div>
+
+                
+                <div class="row" ng-if='enviaventa.antiguedad'>
+
+                    <div class="col-md-6">
+
+                        <div  class="form-group row" ng-show='mjardin'>
+                        <label for="pwd" class="col-sm-6 col-form-label">Jardin</label>
+                        <div class="col-sm-6">
+                        <input type="checkbox" ng-model='enviaventa.jardin'>
+                        </div>
+                        </div>
+
+
+                        <div class="form-group row" ng-show='mamueblado'>
+                        <label for="pwd" class="col-sm-6 col-form-label">Amueblado</label>
+                        <div class="col-sm-6">
+                        <input type="checkbox" ng-model='enviaventa.amueblado'>
+                        </div>
+                        </div>
+
+
+                        <div  class="form-group row" ng-show='mgimnasio'>
+                        <label for="pwd" class="col-sm-6 col-form-label">Gimnasio</label>
+                        <div class="col-sm-6">
+                        <input type="checkbox" ng-model='enviaventa.gimnasio'>
+                        </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div  class="form-group row" ng-show='msauna'>
+                        <label for="pwdp" class="col-sm-6 col-form-label">Sauna</label>
+                        <div class="col-sm-6">
+                        <input type="checkbox" name='pwdp' ng-model='enviaventa.sauna'>
+                        </div>
+                        </div>
+
+                        <div  class="form-group row" ng-show='mjacuzzi' >
+                        <label for="pwd" class="col-sm-6 col-form-label">Jacuzzi</label>
+                        <div class="col-sm-6">
+                        <input type="checkbox" ng-model="enviaventa.jacuzzi">
+                        </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="form-group row" ng-show="mambiente">
+                <label for="pwd" class="col-sm-2 col-form-label">Ambientes</label>
+                <div class="col-sm-10">
+                <select class='form-control' ng-options="t as t for t in listambientes" ng-model="enviaventa.ambientes"  ><option></option></select>
+                </div>
+                </div>
+
+   
+
+                <div class="form-group row" ng-show='mmetros2'>
+                <label for="pwd" class="col-sm-2 col-form-label">Metros Cuadrados</label>
+                <div class="col-sm-10">
+                <input type="number" class="form-control" ng-model='enviaventa.metros2'  placeholder="Metros 2">
+                </div>
+                </div>
+
+
+                <!-- Clases -->
+
+                <div  class="form-group row" ng-show='mcursos'>
+                <label for="pwd" class="col-sm-2 col-form-label">Curso</label>
+                <div class="col-sm-10">
+                <select class='form-control'  ng-options="t.id as t.nombre for t in cursos" ng-model="enviaventa.curso"  ><option></option></select>
+                </div>
+                </div>
+
+
+                <!-- Autos -->
 
                 <div class="form-group row" ng-show="autos">
                 <label for="pwd" class="col-sm-2 col-form-label">Marca</label>
@@ -287,6 +449,8 @@ width: 309px;
                 <select class='form-control'  ng-options="t.tipo as t.tipo__nombre for t in tipos" ng-model="enviaventa.tipo"  ><option></option></select>
                 </div>
                 </div>
+
+
 
                 <div ng-if='enviaventa.tipo' class="form-group row" ng-show="autos">
                 <label for="pwd" class="col-sm-2 col-form-label">Año</label>
@@ -379,7 +543,7 @@ width: 309px;
                 </div>
 
 
-                <div class="form-group row">
+                <div class="form-group row no-gutters">
 
                     
 
@@ -436,6 +600,18 @@ width: 309px;
                 </div>
 
 
+            <div ng-if='alerta' class="alert alert-danger">
+            {[{alerta}]}
+            </div>
+
+
+            <br><br>
+
+            <center><button type="submit" class="btn btn-primary btn-lg" ng-show='descripcionm'>Publicar</button></center>
+
+
+
+
 
 
 
@@ -444,20 +620,11 @@ width: 309px;
 
 
 
-
-    
-
     </div>
 
 
 
-      <div ng-if='alerta' class="alert alert-danger">
-        {[{alerta}]}
-      </div>
-    
-    <button type="submit" class="btn btn-primary btn-lg" ng-show='descripcionm'>Publicar</button>
 
-   
   </form>
 
   </div>
@@ -515,15 +682,17 @@ width: 309px;
 
         background:#fff; 
         color: #37475a;
+        cursor: pointer;
       }
 
-      .listventa:hover{
-
-        background:#1ea095; 
-        color: #fff;
-
-
-      }
+      /*.listventa:hover{*/
+/**/
+/*        background:#1ea095; */
+/*        color: #fff;*/
+/*        */
+/**/
+/**/
+/*      }*/
 
       .fotitos{
 

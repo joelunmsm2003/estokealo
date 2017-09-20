@@ -28,48 +28,22 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
   $scope.fotosm =false
   $scope.descripcionm=false
 
-   $http.get("/marcas/")
-              .then(function(response) {
+  //Lista para los formularios
 
-                $scope.marcas=response.data
-    
-              });
+  $http.get("/marcas/").then(function(response) { $scope.marcas=response.data });
+  $http.get("/animales/").then(function(response) { $scope.animales=response.data });
+  $http.get("/colores/").then(function(response) { $scope.colores=response.data });
+  $http.get("/provincias/").then(function(response) {$scope.provincias=response.data });
+  $http.get("/empleos/").then(function(response) {$scope.empleos=response.data });
+  $http.get("/cursos/").then(function(response) {$scope.cursos=response.data });
 
+  $scope.banios=[0,1,2,3,4,5]
+  $scope.listdormitorios=[0,1,2,3,4,5]
+  $scope.listantiguedad=['Nuevo','Estreno',0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]
+  $scope.listambientes=[0,1,2,3,4,5]
+  $scope.listexperiencia=[0,1,2,3,4,5,6,7,8,9,10,11,12,13]
 
-
-   $http.get("/animales/")
-              .then(function(response) {
-
-                $scope.animales=response.data
-    
-              });
-
-
-     $http.get("/colores/")
-              .then(function(response) {
-
-                $scope.colores=response.data
-    
-              });
-
-
-         $http.get("/provincias/")
-              .then(function(response) {
-
-                $scope.provincias=response.data
-    
-              });
-
-
-
-    $http.get("/chatin/2")
-              .then(function(response) {
-
-
-               $scope.listachat = response.data
-
-                  
-              });
+  $http.get("/chatin/2").then(function(response) {$scope.listachat = response.data});
 
 
 
@@ -225,14 +199,6 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
 
 
-
-
-
-
-
-
-   
-
     // Segunda Imagen
 
     $scope.setFile1 = function(element) {
@@ -252,6 +218,8 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     $scope.$apply()
 
     }
+
+
     // when the file is read it triggers the onload event above.
     reader.readAsDataURL(element.files[0]);
 
@@ -665,6 +633,9 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     $scope.traesubcategorias = function(data){
 
 
+          $('.catw').fadeIn(500);
+
+
           //Autos
 
           $scope.autos=false
@@ -713,9 +684,89 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     $scope.datasub = 1000
 
+    $http.get("/servicios/")
+              .then(function(response) { $scope.listservicios=response.data})
+
     $scope.enviasuv=function(data){
 
       $scope.datasub = data
+
+      console.log('dhhdhd',data)
+
+
+      $scope.depventa=false
+      $scope.casaalquiler=false
+      $scope.alquilerlocal=false
+      $scope.terrenoventa=false
+      $scope.casaventa=false
+      $scope.depalquiler=false
+      $scope.localventa=false
+      $scope.terrenoventa=false
+      $scope.terrenoventa=false
+      $scope.mantiguedad=false
+      $scope.mmetros2=false
+      $scope.mdormitorio=false
+      $scope.mbanio=false
+      $scope.mjardin=false
+      $scope.mgimnasio=false
+      $scope.msauna=false
+      $scope.mjacuzzi=false
+      $scope.mabientes=false
+      $scope.mamueblado=false
+      $scope.mempleos=false
+      $scope.mcursos=false
+      $scope.listser=false
+
+
+
+      if(data==6){ $scope.depventa =true}
+      if(data==7){ $scope.casaalquiler =true}
+      if(data==9){ $scope.alquilerlocal =true}
+      if(data==10){ $scope.terrenoventa =true}
+      if(data==46){ $scope.casaventa =true}
+      if(data==47){ $scope.depalquiler =true}
+      if(data==48){ $scope.localventa =true}
+      if(data==49){ $scope.terrenoventa =true}
+      if(data==50){ $scope.terrenoventa =true}
+      if(data==101){$scope.listser=true}
+
+      //Antiguedad
+       if(data==6||data==7||data==9||data==10||data==46||data==47||data==48||data==49||data==50){ $scope.mantiguedad = true}
+
+      //Metros Cuadrados
+      if(data==6||data==7||data==9||data==10||data==46||data==47||data==48||data==49||data==50){ $scope.mmetros2 = true}
+
+      //Dormitorios
+      if(data==6||data==7||data==46||data==47||data==49){ $scope.mdormitorio = true}
+
+      //Baños
+      if(data==6||data==7||data==46||data==47||data==49){ $scope.mbanio = true}
+
+      //Jardin
+      if(data==6||data==7||data==46||data==47||data==49){ $scope.mjardin = true}
+
+      //Gimnasio
+      if(data==6||data==7||data==46||data==47||data==49){ $scope.mgimnasio = true}
+
+
+      //Sauna
+      if(data==6||data==7||data==46||data==47||data==49){ $scope.msauna = true}
+
+      //Jacuzzi
+      if(data==6||data==7||data==46||data==47||data==49){ $scope.mjacuzzi = true}
+
+      //Ambientes
+      if(data==6||data==7||data==46||data==9||data==48||data==47||data==49){ $scope.mabientes = true}
+
+      //Amueblado
+      if(data==6||data==7||data==46||data==9||data==48||data==47||data==49){ $scope.mamueblado = true}
+
+      if (data>=76 && data<=91){ $scope.mempleos = true}
+
+        if (data>=67 && data<=75){ $scope.mcursos = true}
+
+
+
     }
 
 

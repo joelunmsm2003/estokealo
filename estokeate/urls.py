@@ -62,6 +62,10 @@ urlpatterns = [
     url(r'^provincias/', 'app.views.provincias'),
     url(r'^distritos/(\d+)/', 'app.views.distritos'),
     url(r'^animales/', 'app.views.animales'),
+    url(r'^empleos/', 'app.views.empleos'),
+    url(r'^servicios/', 'app.views.servicios'),
+    url(r'^cursos/', 'app.views.listcursos'),
+    url(r'^mostrarcategorias/', 'app.views.mostrarcategorias'),
     
     
 

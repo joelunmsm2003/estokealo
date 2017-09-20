@@ -890,7 +890,7 @@ $modal-header-border-width:   $modal-content-border-width !default;
 $modal-footer-border-width:   $modal-header-border-width !default;
 $modal-header-padding:        15px !default;
 
-$modal-lg:                    1300px !default;
+$modal-lg:                    960px !default;
 $modal-md:                    500px !default;
 $modal-sm:                    300px !default;
 
@@ -939,10 +939,10 @@ $progress-bar-animation-timing: 1s linear infinite !default;
 // List group
 
 
-$list-group-color:               $white !default;
-$list-group-bg:                  $green !default;
+$list-group-color:               $green !default;
+$list-group-bg:                  $white !default;
 $list-group-border-color:        lighten($green,5%) !default;
-$list-group-border-width:        $border-width !default;
+$list-group-border-width:        0px !default;
 $list-group-border-radius:       $border-radius !default;
 
 $list-group-item-padding-x:      1.25rem !default;

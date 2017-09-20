@@ -84,7 +84,7 @@ def home(request):
 
 			usuario.photo = str(host)+str(usuario.photo)
 
-	categoria = Categoria.objects.all().values('id','nombre','icon')
+	categoria = Categoria.objects.all().values('id','nombre','icon','descripcion','imagen')
 
 	favoritos = Favoritoproducto.objects.filter(user_id=user)
 
@@ -452,7 +452,11 @@ def productos(request,id):
 
 			p.photo = Photoproducto.objects.filter(producto_id=p.id).values('id','photo__photo')[0]['photo__photo']
 
-			p.detalle = p.photo.split('.jpg')[0]+'_thumbail.jpg'
+			if p.photo.find(".jpg") !=-1:formato ='.jpg'
+			if p.photo.find(".png") !=-1:formato ='.png'
+			if p.photo.find(".gif") !=-1:formato ='.gif'
+
+			p.detalle = p.photo.split(formato)[0]+'_thumbail.jpg'
 
 
 
@@ -994,7 +998,14 @@ def productojson(request,id):
 
 	for p in range(len(photos)):
 
-		photos[p]['detalle'] = str(Photoproducto.objects.get(id=photos[p]['id']).photo.photo).split('.jpg')[0]+'_thumbail.jpg'
+		pho = str(Photoproducto.objects.get(id=photos[p]['id']).photo.photo)
+
+		if pho.find(".jpg") !=-1:formato ='.jpg'
+		if pho.find(".png") !=-1:formato ='.png'
+		if pho.find(".gif") !=-1:formato ='.gif'
+
+
+		photos[p]['detalle'] = pho.split(formato)[0]+'_thumbail.jpg'
 
 
 	videos = Videoproducto.objects.filter(producto_id=id).values('id','video__video')
@@ -1192,7 +1203,16 @@ def uploadphoto(request):
 
 		# Ruta para la galeria
 
-		caption_galeria = caption.split('.jpg')[0]+'_thumbail.jpg'
+		if caption.find(".jpg") !=-1:
+			formato = '.jpg'
+
+		if caption.find(".png") !=-1:
+			formato = '.png'
+
+		if caption.find(".gif") !=-1:
+			formato = '.gif'
+			
+		caption_galeria = caption.split(formato)[0]+'_thumbail.jpg'
 
 		# Guarda galery
 
@@ -1208,7 +1228,7 @@ def uploadphoto(request):
 
 		# Ruta para el home
 
-		caption_home = caption.split('.jpg')[0]+'_home.jpg'
+		caption_home = caption.split(formato)[0]+'_home.jpg'
 
 		fd_img = open(caption, 'r')
 
@@ -1223,7 +1243,7 @@ def uploadphoto(request):
 
 		# Ruta para la galeria
 
-		caption_galeria = caption.split('.jpg')[0]+'_thumbail.jpg'
+		caption_galeria = caption.split(formato)[0]+'_thumbail.jpg'
 
 
 
@@ -1345,6 +1365,9 @@ def subirimgprofile(request):
 		return HttpResponse(id_producto, content_type="application/json")
 
 
+
+
+
 @csrf_exempt
 def animales(request):
 
@@ -1355,6 +1378,63 @@ def animales(request):
 	data_json = simplejson.dumps(c)
 
 	return HttpResponse(data_json, content_type="application/json")
+
+@csrf_exempt
+def servicios(request):
+
+	c=Servicios.objects.all().values('id','nombre')
+
+	c = ValuesQuerySetToDict(c)
+
+	data_json = simplejson.dumps(c)
+
+	return HttpResponse(data_json, content_type="application/json")
+
+
+@csrf_exempt
+def empleos(request):
+
+	c=Empleo.objects.all().values('id','nombre')
+
+	c = ValuesQuerySetToDict(c)
+
+	data_json = simplejson.dumps(c)
+
+	return HttpResponse(data_json, content_type="application/json")
+
+@csrf_exempt
+def listcursos(request):
+
+	c=Cursos.objects.all().values('id','nombre')
+
+	c = ValuesQuerySetToDict(c)
+
+	data_json = simplejson.dumps(c)
+
+	return HttpResponse(data_json, content_type="application/json")
+
+
+
+@csrf_exempt
+def mostrarcategorias(request):
+
+	c=Categoria.objects.all().values('id','nombre','icon','imagen','descripcion')
+
+	for p in range(len(c)):
+
+		s = Subcategoria.objects.filter(categoria_id=c[p]['id']).values('id','nombre')
+
+		s = ValuesQuerySetToDict(s)
+
+		c[p]['subcategoria'] = s
+
+	c = ValuesQuerySetToDict(c)
+
+	data_json = simplejson.dumps(c)
+
+	return HttpResponse(data_json, content_type="application/json")
+
+
 
 
 @csrf_exempt
@@ -1524,38 +1604,62 @@ def vender(request):
 		provincia=None
 		distrito=None
 		auto=None
+		animal=None
+		metros2=None
+		ubicacion=None
+		empleo=None
+		experiencia=None
+		salarioestimado=None
+		servicio=None
+		detalleservicio=None
+		dormitorios=None
+		banios=None
+		piscina=None
+		jardin=None
+		amueblado=None
+		gimnasio=None
+		sauna=None
+		jacuzzi=None
+		ambientes=None
+		curso=None
+		antiguedad=None
 
 		for p in data:
 
 			if p =='marca': marca= data['marca']
-
 			if p =='modelo': modelo = data['modelo']
-
 			if p =='tipo': tipo =data['tipo']
-
 			if p =='anio': anio =data['anio']
-
 			if p =='kilometraje': kilometraje =data['kilometraje']
-
 			if p =='color':color=data['color']
-
 			if p =='cilindros':cilindros=data['cilindros']
-
 			if p =='transmision': transmision=data['transmision']
-
 			if p =='combustibles':combustible=data['combustible']
-
 			if p =='condicion':condicion=data['condicion']
-
 			if p =='moneda':moneda=data['moneda']
-
 			if p =='animal':animal=data['animal']
-
 			if p =='transaction':tipo=data['transaction']
-
 			if p =='provincia':provincia=data['provincia']
-
 			if p =='distrito':distrito=data['distrito']
+			if p=='telefono': telefono=data['telefono']
+			if p=='animal': animal=data['animal']
+			if p=='metros2': metros2=data['metros2']
+			if p=='ubicacion': ubicacion=data['ubicacion']
+			if p=='empleo': empleo=data['empleo']
+			if p=='experiencia': experiencia=data['experiencia']
+			if p=='salarioestimado': salarioestimado=data['salarioestimado']
+			if p=='servicio': servicio=data['servicio']
+			if p=='dormitorios': dormitorios=data['dormitorios']
+			if p=='banios': banios=data['banios']
+			if p=='piscina': piscina=data['piscina']
+			if p=='jardin': jardin=data['jardin']
+			if p=='amueblado': amueblado=data['amueblado']
+			if p=='gimnasio': gimnasio=data['gimnasio']
+			if p=='sauna': sauna=data['sauna']
+			if p=='jacuzzi': jacuzzi=data['jacuzzi']
+			if p=='ambientes': ambientes=data['ambientes']
+			if p=='curso': curso=data['curso']
+			if p=='antiguedad': antiguedad=data['antiguedad']
 
 
 
@@ -1564,8 +1668,10 @@ def vender(request):
 			auto = Auto.objects.get(marca_id=marca,modelo_id=modelo,tipo_id=tipo).id
 
 
-		Producto(auto_id=auto,anio=anio,kilometraje=kilometraje,color_id=color,cilindros=cilindros,transmision=transmision,combustible=combustible,condicion=condicion,animal=animal,transaction=transaction,provincia_id=provincia,distrito_id=distrito,user_id=id_user,titulo=titulo,categoria_id=categoria,subcategoria_id=subcategoria,descripcion=descripcion,precio=precio).save()
 
+		Producto(auto_id=auto,anio=anio,kilometraje=kilometraje,color_id=color,cilindros=cilindros,transmision=transmision,combustible=combustible,condicion=condicion,animal=animal,transaction=transaction,provincia_id=provincia,distrito_id=distrito,user_id=id_user,titulo=titulo,categoria_id=categoria,subcategoria_id=subcategoria,descripcion=descripcion,precio=precio,metros2=metros2,ubicacion=ubicacion,empleo_id=empleo,experiencia=experiencia,salarioestimado=salarioestimado,servicio_id=servicio,dormitorios=dormitorios,banios=banios,piscina=piscina,jardin=jardin,amueblado=amueblado,gimnasio=gimnasio,sauna=sauna,jacuzzi=jacuzzi,ambientes=ambientes,curso=curso,antiguedad=antiguedad).save()
+
+	
 		id_producto = Producto.objects.all().values('id').order_by('-id')[0]['id']
 
 
@@ -1780,7 +1886,7 @@ def ingresarone(request):
 
 def categorias(request):
 
-	c = Categoria.objects.all().values('id','nombre').order_by('-nombre')
+	c = Categoria.objects.all().values('id','nombre','imagen','icon').order_by('-nombre')
 
 	c = ValuesQuerySetToDict(c)
 
