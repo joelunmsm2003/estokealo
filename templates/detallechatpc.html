@@ -446,7 +446,22 @@ $scope.love="<div class='emoji  emoji--love'><div class='emoji__heart'></div></d
 
                     <div class="flex-container">
                   <div class="flex-item">{{producto.titulo}}</div>
-                  <div class="price">S/. {{producto.precio}}</div>
+                  <div class="price">
+
+					 {% if producto.moneda == 'Dolares' %}
+                USD
+              {% endif %}
+
+
+              {% if producto.moneda == 'Soles' %}
+                S/.
+              {% endif %}
+
+              {{producto.precio}}
+
+
+
+                </div>
 					
 
 
@@ -504,19 +519,27 @@ $scope.love="<div class='emoji  emoji--love'><div class='emoji__heart'></div></d
 
 	<div  class='col-md-4 col-xs-12 col-sm-12'>
 
+	<h4> {{producto.titulo}}</h4>
+	<br>
+	<h5> {{producto.descripcion}}</h5>
+
+	<br>
+
+
+	<br>
 	
 
 	<div class='row' class='detallechatproducto' style='background: #1b9f94; color:#fff;'>
 
 
 
-		<div class='col-2'>
+		<div class='col-2' style='padding: 4px;'>
 
-		<img ng-if='mensajestitulo.user__photo' src="{[{mensajestitulo.user__photo}]}" alt="" class='img-fluid'>
+		<img ng-if='mensajestitulo.user__photo' src="{[{mensajestitulo.user__photo}]}" alt="" class='img-fluid' style='border-radius: 50%;max-width: 50px;'>
 
 		</div>
 
-		<div class='col-6' style='padding-top: 11px; padding-left: 0px;'>
+		<div class='col-6' style='padding-top: 17px; padding-left: 0px;'>
 	
 		<small>{[{mensajestitulo.user__first_name}]}</small> |
 		{[{mensajestitulo.titulo}]}|
@@ -527,17 +550,19 @@ $scope.love="<div class='emoji  emoji--love'><div class='emoji__heart'></div></d
 
 		</div>
 
-		<div class='col-4' style='    margin-top: 0px;
-    font-size: 12px;
-    background: #ffffff;
-    color: #234;
+		<div class='col-4' style='
+		margin-top: 0px;
+    font-size: 13px;
+    background: none;
+    color: #fff;
     padding-left: 19px;
     border: 1px solid #1b9f94;
-    text-align: right;
-    padding-top: 4px;
+    text-align: center;
+    padding-top: 9px;
 }'>
 
-			<a href='/productos/{[{mensajestitulo.user_id}]}'>Tienda Virtual de {[{mensajestitulo.user__first_name}]} </a> 
+			<a href='/productos/{[{mensajestitulo.user_id}]}'>
+ Tienda Virtual de {[{mensajestitulo.user__first_name}]} </a> <i class="fa fa-shopping-cart" aria-hidden="true"></i>
 
 
 		</div>
@@ -545,7 +570,7 @@ $scope.love="<div class='emoji  emoji--love'><div class='emoji__heart'></div></d
 
 		</div>
 
-<div class='row chatin' id='chatin'>
+<div class='row chatin' id='chatin' style='height: 200px;'>
 
 
 

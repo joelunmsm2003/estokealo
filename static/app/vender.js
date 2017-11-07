@@ -27,6 +27,7 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
   $scope.categoriam = true
   $scope.fotosm =false
   $scope.descripcionm=false
+  $scope.cate=true
 
   //Lista para los formularios
 
@@ -123,7 +124,12 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
     }
 
-    $scope.ancla=function(){
+    $('.breadcrumb').show();
+    $('.elegido').show()
+
+    $scope.ancla=function(c){
+
+      $scope.subcat=c.nombre
 
 
 
@@ -147,6 +153,8 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
         
 
                 $scope.modelos = response.data
+
+
     
               });
 

@@ -109,7 +109,7 @@ width: 309px;
   {% csrf_token %}
 
       
-      <div class="row animated fadeIn" ng-show='categoriam'>
+      <div class="row no-gutters animated fadeIn" ng-show='categoriam'>
 
               <div class="col-md-3 offset-md-3 col-sm-6" style='padding-top: 50px;'>
 
@@ -130,11 +130,14 @@ width: 309px;
 
               </div>
 
-              <div class="col-md-3 offset-md-0 col-sm-6 catw" style='padding: 50px; display: none;'>
+              <div class="col-md-3 offset-md-0 col-sm-6 catw" style='display: none; padding-top: 50px;'>
 
                   <!--     <label ng-show='muestrasubca' for="email">Subcategoria:</label> -->
             
-                      <ul class="list-group" ng-show='muestrasubca' >
+                      <ul class="list-group" ng-show='muestrasubca' style="border: 2px solid #1ea095;
+    border-right: 1px;
+    border-top: 1px;
+    border-bottom: 1px;">
 
                       <li ng-repeat="c in subcategorias"  ng-click='enviaventa.subcategoria=c.id;enviasuv(c.id);ancla()' ng-class="{'activo': datasub===c.id}" class="list-group-item listventa"  ><a > {[{c.nombre}]} </a></li>
 
@@ -155,12 +158,13 @@ width: 309px;
 
     <!--Imagenes y Video-->
 
-    <div class="row animated fadeIn" ng-show='fotosm'>
+
+    <div class="row  animated fadeIn" ng-show='fotosm'>
 
 
         
 
-        <div class="col-md-6 offset-md-3" style='display:flex; padding-top: 50px;'>
+        <div class="col-md-6 offset-md-3" style='display:flex; justify-content: space-around;padding-top: 50px;flex-flow:wrap;'>
 
 
                <label for="pwd" style='padding:39px;'>Fotos </label><br>

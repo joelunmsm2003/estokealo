@@ -13,7 +13,7 @@ var app = angular.module('myApp', []);
 app.config(function($interpolateProvider){
     $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
     });
-app.controller('myCtrl', function($scope,$http) {
+app.controller('myCtrl', function($scope,$http,$filter) {
 
 
   $http.get("/chatin/2")
@@ -23,6 +23,8 @@ app.controller('myCtrl', function($scope,$http) {
 
                $scope.listachat = response.data
 
+                //$scope.listachat = $filter('limitTo')($scope.listachat, 0, 7)
+
                   
               });
 
@@ -31,9 +33,12 @@ app.controller('myCtrl', function($scope,$http) {
     $http.get("/provincias").then(function(response) { $scope.provincias = response.data });    
     $http.get("/mostrarcategorias").then(function(response) { $scope.mostrarcategorias = response.data 
 
-      $('.cat').fadeIn(500);
+     //  $('.cat').fadeIn(500);
 
-     $('.cat').addClass('animated fadeIn');});
+     // $('.cat').addClass('animated fadeIn');
+
+
+   });
 
 
 
@@ -82,11 +87,14 @@ var device = getBrowserWidth();
 
           console.log(data)
 
-          $('.subcat').fadeIn(500);
+          $('.subcat').show()
+
+      
+
+       
 
           //  $('.subcat').removeClass('animated fadeIn');
 
-           $('.subcat').addClass('animated fadeIn');
 
            // $('.subcat').css('margin-top',(data-1)*45)
 

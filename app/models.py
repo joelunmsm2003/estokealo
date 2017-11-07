@@ -66,6 +66,9 @@ class AuthUser(models.Model):
         managed = False
         db_table = 'auth_user'
 
+    def __unicode__(self):
+        return self.first_name
+
 
 class AuthUserGroups(models.Model):
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
@@ -110,6 +113,9 @@ class Subcategoria(models.Model):
     class Meta:
         managed = False
         db_table = 'subcategoria'
+
+    def __unicode__(self):
+        return self.nombre
 
 
 class Provincia(models.Model):
@@ -206,6 +212,10 @@ class Marca(models.Model):
         managed = False
         db_table = 'marca'
 
+    def __unicode__(self):
+
+        return self.nombre
+
 
 class Modelo(models.Model):
     nombre = models.CharField(max_length=1000, blank=True, null=True)
@@ -213,6 +223,10 @@ class Modelo(models.Model):
     class Meta:
         managed = False
         db_table = 'modelo'
+
+    def __unicode__(self):
+
+        return self.nombre
 
 class Tipo(models.Model):
     nombre = models.CharField(max_length=1000, blank=True, null=True)
@@ -228,6 +242,9 @@ class Color(models.Model):
         managed = False
         db_table = 'color'
 
+    def __unicode__(self):
+        return self.nombre
+
 
 class Distrito(models.Model):
     nombre = models.CharField(max_length=1000, blank=True, null=True)
@@ -236,6 +253,9 @@ class Distrito(models.Model):
     class Meta:
         managed = False
         db_table = 'distrito'
+
+    def __unicode__(self):
+        return self.nombre
 
 
 
@@ -247,6 +267,13 @@ class Auto(models.Model):
     class Meta:
         managed = False
         db_table = 'auto'
+
+    def __unicode__(self):
+
+        print 'self.marca',self.id
+
+        if self.marca:
+            return self.marca.nombre+' '+self.modelo.nombre
 
 class Servicios(models.Model):
     nombre = models.CharField(max_length=1000, blank=True, null=True)
@@ -271,13 +298,13 @@ class Cursos(models.Model):
 
 
 class Producto(models.Model):
+    
     user = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='user', blank=True, null=True)
     categoria = models.ForeignKey(Categoria, models.DO_NOTHING, db_column='categoria', blank=True, null=True)
     titulo = models.CharField(max_length=1000, blank=True, null=True)
     descripcion = models.CharField(max_length=1000, blank=True, null=True)
     precio = models.IntegerField(blank=True, null=True)
     subcategoria = models.ForeignKey(Subcategoria, models.DO_NOTHING, db_column='subcategoria', blank=True, null=True)
-    precio = models.IntegerField(blank=True, null=True)
     auto = models.ForeignKey(Auto, models.DO_NOTHING, db_column='auto', blank=True, null=True)
     anio = models.CharField(max_length=100, blank=True, null=True)
     kilometraje = models.CharField(max_length=1000, blank=True, null=True)
@@ -310,11 +337,14 @@ class Producto(models.Model):
     ambientes = models.IntegerField(blank=True, null=True)
     curso = models.ForeignKey('Cursos', models.DO_NOTHING, db_column='curso', blank=True, null=True)
     antiguedad = models.CharField(max_length=1000, blank=True, null=True)
+    #photo = models.ForeignKey('Photo', models.DO_NOTHING, db_column='photo', blank=True, null=True)
 
 
     class Meta:
         managed = False
         db_table = 'producto'
+
+
         
 class Chat(models.Model):
     user = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='user', blank=True, null=True, related_name='user')

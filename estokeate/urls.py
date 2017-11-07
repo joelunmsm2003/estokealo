@@ -1,6 +1,7 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 
+
 urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
@@ -17,12 +18,14 @@ urlpatterns = [
     url(r'^perfil/$', 'app.views.perfil'),
     url(r'^vender/$', 'app.views.vender'),
     url(r'^productos/(\d+)$', 'app.views.productos'),
+    url(r'^productosamostrar/(\d+)$', 'app.views.productosamostrar'),
     url(r'^producto/(\d+)$', 'app.views.producto'),
     url(r'^productojson/(\d+)$', 'app.views.productojson'),
     url(r'^usuario/(\d+)$', 'app.views.usuario'),
     url(r'^editarproducto/(\d+)$', 'app.views.editarproducto'),
     url(r'^chat/(\d+)/(\d+)$', 'app.views.chat'),
     url(r'^chatin/(\d+)$', 'app.views.chatin'),
+    url(r'^chatin2/(\d+)$', 'app.views.chatin2'),
     url(r'^enviamensaje/$', 'app.views.enviamensaje'),
     url(r'^enviamensaje_perfil/$', 'app.views.enviamensaje_perfil'),
     url(r'^enviamensaje_perfil_web/$', 'app.views.enviamensaje_perfil_web'),
@@ -66,8 +69,11 @@ urlpatterns = [
     url(r'^servicios/', 'app.views.servicios'),
     url(r'^cursos/', 'app.views.listcursos'),
     url(r'^mostrarcategorias/', 'app.views.mostrarcategorias'),
-    
-    
+    url(r'^clasificados/', 'app.views.clasificados'),
+    url(r'^favoritos/', 'app.views.favoritos'),
+    url(r'^editarproducto/(\w+)/', 'app.views.editarproducto'),
+    url(r'^eliminarproducto/(\w+)/', 'app.views.eliminarproducto'),
+    url(r'^search/$', 'app.views.search', name='search'),
 
 
 ]

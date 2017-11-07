@@ -1,6 +1,66 @@
+<!DOCTYPE html>
 <html ng-app="myApp" ng-controller="myCtrl">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<body>
+
+
+
+<script>
+var app = angular.module('myApp', []);
+
+app.config(function($interpolateProvider){
+    $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
+    });
+app.controller('myCtrl', function($scope,$http) {
+
+    $scope.miperfil=false
+
+
+
+
+    $http.get("/chatin/{{usuario.id}}")
+    .then(function(response) {
+
+      console.log('chatin...',response)
+
+      $scope.chatin = response.data
+        
+    });
+
+     $http.get("/chatin/2")
+              .then(function(response) {
+
+
+
+               $scope.listachat = response.data
+
+                  
+              });
+
+
+    $scope.traemensajes=function(data){
+
+      console.log(data)
+
+      $scope.receptor = data.id
+
+      $http.get("/listamensajes/"+data.destino+'/'+data.producto)
+      .then(function(response) {
+
+      console.log('chatin...',response)
+
+      $scope.mensajes = response.data
+
+      $scope.mensajestitulo = response.data[0]
+
+      });
+
+    }
+
+
+});
+</script>
+
+
 
 {% include "header.html" %}
 
@@ -8,39 +68,95 @@
 
 <div class='container' style='margin-top:6em;'>
 
-<h1>Tienda Virtual de {{userproducto.first_name}}</h1>
+
+<ul class="nav nav-pills">
+  <li class="nav-item">
+    <a class="nav-link  menulink active" href="/productos/{{usuario.id}} ">Mis anuncios</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link menulink " href="/favoritos">Mis favoritos</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link  menulink " href="/perfil" >Mi perfil</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link  menulink " href="/chat/2/3" >Mis Mensajes</a>
+  </li>
+</ul>
+
 <br>
-
-<div class='row'>
-
-
 
 {% for producto in productos %}
 
+  <div class="container py-3">
+    <div class="card">
+      <div class="row ">
+        <div class="col-md-2">
+            <img src="{{host}}{{producto.photo}}" class="w-100">
+          </div>
+          <div class="col-md-10 px-3">
+            <div class="card-block px-3">
 
-<div class='col-md-2 card1'>
+            	<div class="row">
 
-         <a class='item' href="/detallechatpc/{{producto.user.id}}/{{producto.id}}">
-    
-      
-			<div class="card" >
-			  <img class="card-img-top img-fluid" src="{{host}}{{producto.detalle}}" alt="Card image cap">
-			  <div class="card-block">
-			    <h4 class="card-title">{{producto.title}}</h4>
-			    <p class="card-text">{{producto.descripcion}}</p>
-			<!--     <a class='btn btn-primary btn-sm' href='/editarproducto/{{producto.id}}'><i class="fa fa-pencil" aria-hidden="true"> </i> Editar
-</a> -->
+            	<div class='col-md-6'>
 
-			    
-			  </div>
-			</div>
-       </a>
-			</div>
+              <h3 class="card-title">{{producto.titulo}}</h3>
+              <p class="card-text">{{producto.descripcion}}</p>
+              <p class="card-text">{{producto.direccion}}</p>
+              
+            	</div>
+
+
+            	<div class='col-md-6' style="text-align: right; padding-right: 67px;">
+
+            	<h5 class="card-title">
+
+
+
+
+              {% if producto.moneda == 'Dolares' %}
+                USD
+              {% endif %}
+
+
+              {% if producto.moneda == 'Soles' %}
+                S/.
+              {% endif %}
+
+            	{{producto.precio}}</h5>
+            	
+          <a class="btn btn-primary" href="/productos/{{usuario.id}}" id="xxxx" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            
+          <i style=';
+    color: #fff;' class="fa fa-cog" ng-click='mensajes' aria-hidden="true"></i> 
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="xxxx" style='margin:0.125rem 215px 0;'>
+            <a class="dropdown-item" href="/editarproducto/{{producto.id}}">Editar Anuncio</a>
+            <a class="dropdown-item" href="/eliminarproducto/{{producto.id}}">Eliminar Anuncio</a>
+
+           
+          </div>
+  
+            	</div>
+
+            	</div>
+
+
+              </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
 
 {% endfor %}
 
 
-</div>
 
 </div>
 
@@ -55,6 +171,13 @@ a{
 .card1{
   margin-bottom: 12px;
 }
+
+
+.card {
+    border-radius: 0.25rem;
+    max-height: 137px;
+}
+
 
 </style>
 

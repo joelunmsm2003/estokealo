@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'django.contrib.auth.hashers',
     'corsheaders',
     'app',
+    'django_filters',
 ]
 
 

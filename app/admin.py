@@ -32,6 +32,10 @@ class SubcategoriaAdmin(admin.ModelAdmin):
 class EmpleoAdmin(admin.ModelAdmin):
     list_display = ('id','nombre')
 
+@admin.register(Marca)
+class MarcaAdmin(admin.ModelAdmin):
+    list_display = ('id','nombre')
+
 
 @admin.register(Servicios)
 class ServiciosAdmin(admin.ModelAdmin):
@@ -50,3 +54,31 @@ class DistritoAdmin(admin.ModelAdmin):
 	list_display = ('id','nombre','get_provincia')
 	def get_provincia(self, obj):
 		return obj.provincia.name
+
+
+@admin.register(Producto)
+class ProductoAdmin(admin.ModelAdmin):
+    list_display = ('id','marca','modelo','descripcion','titulo','moneda')
+    list_editable = ('moneda',)
+
+    def marca(self, obj):
+        if obj.auto:
+            return obj.auto.marca.nombre
+
+    def modelo(self, obj):
+        if obj.auto:
+            return obj.auto.modelo.nombre
+
+
+@admin.register(Auto)
+class AutoAdmin(admin.ModelAdmin):
+    list_display = ('id','marca','modelo')
+    search_fields = ('id',)
+
+    def marca(self, obj):
+        if obj.marca:
+            return obj.marca.nombre
+
+    def modelo(self, obj):
+        if obj.modelo:
+            return obj.modelo.nombre

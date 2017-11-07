@@ -260,25 +260,55 @@ $scope.chat={}
 
 {% include "headeruser.html" %}
 
+<div class='container'>
+
+
+<div class='panel' style='padding-top: 61px;'>
+
+<div class='panel-body'>
+
+<ul class="nav nav-pills">
+  <li class="nav-item">
+    <a class="nav-link  menulink " href="/productos/{{usuario.id}}" >Mis anuncios</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link menulink " href="/favoritos">Mis favoritos</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link  menulink " href="/perfil" >Mi perfil</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link  menulink active" href="/chat/2/3" >Mis Mensajes</a>
+  </li>
+</ul>
+
+
+</div>
+
+</div>
+
+</div>
+
 <br><br>
-
-
 	
 
-<div class='row'>
+<div class='row animated fadeIn'>
 
 <div class="col-lg-4 col-md-4 ">
 
 
-		<div class='chatperfil' ng-repeat="c in chatin" ng-if='c.user__username!="{{usuario.username}}"'>
+		<div class='chatperfil' ng-repeat="c in chatin | orderBy:'$index':true" ng-if='c.user__username!="{{usuario.username}}"'>
 
 				<div ng-click='traemensajes(c)' >
 				      <div class="row ">
-				        <div class="col-md-3">
-				            <img src="{[{c.user__photo}]}" class='img-fluid    img-rounded'>
+				        <div class="col-md-3" style='padding: 37px;
+    padding-top: 12px;
+    padding-bottom: 0px;'>
+				            <img src="{[{c.user__photo}]}" class='img-fluid  rounded-circle' style='max-width: 51px;'>
 				          </div>
-				          <div class="col-md-9 px-3" style='padding-top: 7px;
-    color: #3a4a5d;'>
+				          <div class="col-md-9 px-3" style='padding-top: 3px;
+    color: #3a4a5d;
+    padding-bottom: 3px;'>
 				            <div class="px-3">
 				            
 				              				<small>{[{c.user__first_name}]}</small><br>
@@ -639,12 +669,6 @@ $scope.chat={}
     margin-top: 5px;
 }*/
 
-.dropdown-menu {
-    min-width: 24rem !important;
-
-    padding-top: 7px;
-    margin-top: 5px;
-}
 
 
 
@@ -655,9 +679,7 @@ $scope.chat={}
     overflow-x: hidden;
 }
 
-.flex1 {
-  flex: 2 !important;
-}
+
 	
 
 </style>

@@ -28,7 +28,6 @@
 
   <script type="text/javascript" src='/static/js/bootstrap.js'></script>
 
-  <script type="text/javascript" src='/static/js/index.js'></script>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
@@ -87,7 +86,7 @@
   </style>
 
 
- <a class="navbar-brand" href="/" style='margin-top: -16px;'><img src="{{host}}/static/estoke.png" height="45px"></a>
+ <a class="navbar-brand" href="/" style='margin-top: -16px;'><img src="{{host}}/static/estoke.png" height="45px" ></a>
 
  
 
@@ -95,25 +94,17 @@
     left: 75px;
     top: 41px;
     font-size: 11px;
-    color: #2aa59a;'>Compra & vendelo todo </small>
+    color: #2aa59a;'>Compra & Vendelo todo </small>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       
 
 
-    <form class="form-inline my-2 my-sm-0" method="post" action="/busqueda/">
+    <form class="form-inline my-2 my-sm-0" method="get" action="/busqueda/">
 
-    {% csrf_token %}
+
     
-<!--     <input type="text" class="form-control" autofocus id="inlineFormInputGroup" name='dato' placeholder="¿Que estas buscando?" style='width: 87%; height: 42px;'>
-
-
-
-      <button class='btn btn-primary' style='border-radius: 0 0.25rem 0.25rem 0;
-    margin-left: -7px;' type='submit'><i class="material-icons">search</i></button> -->
-
-
      <div class="input-group">
       <input style='border:1px solid #37475a;' type="text" class="form-control" required name='dato' autofocus placeholder="¿Que estas buscando?">
       <span class="input-group-btn">
@@ -123,6 +114,14 @@
 
     </form>
 
+
+  <style type="text/css">
+    
+    .form-inline .input-group {
+    /* width: 500px; */
+    width: 400px;
+}
+  </style>
 
 
 
@@ -140,7 +139,7 @@
 
       
 
-      <img src="{{usuario.photo}}" class='img-fluid rounded-circle' " style='width: 40px;'>
+      <img src="{{usuario.photo}}" class='img-fluid rounded-circle'  style='width: 40px;'>
       <span style='color: #37475a; font-size:12px;'>{{usuario.first_name}}</span>
     
           
@@ -183,12 +182,12 @@
                 <div class="containerflex elem">
 
                   <section class="elem elem-green flex1">
-                    <img src='{{host}}{{f.photo}}' class='img-fluid' >
+                    <img src='{{host}}{{f.photo}}' class='img-fluid ' >
                   </section>
                   <section class="elem elem-green flex2">
                    
                         
-                {{f.producto.titulo}}<br>
+                    {{f.producto.titulo}}<br>
 
                     {{f.producto.precio}}
                   </section>
@@ -204,7 +203,7 @@
 
        <section class="headerflex" style='text-align: center;'>
 
-                  <a href='#'>Ver Todos</a>
+                  <a href='/favoritos'>Ver Todos</a>
 
                   </section>
 
@@ -243,12 +242,12 @@
 
 
 
-                <a ng-repeat='m in listachat' href='/chat/{[{m.user}]}/{[{m.producto}]}'>
+                <a ng-repeat="m in listachat |   orderBy:'$index':true   " href='/chat/{[{m.user}]}/{[{m.producto}]}'>
 
                 <div class="containerflex elem" ng-if='m.user__username!="{{usuario.username}}"'>
 
                   <section class="elem elem-green flexuser">
-                    <img src='{[{m.user__photo}]}' class='img-fluid' >
+                    <img  src='{[{m.user__photo}]}' class='img-fluid rounded-circle' >
                   </section>
                   <section class="elem elem-green flex2">
                    
@@ -295,7 +294,7 @@
 
           <div class="dropdown-menu" aria-labelledby="xxxx">
             <a class="dropdown-item" href="/productos/{{usuario.id}}">Mis Anuncios</a>
-            <a class="dropdown-item" href="/perfil">Mi Perfil</a>
+            <a class="dropdown-item" href="/perfil/">Mi Perfil</a>
             <a class="dropdown-item"  href="/salir">Salir</a>
 
            
@@ -334,7 +333,7 @@
 
       <a class="nav-link" href="/vender" style='padding-top: 16px;'><button class="btn btn-outline-success my-2 my-sm-0" > <i class="fa fa-camera" aria-hidden="true"></i> Vender</button></a>
 
-      <a class="nav-link" href="#" style='padding-top: 16px;'><button class="btn btn-outline-success my-2 my-sm-0" > Clasificados</button></a>
+      <a class="nav-link" href="/clasificados" style='padding-top: 16px;'><button class="btn btn-outline-success my-2 my-sm-0" > Clasificados</button></a>
 
 
 
@@ -375,7 +374,7 @@ font-size: 13px;
 
 
 .flex1 {
-  flex: 3;
+  flex: 2;
 }
 .flexuser{
   flex:1;
@@ -398,6 +397,11 @@ font-size: 13px;
 .dropdown-item{
 
   font-size: 13px;
+}
+
+.menulink{
+
+  padding:0.4em 4.3em;
 }
 
 

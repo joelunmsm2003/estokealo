@@ -1,0 +1,142 @@
+<!doctype html>
+<html ng-app="myApp" ng-controller="myCtrl">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="/static/app/home.js"></script>
+
+	<title>Estokealo</title>
+</head>
+
+<script>
+	
+	var app = angular.module('myApp', ['ngCookies','ngSanitize']);
+
+app.config(function($interpolateProvider){
+    $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
+    })
+
+app.controller('myCtrl', function($scope,$http,$cookies) {
+
+
+
+})
+
+
+</script>
+
+
+
+<body>
+
+
+{% include "header.html" %}
+
+    <div class='container ' style='margin-top:7em; text-align: center;'>
+
+    <h1>Clasificados</h1>
+    <br>
+
+    <div class="row">
+    	
+    	<div class="col-md-4">
+
+    	<h4>Automoviles</h4>
+
+    	<div class='clascont'>
+
+    	<div class='iconoclas'><i class="fa fa-car" aria-hidden="true"></i>
+
+		</div>
+
+		</div>
+
+		<ul class='list-group'>
+		{% for a in autos %}
+
+		<a href='/busquedacategoria/0/{{a.id}}'><li class="list-group-item">{{a.nombre}}
+		</li></a>
+
+		
+		{% endfor %}
+		</ul>
+
+    	</div>
+
+    	<div class="col-md-4"><h4>Propiedades</h4>
+
+		<div class='clascont'>
+
+    	<div class='iconoclas'><i class="fa fa-home" aria-hidden="true"></i>
+
+		</div>
+
+		</div>
+
+
+    	<ul class='list-group'>
+		{% for a in propiedades %}
+
+		<a href='/busquedacategoria/0/{{a.id}}'><li class="list-group-item">{{a.nombre}}
+		</li></a>
+
+		
+		{% endfor %}
+		</ul></div>
+			<div class="col-md-4"><h4>Empleos</h4>
+
+		<div class='clascont'>
+
+    	<div class='iconoclas'><i class="fa fa-briefcase" aria-hidden="true"></i>
+
+		</div>
+
+		</div>
+
+    	<ul class='list-group'>
+		{% for a in empleos %}
+
+		<a href='/busquedacategoria/0/{{a.id}}'><li class="list-group-item">{{a.nombre}}
+		</li></a>
+
+		
+		{% endfor %}
+		</ul></div>
+
+
+    </div>
+
+
+
+    </div>
+
+
+
+ </body>
+
+<style type="text/css">
+	
+	.iconoclas{
+	text-align: center;
+    font-size: 69px;
+    padding: 18px;
+    background: #7f9096;
+    width: 152px;
+    border-radius: 50%;
+    height: 150px;
+    color: #fff;
+	}
+
+	.clascont{
+		padding: 139px;
+    padding-top: 34px;
+    padding-bottom: 34px;
+
+}
+</style>
+ </html>

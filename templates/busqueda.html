@@ -36,8 +36,21 @@ app.controller('myCtrl', function($scope,$http) {
     	$scope.photoprincipal = data.detalle
     }
 
+     $http.get("/chatin/2")
+              .then(function(response) {
+
+
+
+               $scope.listachat = response.data
+
+                  
+              });
+
 
 });
+
+
+
 </script>
 
 	<body>
@@ -50,12 +63,14 @@ app.controller('myCtrl', function($scope,$http) {
 
 <h6>Se encontraron {{total}} resultados para <strong>"{{dato}}"</strong> en Perú </h6>
 
-
+<br>
 
 <div class="row">
 	
 
 <div class="col-md-4">
+
+
 
 
 			
@@ -65,14 +80,20 @@ app.controller('myCtrl', function($scope,$http) {
 
 	 
 	    
-  		<li class="list-group-item"><a href='/filtrarcategoria/{{dato}}/{{c.categoria}}/'><span class='iconocat' style='padding-right: 4px; '><i class="material-icons">{{categoria.icon}}</i></span> {{c.categoria__nombre}} </a><span style='float:right;padding-left: 12px;'>({{c.total}})</span></li>
+  		<a href='/filtrarcategoria/{{dato_1}}/{{c.categoria}}/'>
+
+  		<li class="list-group-item"><span class='iconocat' style='padding-right: 4px; '><i class="material-icons">{{c.categoria__icon}}</i></span> {{c.categoria__nombre}} <span style='float:right;padding-left: 12px;'>({{c.total}})</span>
+  		</li>
+
+  		</a>
 
 		
 
 	    {% endfor %}
 
 	    </ul>
-	  
+
+
 
 
 
@@ -112,17 +133,86 @@ app.controller('myCtrl', function($scope,$http) {
 
 <div class="col-md-8">
 
+		<div class="row">
+
+		<div class="col-md-4">
+		<div class="btn-group" role="group" aria-label="Basic example" style='padding-bottom: 12px;'>
+		  <a  style='color:#fff;' onclick="addlistado()" class="btn btn-primary" > Listado <i class="fa fa-list" aria-hidden="true"></i></a>
+		  <a style='color:#fff;' onclick="addgaleria()" class="btn btn-primary"> Galeria <i class="fa fa-th-large" aria-hidden="true"></i></a>
+			
+		</div>
+		</div>
+		<div class="col-md-4 offset-md-4" >
+		<div class="dropdown" style="text-align: right;">
+		  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    Ordenar por Precio
+		  </button>
+		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
+		    <a class="dropdown-item" onclick='precioasc()'>Ascendente</a>
+		    <a class="dropdown-item" onclick='preciodesc()'>Descendente</a>
+		  
+		  </div>
+		</div>
+		</div>
+
+		</div>
+
+<script type="text/javascript">
+	
+	function gup( name, url ) {
+    if (!url) url = location.href;
+    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+    var regexS = "[\\?&]"+name+"=([^&#]*)";
+    var regex = new RegExp( regexS );
+    var results = regex.exec( url );
 
 
+    return results == null ? null : results[1];
+}
+
+	function addlistado(){
+
+		location.href='http://www.estokealo.com/busqueda/?dato='+gup('dato', window.location.href)+'&vista=listado'+'&precio='+gup('precio', window.location.href)
+	}
+
+	function addgaleria(){
+
+		location.href='http://www.estokealo.com/busqueda/?dato='+gup('dato', window.location.href)+'&vista=galeria'+'&precio='+gup('precio', window.location.href)
+	}
+
+	function precioasc(){
+
+		location.href='http://www.estokealo.com/busqueda/?dato='+gup('dato', window.location.href)+'&vista='+gup('vista', window.location.href)+'&precio=precio'
+	}
+
+
+	function preciodesc(){
+
+		location.href='http://www.estokealo.com/busqueda/?dato='+gup('dato', window.location.href)+'&vista='+gup('vista', window.location.href)+'&precio=-precio'
+	}
+
+
+
+
+
+</script>
+
+{% if vista == "galeria" %}
 
 <div class='row'>
+
+
+		
+
+
+
 		{% for producto in productos %}
 
 
  
 			<div class='col-6  col-lg-3  col-sm-4 card1'>
 
-         <a class='item' href="/producto/{{producto.id}}">
+         <a class='item' href="/detallechatpc/6/{{producto.id}}">
     
 
       
@@ -145,7 +235,84 @@ app.controller('myCtrl', function($scope,$http) {
 			
 			</div>
 
-	
+
+{% endif %}
+
+{% if vista == "listado" %}
+
+
+			<div class="row">
+				
+			{% for producto in productos %}
+
+  <div class="container py-3">
+    <div class="card">
+      <div class="row ">
+        <div class="col-md-3">
+            <img src="{{host}}{{producto.photo.photo__photo}}" class="w-100">
+          </div>
+          <div class="col-md-9 px-3">
+
+          <a href="/detallechatpc/6/{{producto.id}}">
+
+            <div class="card-block px-3">
+
+              <div class="row">
+
+              <div class='col-md-6'>
+
+              <h3 class="card-title">{{producto.titulo}}</h3>
+              <p class="card-text">{{producto.descripcion}}</p>
+              <p class="card-text">{{producto.direccion}}</p>
+              
+              </div>
+
+
+              <div class='col-md-6' style="text-align: right; padding-right: 67px;">
+
+              <h5 class="card-title">
+
+
+
+
+              {% if producto.moneda == 'Dolares' %}
+                USD
+              {% endif %}
+
+
+              {% if producto.moneda == 'Soles' %}
+                S/.
+              {% endif %}
+
+              {{producto.precio}}</h5>
+              
+      
+
+         
+              </div>
+
+              </div>
+
+
+              </div>
+
+              </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+{% endfor %}
+
+
+			</div>
+
+
+{% endif %}
 
 </div>
 

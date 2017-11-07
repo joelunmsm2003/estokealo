@@ -498,27 +498,27 @@ h1, h2, h3, h4, h5, h6,
 
 h1, .h1 {
   font-size: 2.5rem;
-  font-family: "GeometryBold"; }
+  font-family: "Open Sans"; }
 
 h2, .h2 {
   font-size: 2rem;
-  font-family: "GeometryBold"; }
+  font-family: "Open Sans"; }
 
 h3, .h3 {
   font-size: 1.75rem;
-  font-family: "GeometryBold"; }
+  font-family: "Open Sans"; }
 
 h4, .h4 {
   font-size: 1.5rem;
-  font-family: "GeometryBold"; }
+  font-family: "Open Sans"; }
 
 h5, .h5 {
   font-size: 1.25rem;
-  font-family: "GeometryBold"; }
+  font-family: "Open Sans"; }
 
 h6, .h6 {
   font-size: 1rem;
-  font-family: "GeometryBold"; }
+  font-family: "Open Sans"; }
 
 .lead {
   font-size: 1.25rem;
@@ -631,7 +631,7 @@ code,
 kbd,
 pre,
 samp {
-  font-family: "Geometry", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  font-family: "Open Sans", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
 
 code {
   padding: 0.2rem 0.4rem;
@@ -1638,7 +1638,7 @@ pre {
   width: 100%;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
-  line-height: 1.3;
+  line-height: 1.4;
   color: #000;
   background-color: #fff;
   background-image: none;
@@ -1670,7 +1670,7 @@ pre {
     cursor: not-allowed; }
 
 select.form-control:not([size]):not([multiple]) {
-  height: calc(2.1375rem + 2px); }
+  height: calc(2.225rem + 2px); }
 
 select.form-control:focus::-ms-value {
   color: #000;
@@ -1705,7 +1705,7 @@ select.form-control:focus::-ms-value {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   margin-bottom: 0;
-  line-height: 1.3;
+  line-height: 1.4;
   border: solid transparent;
   border-width: 1px 0; }
   .form-control-static.form-control-sm, .input-group-sm > .form-control-static.form-control,
@@ -1782,8 +1782,8 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
 .form-control-danger {
   padding-right: 2.25rem;
   background-repeat: no-repeat;
-  background-position: center right 0.53438rem;
-  background-size: 1.06875rem 1.06875rem; }
+  background-position: center right 0.55625rem;
+  background-size: 1.1125rem 1.1125rem; }
 
 .has-success .form-control-feedback,
 .has-success .form-control-label,
@@ -2525,7 +2525,7 @@ tbody.collapse.show {
   margin-bottom: 0;
   font-size: 0.875rem;
   font-weight: normal;
-  line-height: 1.3;
+  line-height: 1.4;
   color: #000;
   text-align: center;
   background-color: #eceeef;
@@ -2672,9 +2672,9 @@ tbody.collapse.show {
 .custom-select {
   display: inline-block;
   max-width: 100%;
-  height: calc(2.1375rem + 2px);
+  height: calc(2.225rem + 2px);
   padding: 0.375rem 1.75rem 0.375rem 0.75rem;
-  line-height: 1.3;
+  line-height: 1.4;
   color: #000;
   vertical-align: middle;
   background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
@@ -6462,22 +6462,22 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
   height: 56px;
   width: 100%;
   background: #fff;
-  border-radius: 6px;
+  border-radius: 2px;
   color: #4f5d6d;
   margin-bottom: 15px;
-  box-shadow: 1px 1px 6px #888888; }
+  border: 1px solid #d7dfe7; }
 
 .price {
   position: absolute;
   margin: 10px;
-  font-family: GeometryLight;
+  font-family: Geometry;
   font-size: 26px;
   right: 49px; }
 
 .flex-item {
   position: absolute;
   margin: 10px;
-  font-family: GeometryLight;
+  font-family: Geometry;
   color: #37475a;
   font-size: 26px;
   left: 13px; }
@@ -6528,7 +6528,7 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
 
 .chatin {
   overflow-y: auto;
-  height: 454px;
+  height: 400px;
   background: #fff;
   border: 1px solid #b6e0dd !important;
   padding-top: 21px; }
@@ -6827,11 +6827,11 @@ a:focus, a:hover {
   text-decoration: none; }
 
 .chatperfil {
-  margin-bottom: 11px;
+  margin-bottom: 2px;
   background: #fff;
   border-radius: 2px;
-  box-shadow: 1px 1px 2px #888888;
-  transition: all .4s; }
+  transition: all .4s;
+  border: 1px solid #dde3e9; }
 
 .chatperfil:hover {
   background: rgba(52, 175, 164, 0.1); }

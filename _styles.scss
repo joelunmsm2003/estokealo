@@ -20,17 +20,19 @@
     padding: 2px !important;
 }
 
+
 .flex-container {
     position: relative;
     height: 56px;
     width: 100%;
     background: #fff;
     
-    border-radius: 6px;
+    border-radius: 2px;
 
     color: #4f5d6d;
      margin-bottom: 15px;
-     box-shadow: 1px 1px 6px #888888;
+         border: 1px solid #d7dfe7;
+     //box-shadow: 1px 1px 6px #888888;
 
 }
 
@@ -38,7 +40,7 @@
 
     position: absolute;
     margin: 10px;
-    font-family: GeometryLight;
+    font-family: Geometry;
  
     font-size: 26px;
     right: 49px;
@@ -48,7 +50,7 @@
 
     position: absolute;
     margin: 10px;
-    font-family: GeometryLight;
+    font-family: Geometry;
     color:#37475a;
     font-size: 26px;
     left: 13px;
@@ -126,7 +128,7 @@
   .chatin{
 
     overflow-y: auto;
-    height: 454px;
+    height: 400px;
     background: $white;
     border: 1px solid #b6e0dd !important;
     padding-top: 21px;
@@ -543,14 +545,11 @@ a:focus, a:hover {
 .chatperfil{
 
 	
-    margin-bottom: 11px;
-    background: $white;
-    
- 	   border-radius:2px;
-
-      box-shadow: 1px 1px 2px #888888;
-
-    transition:all .4s;
+    margin-bottom: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: all .4s;
+    border: 1px solid #dde3e9;
 }
 
 .chatperfil:hover{
