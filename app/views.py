@@ -977,7 +977,12 @@ def detallechatpc(request,user,id_producto):
 
 def provincias(request):
 
-	p = Provincia.objects.all().values('id','name')
+
+	print 'ququuquq'
+
+	p = Provincia.objects.all().values('id','name','orden').order_by('-orden')
+
+
 
 	p = ValuesQuerySetToDict(p)
 
@@ -1010,15 +1015,7 @@ def marcas(request):
 
 	return HttpResponse(f, content_type="application/json")
 
-def provincias(request):
 
-	f = Provincia.objects.all().values('id','name')
-
-	f = ValuesQuerySetToDict(f)
-
-	f = simplejson.dumps(f)
-
-	return HttpResponse(f, content_type="application/json")
 
 
 def distritos(request,provincia):
@@ -1084,14 +1081,12 @@ def estadofavorito(request,producto):
 
 def productosjson(request):
 
-
-
-	productos_ = Producto.objects.all().values('id','categoria__nombre','precio','subcategoria__nombre','titulo','user','descripcion')
-
+	productos_ = Producto.objects.all().values('id','categoria__nombre','precio','moneda','subcategoria__nombre','titulo','user','user__photo','user__first_name','user__username','user__telefono','descripcion')
 
 	for p in range(len(productos_)):
 
 		productos_[p]['photo'] = ValuesQuerySetToDict(Photoproducto.objects.filter(producto_id=productos_[p]['id']).values('id','photo__photo'))
+
 
 
 	productos_ = ValuesQuerySetToDict(productos_)

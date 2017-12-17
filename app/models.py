@@ -120,6 +120,7 @@ class Subcategoria(models.Model):
 
 class Provincia(models.Model):
     name = models.CharField(max_length=110, blank=True, null=True)
+    orden = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
