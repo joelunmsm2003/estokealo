@@ -86,6 +86,9 @@ app.controller('myCtrl', function($scope,$http,$cookies) {
 
 $('#modal').hide()
 
+
+$scope.muestrachat = false
+
   $http.get("/chatin/2")
               .then(function(response) {
 
@@ -433,7 +436,7 @@ $scope.love="<div class='emoji  emoji--love'><div class='emoji__heart'></div></d
 <br>
 
 
-<div class='row'>
+<div class='row no-gutters'>
 
 
 		<!--Descripcion del producto-->
@@ -447,7 +450,7 @@ $scope.love="<div class='emoji  emoji--love'><div class='emoji__heart'></div></d
 
                 	<div class='col-md-12 col-xs-12 col-sm-6 '>
 
-                    <div class="flex-container">
+                    <div class="flex-container" style='    height: 63px;'>
                   <div class="flex-item">{{producto.titulo}}</div>
                   <div class="price">
 
@@ -525,63 +528,116 @@ $scope.love="<div class='emoji  emoji--love'><div class='emoji__heart'></div></d
 
 	<div  class='col-md-6 col-xs-12 col-sm-12'>
 
-	<h4> {{producto.titulo}}</h4>
-	<br>
-	<h5> {{producto.descripcion}}</h5>
 
-	<br>
-
-
-	<br>
-	
-
-	<div class='row' class='detallechatproducto' style='background: #1b9f94; color:#fff;'>
+	<div class='row no-gutters' class='detallechatproducto' style='background: #949ca7; color:#fff;'>
 
 
 
-		<div class='col-2' style='padding: 4px;'>
+		<div class='col-3' style='padding: 6px;' ng-click="muestrachat=false">
 
-		<img ng-if='mensajestitulo.user__photo' src="{[{mensajestitulo.user__photo}]}" alt="" class='img-fluid' style='border-radius: 50%;max-width: 50px;'>
+			
+			<div class="row">
+				
+				<div class="col-4"><img ng-if='mensajestitulo.user__photo' src="{[{mensajestitulo.user__photo}]}" alt="" class='img-fluid' style='border-radius: 50%;max-width: 50px; margin-right: 5px;'> </div>
+
+				<div class="col-8" style='padding-top: 14px;'>{[{mensajestitulo.user__first_name}]}</div>
+
+
+			</div>
 
 		</div>
 
-		<div class='col-6' style='padding-top: 17px; padding-left: 0px;'>
+		<div class='col-3' style='padding: 4px;padding-top: 21px;'>
+
+			<div class="row">
+				
+				<div class="col-2"><i class="fa fa-phone" aria-hidden="true"></i> </div>
+
+				<div class="col-10">{[{mensajestitulo.user__telefono}]} </div>
+
+
+			</div>
+
+		
+		</div>
+
+		<div class='col-3' style='padding: 4px;padding-top: 21px;'  ng-click="muestrachat=true">
+
+			<div class="row">
+				
+				<div class="col-2"><i class="fa fa-comment" aria-hidden="true"></i> </div>
+
+				<div class="col-10">Chat </div>
+
+
+			</div>
+
+		</div>
+
+		<div class='col-3' style='padding: 4px;padding-top: 21px;'  ng-click="muestrachat=true">
+
 	
-		<small>{[{mensajestitulo.user__first_name}]}</small> |
-		{[{mensajestitulo.titulo}]}|
-		<small>S/.{[{mensajestitulo.precio}]}</small>
+
+		<div class="row">
+				
+				<div class="col-2"><i class="fa fa-comment" aria-hidden="true"></i>  </div>
+
+				<div class="col-10"><a href='/productos/{[{mensajestitulo.user_id}]}'>Anuncios</a> </div>
+
+
+			</div>
+
+		</div>
+
+
+		<!-- <div class='col-6' style='padding-top: 17px; padding-left: 0px;'>
+	
+			<small>{[{mensajestitulo.user__first_name}]}</small> |
+			{[{mensajestitulo.titulo}]}|
+			<small>S/.{[{mensajestitulo.precio}]}</small>
 		
 
+		</div> -->
+<!-- 
+		<div class='col-3' style='
+			margin-top: 0px;
+			font-size: 13px;
+			background: none;
+			color: #fff;
+			padding-left: 19px;
+			border: 1px solid #1b9f94;
+			text-align: center;
+			padding-top: 9px;
+			}'>
+
+			<a href='/productos/{[{mensajestitulo.user_id}]}'>Tienda Virtual de {[{mensajestitulo.user__first_name}]} </a> <i class="fa fa-shopping-cart" aria-hidden="true"></i>
 
 
 		</div>
-
-		<div class='col-4' style='
-		margin-top: 0px;
-    font-size: 13px;
-    background: none;
-    color: #fff;
-    padding-left: 19px;
-    border: 1px solid #1b9f94;
-    text-align: center;
-    padding-top: 9px;
-}'>
-
-			<a href='/productos/{[{mensajestitulo.user_id}]}'>
- Tienda Virtual de {[{mensajestitulo.user__first_name}]} </a> <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-
+ -->
 
 		</div>
 
-
-		</div>
-
-<div class='row chatin' id='chatin' style='height: 200px;'>
+	<div class='chatin' id='chatin' style='height: 200px;padding: 35px;' ng-hide='muestrachat'>
 
 
 
-	
-	<div class="col-md-12" ng-repeat="(key, m) in mensajes">
+
+	<h5>Descripcion del producto</h5>
+
+
+	<div style='height: 12px;'></div>
+	<h5> {{producto.descripcion}}</h5>
+
+	</div>
+
+
+<div class='row no-gutters chatin' id='chatin' style='height: 200px;' ng-show='muestrachat'>
+
+
+
+	<!--Chat-->
+	<div class="col-md-12" ng-repeat="(key, m) in mensajes" >
 
 	
 			
@@ -698,9 +754,9 @@ $scope.love="<div class='emoji  emoji--love'><div class='emoji__heart'></div></d
 
 
 
-			 	<form>
+			 	<form ng-show='muestrachat'>
 
-			 	<div class="row " style='background: #fff;padding: 9px;'>
+			 	<div class="row no-gutters" style='background: #fff;padding: 9px;'>
 
 					<div class='col-2'>
 						
@@ -769,10 +825,10 @@ $scope.love="<div class='emoji  emoji--love'><div class='emoji__heart'></div></d
 
 			 		<div class="col-8"><input type="hidden" class="form-control" id="fono" ng-model = 'id_producto'  placeholder="producto" >
 					    <input type="hidden" class="form-control" id="fono" ng-model = 'userenvia'  placeholder="user" >
-					    <input type="text" required class="form-control" id="fono" ng-model = 'mensaje1'  placeholder="Mensaje..." >
+					    <input style='border: 1px solid rgb(255, 255, 255);' type="text" required class="form-control" id="fono" ng-model = 'mensaje1'  placeholder="Escribele un mensaje a {[{mensajestitulo.user__first_name}]}" >
 					</div>
 
-			 		<div class="col-2">
+			 		<div class="col-2" style="text-align:right;">
 
 			 		{% if usuario.username  %}
 						

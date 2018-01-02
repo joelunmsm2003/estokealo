@@ -1180,7 +1180,7 @@ def busquedacategoria(request,categoria,subcategoria):
 
 def detalleproducto(request,id):
 
-	producto = Producto.objects.filter(id=id).values('id','titulo','descripcion','precio','user__first_name','user__photo','user_id')
+	producto = Producto.objects.filter(id=id).values('id','titulo','descripcion','precio','user__first_name','user__photo','user_id','user__telefono')
 
 	for p in range(len(producto)):
 

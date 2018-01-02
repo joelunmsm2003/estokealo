@@ -6469,17 +6469,17 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
 
 .price {
   position: absolute;
-  margin: 10px;
+  margin: 14px;
   font-family: Geometry;
-  font-size: 26px;
+  font-size: 20px;
   right: 49px; }
 
 .flex-item {
   position: absolute;
-  margin: 10px;
-  font-family: Geometry;
+  margin: 14px;
+  font-family: 'Open Sans';
   color: #37475a;
-  font-size: 26px;
+  font-size: 20px;
   left: 13px; }
 
 .modal-body {
