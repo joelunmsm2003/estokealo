@@ -43,7 +43,7 @@ PROJECT_PATH = os.path.dirname(os.path.realpath(__file__))
 
 
 
-MEDIA_ROOT = os.path.join(PROJECT_PATH, '/home/estokeate')
+MEDIA_ROOT = os.path.join(PROJECT_PATH, '/home/estokealo')
 
 #MEDIA_URL = '/var/www/html/'
 

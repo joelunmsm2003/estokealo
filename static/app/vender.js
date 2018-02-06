@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngCookies']);
+var app = angular.module('myApp', ['ngCookies','ngMap','ngStorage']);
 
 app.config(function($interpolateProvider){
     $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
@@ -20,7 +20,96 @@ app.directive('fileModel', ['$parse', function ($parse) {
             };
          }])
 
-app.controller('myCtrl', function($scope,$http,$cookies,$location) {
+app.controller('myCtrl', function($scope,$http,$cookies,$location,NgMap,$localStorage) {
+
+
+  console.log('mapas...')
+
+
+
+
+   toggleBounce = function() {
+      if (this.getAnimation() != null) {
+        this.setAnimation(null);
+      } else {
+        this.setAnimation(google.maps.Animation.BOUNCE);
+      }
+    }
+
+var marker;
+
+var map;
+  var vm = this;
+  NgMap.getMap().then(function(evtMap) {
+    map = evtMap;
+    vm.map = map;
+
+    marker = map.markers[0];
+  });
+
+
+  vm.click = function(event) {
+
+      console.log('datos...')
+      vm.map.setZoom(8);
+      vm.map.setCenter(marker.getPosition());
+    }
+
+    navigator.geolocation.getCurrentPosition(function(pos) {
+
+
+          $scope.position = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+
+          $scope.latitud= JSON.parse(JSON.stringify($scope.position))['lat'];  
+
+          $scope.longitud= JSON.parse(JSON.stringify($scope.position))['lng'];  
+
+
+            
+
+
+             $localStorage.position = JSON.parse(JSON.stringify($scope.position))
+
+
+            vm.latlng = [$scope.latitud, $scope.longitud];
+            vm.radius = 100;
+            vm.getRadius = function(event) {
+              
+            }
+            vm.setCenter = function(event) {
+              console.log('event', event);
+              map.setCenter(event.latLng);
+            }
+            vm.foo = function(event, arg1, arg2) {
+             
+            $localStorage.position = JSON.parse(JSON.stringify(this.getPosition()));
+
+            console.log('position...',$localStorage.position)
+
+            // alert(arg1+arg2);
+            }
+            vm.dragStart = function(event) {
+              console.log("drag started");
+            }
+            vm.drag = function(event) {
+              console.log("dragging");
+
+               console.log('hdhdhd',$scope.latitud)
+            }
+            vm.dragEnd = function(event) {
+              console.log("drag ended",$localStorage.position);
+
+
+              $localStorage.position = JSON.parse(JSON.stringify(this.getPosition()));
+
+            }
+
+
+
+
+
+
+    }), 
 
 
 
@@ -210,6 +299,8 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
     // Segunda Imagen
 
     $scope.setFile1 = function(element) {
+
+    $scope.fotosm=true
 
     $scope.statusimagen1 = 'Cargando imagen...'
 
@@ -596,6 +687,15 @@ app.controller('myCtrl', function($scope,$http,$cookies,$location) {
 
 
         $scope.vender = function(data){
+
+
+
+          data.latitud = $localStorage.position.lat
+
+          data.longitud = $localStorage.position.lng
+
+
+          console.log('data...',data)
 
 
                if(!data.subcategoria){

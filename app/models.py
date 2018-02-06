@@ -338,6 +338,8 @@ class Producto(models.Model):
     ambientes = models.IntegerField(blank=True, null=True)
     curso = models.ForeignKey('Cursos', models.DO_NOTHING, db_column='curso', blank=True, null=True)
     antiguedad = models.CharField(max_length=1000, blank=True, null=True)
+    latitud = models.CharField(max_length=100, blank=True, null=True)
+    longitud = models.CharField(max_length=100, blank=True, null=True)
     #photo = models.ForeignKey('Photo', models.DO_NOTHING, db_column='photo', blank=True, null=True)
 
 

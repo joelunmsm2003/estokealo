@@ -42,6 +42,60 @@ from .filtros import *
 
 
 
+
+def resize_and_crop(img_path, modified_path, size, crop_type='top'):
+    """
+    Resize and crop an image to fit the specified size.
+    args:
+        img_path: path for the image to resize.
+        modified_path: path to store the modified image.
+        size: `(width, height)` tuple.
+        crop_type: can be 'top', 'middle' or 'bottom', depending on this
+            value, the image will cropped getting the 'top/left', 'midle' or
+            'bottom/rigth' of the image to fit the size.
+    raises:
+        Exception: if can not open the file in img_path of there is problems
+            to save the image.
+        ValueError: if an invalid `crop_type` is provided.
+    """
+    # If height is higher we resize vertically, if not we resize horizontally
+    img = Image.open(img_path)
+    # Get current and desired ratio for the images
+    img_ratio = img.size[0] / float(img.size[1])
+    ratio = size[0] / float(size[1])
+    #The image is scaled/cropped vertically or horizontally depending on the ratio
+    if ratio > img_ratio:
+        img = img.resize((size[0], size[0] * img.size[1] / img.size[0]),
+                Image.ANTIALIAS)
+        # Crop in the top, middle or bottom
+        if crop_type == 'top':
+            box = (0, 0, img.size[0], size[1])
+        elif crop_type == 'middle':
+            box = (0, (img.size[1] - size[1]) / 2, img.size[0], (img.size[1] + size[1]) / 2)
+        elif crop_type == 'bottom':
+            box = (0, img.size[1] - size[1], img.size[0], img.size[1])
+        else :
+            raise ValueError('ERROR: invalid value for crop_type')
+        img = img.crop(box)
+    elif ratio < img_ratio:
+        img = img.resize((size[1] * img.size[0] / img.size[1], size[1]),
+                Image.ANTIALIAS)
+        # Crop in the top, middle or bottom
+        if crop_type == 'top':
+            box = (0, 0, size[0], img.size[1])
+        elif crop_type == 'middle':
+            box = ((img.size[0] - size[0]) / 2, 0, (img.size[0] + size[0]) / 2, img.size[1])
+        elif crop_type == 'bottom':
+            box = (img.size[0] - size[0], 0, img.size[0], img.size[1])
+        else :
+            raise ValueError('ERROR: invalid value for crop_type')
+        img = img.crop(box)
+    else :
+        img = img.resize((size[0], size[1]),
+                Image.ANTIALIAS)
+        # If the scale is the same, we do not need to crop
+    img.save(modified_path)
+
 def mobile(request):
 	"""Return True if the request comes from a mobile device."""
 	MOBILE_AGENT_RE=re.compile(r".*(iphone|mobile|androidtouch)",re.IGNORECASE)
@@ -97,6 +151,7 @@ def home(request):
 		if f.photo.find(".jpg") !=-1:formato ='.jpg'
 		if f.photo.find(".png") !=-1:formato ='.png'
 		if f.photo.find(".gif") !=-1:formato ='.gif'
+		if f.photo.find(".jpeg") !=-1:formato ='.jpeg'
 
 		f.photo = f.photo.split(formato)[0]+'_thumbail.jpg'
 
@@ -374,6 +429,7 @@ def favoritos(request):
 		if f.photo.find(".jpg") !=-1:formato ='.jpg'
 		if f.photo.find(".png") !=-1:formato ='.png'
 		if f.photo.find(".gif") !=-1:formato ='.gif'
+		if f.photo.find(".jpeg") !=-1:formato ='.jpeg'
 
 		f.photo = f.photo.split(formato)[0]+'_thumbail.jpg'
 
@@ -452,7 +508,7 @@ def actualizaperfil(request):
 
 			if p == 'photo':
 
-				caption = '/home/estokeate/'+str(u.photo)
+				caption = '/home/estokealo/'+str(u.photo)
 
 				fd_img = open(caption, 'r')
 
@@ -460,13 +516,9 @@ def actualizaperfil(request):
 
 				width, height = img.size
 
-				
+				resize_and_crop(caption, caption, (200,200), crop_type='top')
 
-				img = resizeimage.resize_cover(img, [200, 200])
 
-				img.save(caption, img.format)
-
-				fd_img.close()
 
 
 		return HttpResponseRedirect("/perfil/")
@@ -630,7 +682,7 @@ def enviarnotis(request,id):
 
 
 
-	os.system('python /home/estokeate/envia.py '+str(endpoint)+' '+str(auth)+' '+str(p256dh)+' "'+str(body)+'" "'+str(title)+'" "'+str(photo)+'" "'+str(photo_user)+'"')
+	os.system('python /home/estokealo/envia.py '+str(endpoint)+' '+str(auth)+' '+str(p256dh)+' "'+str(body)+'" "'+str(title)+'" "'+str(photo)+'" "'+str(photo_user)+'"')
 
 	return HttpResponse(data, content_type="application/json")
 
@@ -647,7 +699,7 @@ def recibenotis(request):
 
 	data = json.loads(data)['keys']
 
-	f = open('/home/estokeate/notificaciones.txt', 'a')
+	f = open('/home/estokealo/notificaciones.txt', 'a')
 	f.write('p256dh.bsbsbsbsbsb...'+str(user)+'\n')
 	f.close()
 
@@ -689,6 +741,7 @@ def chat(request,id_user,id_producto):
 		if f.photo.find(".jpg") !=-1:formato ='.jpg'
 		if f.photo.find(".png") !=-1:formato ='.png'
 		if f.photo.find(".gif") !=-1:formato ='.gif'
+		if f.photo.find(".jpeg") !=-1:formato ='.jpeg'
 		
 		f.photo = f.photo.split(formato)[0]+'_thumbail.jpg'
 
@@ -738,6 +791,7 @@ def productos(request,id):
 			if p.photo.find(".jpg") !=-1:formato ='.jpg'
 			if p.photo.find(".png") !=-1:formato ='.png'
 			if p.photo.find(".gif") !=-1:formato ='.gif'
+			if p.photo.find(".jpeg") !=-1:formato ='.jpeg'
 
 			p.photo = p.photo.split(formato)[0]+'_thumbail.jpg'
 
@@ -755,6 +809,7 @@ def productos(request,id):
 		if f.photo.find(".jpg") !=-1:formato ='.jpg'
 		if f.photo.find(".png") !=-1:formato ='.png'
 		if f.photo.find(".gif") !=-1:formato ='.gif'
+		if f.photo.find(".jpeg") !=-1:formato ='.jpeg'
 
 		f.photo = f.photo.split(formato)[0]+'_thumbail.jpg'
 
@@ -801,6 +856,7 @@ def productosamostrar(request,id):
 			if p.photo.find(".jpg") !=-1:formato ='.jpg'
 			if p.photo.find(".png") !=-1:formato ='.png'
 			if p.photo.find(".gif") !=-1:formato ='.gif'
+			if p.photo.find(".jpeg") !=-1:formato ='.jpeg'
 
 			p.detalle = p.photo.split(formato)[0]+'_thumbail.jpg'
 
@@ -855,6 +911,7 @@ def clasificados(request):
 		if f.photo.find(".jpg") !=-1:formato ='.jpg'
 		if f.photo.find(".png") !=-1:formato ='.png'
 		if f.photo.find(".gif") !=-1:formato ='.gif'
+		if f.photo.find(".jpeg") !=-1:formato ='.jpeg'
 
 		f.photo = f.photo.split(formato)[0]+'_thumbail.jpg'
 
@@ -948,6 +1005,7 @@ def detallechatpc(request,user,id_producto):
 			if f.photo.find(".jpg") !=-1:formato ='.jpg'
 			if f.photo.find(".png") !=-1:formato ='.png'
 			if f.photo.find(".gif") !=-1:formato ='.gif'
+			if f.photo.find(".jpeg") !=-1:formato ='.jpeg'
 
 			f.photo = f.photo.split(formato)[0]+'_thumbail.jpg'
 
@@ -1149,6 +1207,7 @@ def busquedacategoria(request,categoria,subcategoria):
 		if f.photo.find(".jpg") !=-1:formato ='.jpg'
 		if f.photo.find(".png") !=-1:formato ='.png'
 		if f.photo.find(".gif") !=-1:formato ='.gif'
+		if f.photo.find(".jpeg") !=-1:formato ='.jpeg'
 
 		f.photo = f.photo.split(formato)[0]+'_thumbail.jpg'
 
@@ -1491,6 +1550,7 @@ def busqueda(request):
 			if f.photo.find(".jpg") !=-1:formato ='.jpg'
 			if f.photo.find(".png") !=-1:formato ='.png'
 			if f.photo.find(".gif") !=-1:formato ='.gif'
+			if f.photo.find(".jpeg") !=-1:formato ='.jpeg'
 
 			f.photo = f.photo.split(formato)[0]+'_thumbail.jpg'
 
@@ -1533,6 +1593,7 @@ def productojson(request,id):
 		if pho.find(".jpg") !=-1:formato ='.jpg'
 		if pho.find(".png") !=-1:formato ='.png'
 		if pho.find(".gif") !=-1:formato ='.gif'
+		if pho.find(".jpeg") !=-1:formato ='.jpeg'
 
 
 		photos[p]['detalle'] = pho.split(formato)[0]+'_thumbail.jpg'
@@ -1572,14 +1633,87 @@ def registra(request):
 
 		if psw == rpsw:
 
+			if User.objects.filter(username=user):
+
+				return render(request, 'registro.html',{'error':'Este correo ya existe, escoja otro'})
+
 			User.objects.create_user(user, user, psw)
 
 			user = authenticate(username=user, password=psw)
 
+			login(request, user)
 
-	return render(request, 'perfil.html')
+			id_user = AuthUser.objects.all().values('id').order_by('-id')[0]['id']
+
+			u = AuthUser.objects.get(id=id_user)
+			u.photo = 'static/b1-8.jpg'
+			u.save()
 
 
+	return HttpResponseRedirect("/perfil")
+
+
+def registro(request):
+
+	p=None
+
+
+	if request.user.is_authenticated():
+
+		return HttpResponseRedirect("/vender")
+
+	else:
+
+		if request.method == 'POST':
+
+			user = request.POST['username']
+			
+			psw = request.POST['password']
+
+			user = authenticate(username=user, password=psw)
+
+			if user is not None:
+
+				if user.is_active:
+
+					login(request, user)
+
+					m=None
+					if mobile(request):
+						m='m'
+
+					if p:
+
+						if m=='m':
+
+							return HttpResponseRedirect("/detallechat/"+str(p.user.id)+'/'+str(producto))
+						
+						else:
+
+							return HttpResponseRedirect("/detallechatpc/"+str(p.user.id)+'/'+str(producto))
+
+					else:
+
+							return HttpResponseRedirect("/")
+
+			else:
+
+				return HttpResponseRedirect("/ingresar")
+		
+		else:
+
+
+			m=None
+			if mobile(request):
+				m='m'
+
+			if m=='m':
+
+				return render(request, 'loginmovil.html',{'host':host,'producto':p})
+
+			else:
+
+				return render(request, 'registro.html',{'host':host,'producto':p})
 
 @login_required(login_url="/autentificacion/")
 
@@ -1708,6 +1842,21 @@ def traesubcategorias(request,categoria):
 
 
 @csrf_exempt
+def verificauser(request,username):
+
+
+	if User.objects.filter(username=username):
+
+		m = 'Ya existe'
+
+	else:
+
+		m ='OK'
+
+	return HttpResponse(simplejson.dumps(m), content_type="application/json")
+
+
+@csrf_exempt
 def uploadphoto(request):
 
 
@@ -1719,7 +1868,7 @@ def uploadphoto(request):
 
 		id_photo = Photo.objects.all().values('id').order_by('-id')[0]['id']
 
-		caption = '/home/estokeate/'+str(Photo.objects.get(id=id_photo).photo)
+		caption = '/home/estokealo/'+str(Photo.objects.get(id=id_photo).photo)
 
 		data_json =str(Photo.objects.get(id=id_photo).photo)
 
@@ -1741,49 +1890,40 @@ def uploadphoto(request):
 
 		if caption.find(".gif") !=-1:
 			formato = '.gif'
-			
-		caption_galeria = caption.split(formato)[0]+'_thumbail.jpg'
 
-		# Guarda galery
 
-		fd_img = open(caption, 'r')
+		if caption.find(".jpeg") !=-1:
+			formato = '.jpeg'
 
-		img = Image.open(fd_img)
 
-		img = resizeimage.resize_cover(img, [width, width])
 
-		img.save(caption_galeria, img.format)
-
-		fd_img.close()
 
 		# Ruta para el home
 
 		caption_home = caption.split(formato)[0]+'_home.jpg'
 
-		fd_img = open(caption, 'r')
+		resize_and_crop(caption, caption_home, (250,250), crop_type='top')
 
-		img = Image.open(fd_img)
+		# caption_home = caption.split(formato)[0]+'_home.jpg'
 
-		img = resizeimage.resize_cover(img, [250, 250])
+		# img = open(caption, 'r')
 
-		img.save(caption_home, img.format)
+		# img = Image.open(img)
 
-		fd_img.close()
+		# img = img.resize((250, 250))
+
+		# img.save(caption_home, img.format)
+
+		# img.close()
 
 
 		# Ruta para la galeria
 
 		caption_galeria = caption.split(formato)[0]+'_thumbail.jpg'
 
+		img = open(caption, 'r')
 
-
-
-
-		# Guarda galery
-
-		fd_img = open(caption, 'r')
-
-		img = Image.open(fd_img)
+		img = Image.open(img)
 
 		if int(height) < 400 :
 
@@ -1796,21 +1936,20 @@ def uploadphoto(request):
 
 		else:
 
-			img = resizeimage.resize_cover(img, [600, 400])
+
+			resize_and_crop(caption, caption_galeria, (600,600), crop_type='top')
 
 
+			# img = img.resize((600, 400))
 
-			img.save(caption_galeria, img.format)
+			# img.save(caption_galeria, img.format) # format may what u want ,*.png,*jpg,*.gif
 
-			fd_img.close()
-
-			
-
+			# img.close()
 			
 
 			photo = ValuesQuerySetToDict(photo)
 
-			photo[0]['photo'] = caption_galeria.split('/home/estokeate/')[1]
+			photo[0]['photo'] = caption_galeria.split('/home/estokealo/')[1]
 
 
 			data_json = simplejson.dumps(photo)
@@ -2014,6 +2153,8 @@ def loginxfacebook(request):
 
 				user = authenticate(username=id, password=id)
 
+				login(request, user)
+
 				id_producto = simplejson.dumps('nuevo user')
 
 				return HttpResponse(id_producto, content_type="application/json")
@@ -2108,6 +2249,10 @@ def vender(request):
 
 		usuario=AuthUser.objects.get(id=user)
 
+		if ('https://' in str(usuario.photo))==False:
+
+			usuario.photo = str(host)+str(usuario.photo)
+
 	if request.method == 'POST':
 
 
@@ -2118,6 +2263,8 @@ def vender(request):
 		descripcion=data['descripcion']
 		categoria=data['categoria']
 		subcategoria=data['subcategoria']
+	
+		
 
 
 		marca=None
@@ -2153,6 +2300,8 @@ def vender(request):
 		ambientes=None
 		curso=None
 		antiguedad=None
+		latitud=None
+		longitud=None
 
 		for p in data:
 
@@ -2190,12 +2339,16 @@ def vender(request):
 			if p=='ambientes': ambientes=data['ambientes']
 			if p=='curso': curso=data['curso']
 			if p=='antiguedad': antiguedad=data['antiguedad']
+			if p=='latitud': latitud=data['latitud']
+			if p=='longitud': longitud=data['longitud']
+
+
 
 		if marca and modelo and tipo:
 
 			auto = Auto.objects.get(marca_id=marca,modelo_id=modelo,tipo_id=tipo).id
 
-		Producto(moneda=moneda,auto_id=auto,anio=anio,kilometraje=kilometraje,color_id=color,cilindros=cilindros,transmision=transmision,combustible=combustible,condicion=condicion,animal=animal,transaction=transaction,provincia_id=provincia,distrito_id=distrito,user_id=id_user,titulo=titulo,categoria_id=categoria,subcategoria_id=subcategoria,descripcion=descripcion,precio=precio,metros2=metros2,ubicacion=ubicacion,empleo_id=empleo,experiencia=experiencia,salarioestimado=salarioestimado,servicio_id=servicio,dormitorios=dormitorios,banios=banios,piscina=piscina,jardin=jardin,amueblado=amueblado,gimnasio=gimnasio,sauna=sauna,jacuzzi=jacuzzi,ambientes=ambientes,curso=curso,antiguedad=antiguedad).save()
+		Producto(latitud=latitud,longitud=longitud,moneda=moneda,auto_id=auto,anio=anio,kilometraje=kilometraje,color_id=color,cilindros=cilindros,transmision=transmision,combustible=combustible,condicion=condicion,animal=animal,transaction=transaction,provincia_id=provincia,distrito_id=distrito,user_id=id_user,titulo=titulo,categoria_id=categoria,subcategoria_id=subcategoria,descripcion=descripcion,precio=precio,metros2=metros2,ubicacion=ubicacion,empleo_id=empleo,experiencia=experiencia,salarioestimado=salarioestimado,servicio_id=servicio,dormitorios=dormitorios,banios=banios,piscina=piscina,jardin=jardin,amueblado=amueblado,gimnasio=gimnasio,sauna=sauna,jacuzzi=jacuzzi,ambientes=ambientes,curso=curso,antiguedad=antiguedad).save()
 
 		id_producto = Producto.objects.all().values('id').order_by('-id')[0]['id']
 

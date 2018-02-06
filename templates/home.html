@@ -10,7 +10,12 @@
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   <script src="/static/app/home.js"></script>
 
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCopEqGky81dhV56krJ1dqjkqFPKKOpOrI&callback=myMap"></script>
+
+
 	<title>Estokealo</title>
+
+
 </head>
 
 <style type="text/css">
@@ -285,7 +290,7 @@ line-height: 39px;
 
         <div class='row'>
           <div ng-repeat='n in provincias' class='col-md-3'>
-            <a href='https://www.{[{n.name}]}.estokealo.com'>{[{n.name}]}</a>
+            <a href='https://www.estokealo.com'>{[{n.name}]}</a>
           </div>
         </div>
 
@@ -461,6 +466,8 @@ line-height: 39px;
     line-height: 1.9;
     color: #1b232d;
     font-size: 13px;
+    overflow-y: scroll;
+
 }
 
 /*.modal.fade .modal-dialog {
@@ -548,7 +555,7 @@ position: absolute;
 
   .primera{
 
-    background: url(http://s3.amazonaws.com/digitaltrends-uploads-prod/2017/10/online-shopping.jpg) no-repeat center;
+    background: url(https://s3.amazonaws.com/digitaltrends-uploads-prod/2017/10/online-shopping.jpg) no-repeat center;
   }
 
 

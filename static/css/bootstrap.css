@@ -6450,8 +6450,7 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
   height: 100%; }
 
 .modal-content {
-  height: 100%;
-  height: auto;
+  height: 97%;
   border-radius: 0; }
 
 .modal-body {
@@ -7201,8 +7200,12 @@ a {
 .login-form {
   min-height: 345px;
   position: relative;
-  perspective: 1000px;
-  transform-style: preserve-3d; }
+  transform-style: preserve-3d;
+  border: 1px solid #1b9f94;
+  border-radius: 6px;
+  padding: 52px;
+  padding-top: 25px;
+  padding-bottom: 0px; }
 
 .login-form .group {
   margin-bottom: 15px; }

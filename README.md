@@ -24,3 +24,8 @@ sudo pip install Django-celery
 sudo pip install xlwt
 sudo apt-get install libsox-fmt-mp3
 sudo apt-get instal sox
+
+
+sudo apt-get install libapache2-mod-wsgi
+sudo a2enmod wsgi
+sudo service apache2 restart

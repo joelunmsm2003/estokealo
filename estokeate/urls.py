@@ -74,6 +74,9 @@ urlpatterns = [
     url(r'^editarproducto/(\w+)/', 'app.views.editarproducto'),
     url(r'^eliminarproducto/(\w+)/', 'app.views.eliminarproducto'),
     url(r'^search/$', 'app.views.search', name='search'),
+    url(r'^registro/$', 'app.views.registro', name='registro'),
+    url(r'^registro$', 'app.views.registro', name='registro'),
+    #url(r'^verficauser/(\w+)$', 'app.views.verficauser', name='verficauser'),
 
 
 ]

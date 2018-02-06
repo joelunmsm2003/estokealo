@@ -121,6 +121,10 @@
     /* width: 500px; */
     width: 400px;
 }
+
+.headerul li{
+      display: inline-block !important;
+}
   </style>
 
 
@@ -129,7 +133,7 @@
 
       {% if usuario.username %}
 
-    
+    <ul  class='headerul'>
 
        <li class="nav-item" style="padding-top: 8px;
     padding-left: 16px;
@@ -140,7 +144,7 @@
       
 
       <img src="{{usuario.photo}}" class='img-fluid rounded-circle'  style='width: 40px;'>
-      <span style='color: #37475a; font-size:12px;'>{{usuario.first_name}}</span>
+      <span style='color: #37475a; font-size:12px;'> &nbsp{{usuario.first_name}}</span>
     
           
       
@@ -283,6 +287,8 @@
 
       </li>
 
+
+
       <li class='nav-item' style='padding-top: 15px;'>
         
       <div class="dropdown">
@@ -303,6 +309,9 @@
 
       </li>
 
+
+         </ul>
+
        <!-- <li class="nav-item" style="padding-top: 15px;
     padding-left: 15px;" >
       
@@ -318,7 +327,7 @@
 
         <a  class='nav-item' style="padding-top: 19px; padding-left: 19px;" href="/ingresar/5" >  Ingresar</a>
 
-        <a class='nav-item' style="padding-top: 19px; padding-left: 19px;" href="/ingresar/5">  Registrarse</a>
+        <a class='nav-item' style="padding-top: 19px; padding-left: 19px;" href="/registro">  Registrarse</a>
  
 
 

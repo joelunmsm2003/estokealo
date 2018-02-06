@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+
+  <title>Registro- Estokealo</title>
+
+
+
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
+
+      <link rel="stylesheet" href="/static/css/login.css">
+
+  
+</head>
+
+
+
+
+
+<body >
+
+
+
+
+
+{% include "header.html" %}
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+<div id="fb-root"></div>
+<script>
+
+  // This is called with the results from from FB.getLoginStatus().
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback......');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      testAPI();
+    } else {
+      console.log('The person is not logged into your app or we are unable to tell.')
+      
+    }
+  }
+
+  // This function is called when someone finishes with the Login
+  // Button.  See the onlogin handler attached to it in the sample
+  // code below.
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
+
+  function Deslogear(){
+
+  	FB.logout(function(response) {
+   console.log('Deslogeado de facebook........!!!')
+});
+
+  }
+
+
+   function logface(){
+
+
+			FB.login(function(response){
+			  
+
+
+			  			FB.api('/me', function(response) {
+
+			  				console.log('Facebook...',response)
+
+
+			  				$.post( "../loginxfacebook/", { id: response.id,name: response.name })
+					  .done(function( data ) {
+
+
+					  	      /* make the API call */
+							FB.api(
+							    "/"+response.id+"/picture",
+							    function (response) {
+							      if (response && !response.error) {
+							        
+							      		$.post( "../subirimgprofile/", { img: response.data.url})
+										  .done(function( data ) {
+
+										  })
+
+
+
+							      }
+							    }
+							);
+
+					    
+
+					    estado = data.split('-')[0]
+					    user = data.split('-')[1]
+					    producto=window.location.href.split('/')[4].split('#')[0]
+
+
+					    if (user){
+
+					    	window.location='/productos/'+user
+					    }
+					    else{
+
+					    	window.location='/perfil'
+					    }
+					    
+
+					    // if(estado=='Bienvenido'){
+
+					    // 	window.location='/detallechatpc/1/'+producto
+					    // }
+					    
+					  });
+
+
+
+					     
+					    });
+
+			  		
+
+
+
+
+			});
+};
+
+
+
+
+  window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '1913601308895607',
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.8' // use graph api version 2.8
+  });
+
+  // Now that we've initialized the JavaScript SDK, we call 
+  // FB.getLoginStatus().  This function gets the state of the
+  // person visiting this page and can return one of three states to
+  // the callback you provide.  They can be:
+  //
+  // 1. Logged into your app ('connected')
+  // 2. Logged into Facebook, but not your app ('not_authorized')
+  // 3. Not logged into Facebook and can't tell if they are logged into
+  //    your app or not.
+  //
+  // These three cases are handled in the callback function.
+
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+
+
+
+
+
+
+
+
+
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  // Here we run a very simple test of the Graph API after login is
+  // successful.  See statusChangeCallback() for when this call is made.
+  function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+
+
+      console.log('Successful login for: ' + response.id);
+
+      /* make the API call */
+		FB.api(
+		    "/"+response.id+"/picture",
+		    function (response) {
+		      if (response && !response.error) {
+		        console.log('im',response.data.url)
+		      }
+		    }
+		);
+
+
+
+
+      // document.getElementById('status').innerHTML =
+      //   'Thanks for logging in, ' + response.name + '!';
+    });
+  }
+
+
+
+</script>
+<br><br>
+<br><br><br>
+  <div class="login-wrap" ng-app="myApp"  ng-controller="myCtrl">
+	
+
+		<div class="login-form" style='padding-bottom: 30px;'>
+
+			<div class="sign-up-htm">
+
+
+
+
+
+
+				<center><a href="#" class='btn btn-success' style='background:#4267b2;' onclick='logface()'>Iniciar sesion con Facebook</a></center>
+
+				<br>
+
+				<span style='color:red;'>{{error}}</span>
+
+				<br><br>
+
+				<form method="post" action="/registra/">
+				{% csrf_token %}
+				<div class="group">
+					<label for="user" class="label">Correo Electronico</label>
+					<input id="user" name='username' class='form-control'  maxlength="30" type="email" required required class="input">
+				</div>
+				<div class="group">
+					<label for="pass" class="label">Contraseña</label>
+					<input id="pass" class='form-control' name='password' type="password"  minlength="5" maxlength="30" class="input" required data-type="password">
+				</div>
+				<div class="group">
+					<label for="pass" class="label">Repite la Contraseña</label>
+					<input id="pass"  class='form-control' name='rpassword' type="password" minlength="5" maxlength="30" class="input" required  data-type="password">
+				</div>
+
+				<div class="group">
+					<input type="submit" class="button" value="Registrarse">
+				</div>
+
+				</form>
+
+				<!-- <div class="foot-lnk">
+					<label for="tab-1">Already Member?</a>
+				</div> -->
+			</div>
+		</div>
+
+</div>
+
+  
+{% include "footer.html" %}
+</body>
+</html>
+
+<script type="text/javascript">
+	
+ // FB.api('/me', function(response) {
+
+	// 	$.post( "../loginxfacebook/", { id: response.id,name: response.name })
+	// 	  .done(function( data ) {
+	// 	    console.log(data)
+
+	// 	    estado = data.split('-')[0]
+	// 	    user = data.split('-')[1]
+
+	// 	    console.log(estado)
+
+	// 	    if(estado=='Bienvenido'){
+
+	// 	    	//window.location='/productos/'+user
+	// 	    }
+	// 	  });
+
+
+	//  });
+
+
+
+</script>
+
